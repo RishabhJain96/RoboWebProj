@@ -1,0 +1,20 @@
+<?php
+include("ConnectMysql.php"); // Includes the db and form info.
+session_start(); // Starts the session.
+if ($_SESSION['logged'] != 1) { // There was no session found!
+	header("Location: login.php"); // Goes to login page.
+	exit(); // Stops the rest of the script.
+}
+if (isset($_COOKIE['user'])) {
+	$username = $_COOKIE['user'];
+}
+echo "This is the main page!";
+echo "<br />";
+$q = mysql_query("SELECT * FROM notes WHERE username= '$username'");
+while($row = mysql_fetch_assoc($result))  {
+	$data = $row['class'];
+	if ($data = "class1") {
+		
+	}
+}
+?>

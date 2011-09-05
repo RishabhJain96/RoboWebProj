@@ -1,0 +1,551 @@
+body {
+	background-image: url(stripe.png);
+	background-repeat: repeat;
+	margin-top: -10px;
+	background-attachment: fixed;
+}
+#adminpagestuff {
+	width: 100%;
+	height: 23px;
+	background-color: #616D7E;
+	margin-top: 10px;
+	border-bottom: 3px solid #153E7E;
+	border-left: 3px solid #153E7E;
+	border-right: 3px solid #153E7E;
+	text-align: right;
+}
+.adminpagestufftext {
+	position: relative;
+	right: 110px;
+	top: 3px;
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 15px;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.adminpagestufftext:hover {
+	color: #000000;
+}
+#adminnotice {
+	float: left;
+	position: absolute;
+	top: -12px;
+	left: 30px;
+}
+.adminnoticetext {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 15px;
+	color: #FFFFFF;
+}
+#logout {
+	float: right;
+	position: relative;
+	top: -17px;
+	right: 15px;
+}
+#page {
+	background-image: url(bg__.jpg);
+	background-attachment: fixed;
+	background-position: bottom center;
+	background-repeat: no-repeat;
+	width: 1024px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #B9CBC8;
+}
+.center {
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+#mainHeader {
+	width: 100%;
+	height: 100px;
+	background-color: #4E9258;
+	margin-top: -35px;
+	border-bottom: #E66C2C solid 4px;
+}
+#loginbutton {
+	float: right;
+	position: relative;
+	bottom: 35px;
+	right: 35px;
+}
+.loginbuttonText {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 16px;
+	font-weight: 500;
+	text-decoration: none;
+	color: #FFFFFF;
+}
+.loginbuttonText:hover {
+	color: #000000;
+}
+#mainNav {
+	width: 800px;
+	height: 40px;
+	background-color: #616D7E;
+	margin-top: 10px;
+}
+#mainNav ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+#mainNav li {
+	float: left;
+	margin-left: 55px;
+}
+#mainNav li a {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 18px;
+	color: #000000;
+	line-height: 2em;
+	font-weight: bold;
+	height: 2em;
+	float: left;
+	width: 7em;
+	display: block;
+	text-decoration: none;
+	padding-top: 2px;
+}
+#mainNav li a:hover {
+	color: #FFFFFF;
+}
+.mainNavText {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-weight: bold;
+	font-size: 18px;
+	text-decoration: none;
+	display: block;
+}
+#mainContent {
+	background-image: url(trans_bg.png);
+	width: 800px;
+	height: 1600px;
+}
+#mainContent_admin {
+	background-image: url(trans_bg.png);
+	width: 800px;
+	height: 2200px;
+}
+#mainContent_ {
+	padding-left: 40px;
+	padding-right: 40px;
+	padding-top: 15px;
+	padding-bottom: 20px;
+}
+#mainContentIntro {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	color: #CDE1FF;
+	font-weight: bold;
+	text-decoration: underline;
+	font-size: 23px;
+	text-align: center;
+	padding-top: 25px;
+}
+.contentText {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	color: #FFFFFF;
+	font-size: 18px;
+	text-align: center;
+	margin-top: -30px;
+}
+.contentTextLinks {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	color: #4E9258;
+	font-size: 16px;
+	text-decoration: none;
+}
+.contentTextLinks:hover {
+	color: #CDE1FF;
+}
+#upload_button {
+	width: 250px;
+	height: 100px;
+	background-color: #666666;
+	border: 5px solid #000000;
+	margin-left: 65px;
+	float: left;
+	margin-top: 55px;
+}
+.ubtext {
+	font-size: 48px;
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	color: #000000;
+	font-weight: bold;
+	text-decoration: none;
+	position: relative;
+	top: 25px;
+}
+.ubtext:hover {
+	color: #FFFFFF;
+	border: 5px dashed #000000;
+	padding: 7px 7px 5px 10px;
+}
+#display_button {
+	width: 250px;
+	height: 100px;
+	background-color: #666666;
+	border: 5px solid #000000;
+	margin-left: 65px;
+	float: right;
+	margin-right: 65px;
+	margin-top: 55px;
+}
+#finals_sched {
+	margin-top: 250px;
+	margin-right: 15px;
+}
+.finals_schedText {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	color: #FFFFFF;
+	font-weight: 700;
+	font-size: 20px;
+	text-decoration: none;
+}
+.finals_schedText:hover {
+	color: #888888;
+}
+#headerText {
+	font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
+	color: #000000;
+	font-weight: bold;
+	font-size: 55px;
+	padding-top:20px;
+}
+#footer {
+	width: 1024px;
+	height: 100px;
+	background-color: #33363D;
+	border-style: none;
+	border-top: #4AA02C solid 4px;
+}
+.footerText{
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 14px;
+	font-weight: 200;
+	color: #AFDCEC;
+}
+.boldText {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 14px;
+	font-weight: 700;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.boldText:hover {
+	color: #999999;
+}
+#validation {
+	float: left;
+	position: relative;
+	top: -50px;
+	left: 25px;
+}
+.mac {
+	float: right;
+	position: relative;
+	top: -70px;
+	left: 770px;
+}
+/* After this: specifically for UPLOAD PHP PAGE */
+.attr_name {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 19px;
+	font-weight: 500;
+	color: #FFFFFF;
+	text-decoration: none;
+	display: inline;
+	padding-right: 15px;
+}
+.eg {
+	font-style: italic;
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 14px;
+	color: #FFFFFF;
+}
+#display_files {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+}
+#viewform {
+	display: inline;
+}
+.javascript {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 14px;
+	font-weight: 500;
+	color: #FFFFFF;
+	text-align: center;
+	font-style: italic;
+}
+.javascript: hover {
+	color: #666666;
+}
+.javascript: visited {
+	color: #FFFFFF;
+}
+/* After this: specifically for DISPLAY PHP PAGE */
+.output_list {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 18px;
+	color: #FFFFFF;
+	line-height: 8px;
+	display: block;
+	text-decoration: none;
+	margin-top: 12px;
+}
+.output_list:hover {
+	color: #666666;
+}
+#displaypageform {
+	display: inline;
+}
+#class_name_attr {
+}
+#teacher_name_attr {
+	margin-right: 0px;
+}
+file_name_attr {
+}
+#file_input_attr {
+	color: #000000;
+	background-color: #FFFFFF;
+}
+#name_input_attr {
+	background-color: #FFFFFF;
+	color: #000000;
+}
+#name_input_attr:focus {
+	background-color: #616D7E;
+	color: #FFFFFF;
+}
+#suj_attr {
+	background-color: #FFFFFF;
+	color: #000000;
+}
+#suj_attr:focus {
+	background-color: #616D7E;
+	color: #FFFFFF;
+}
+#tna {
+	margin-bottom: -20px;
+	margin-right: 28px;
+}
+#fna {
+	margin-left: 70px;
+}
+#your_name {
+	margin-left: 4px;
+}
+#your_suj {
+	margin-left: 6px;
+}
+/* UPLOAD SUCCESS */
+.uploadsuccess {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 14px;
+	color: #FFFFFF;
+	position: relative;
+	bottom: 15px;
+}
+.uploadfail {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 14px;
+	color: #E3403D;
+}
+.uploadfail_file{
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 14px;
+	color: #E3403D;
+}
+.uploadsubmit {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 22px;
+	color: #000000;
+	border: 3px solid #888888;
+	background-color: #888888;
+	width: 100px;
+	height: 35px;
+	margin-top: 2px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.uploadsubmit:hover {
+	color: #FFFFFF;
+	border: 3px dashed #000000;
+}
+#uploadsubmitbutton {
+	background-color: #888888;
+	width: 130px;
+	height: 40px;
+	border: 3px solid #000000;
+	margin-left: auto;
+	margin-right: auto;
+}
+/* After this: ContactPage */
+#contact_form_intro {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	color: #FFFFFF;
+	font-size: 20px;
+}
+#feedback {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 15px;
+	color: #FFFFFF;
+}
+.comments_field {
+	vertical-align: top;
+	margin-left: -20px;
+}
+#comments {
+	margin-right: 11px;
+}
+#comment_name_attr {
+}
+#comment_email_attr {
+}
+#email{
+	margin-right: 30px;
+	width: 120px;
+}
+#email_admin {
+	margin-right: 30px;
+	width: 180px;
+}
+.studentsharker {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 15px;
+	color: #FFFFFF;
+	margin-left: -27px;
+	margin-right: 16px;
+}
+.studentsharker_warning {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 13px;
+	color: #FFFFFF;
+	position: relative;
+	bottom: 12px;
+	margin-bottom: -20px;
+}
+#name {
+	width: 250px;
+}
+.name_formbox {
+	
+}
+.email_formbox {
+	position: relative;
+	right: 45px;
+}
+.warning {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 16px;
+	color: #E3403D;
+}
+.warning_comments {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 16px;
+	color: #E3403D;
+	vertical-align: top;
+}
+.formbox {
+	width: 250px;
+}
+#message_sent {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 17px;
+	color: #FFFFFF;
+	font-weight: 500;
+}
+/* STUDENTLOGIN page */
+#studentViewLogout {
+	margin-top: 10px;
+}
+/* ADMINLOGIN page */
+.adminloginlabel {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 15px;
+	color: #FFFFFF;
+}
+#login_error {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 16px;
+	color: #E3403D;
+}
+#username {
+	background-color: #FFFFFF;
+	color: #000000;
+}
+#username:focus {
+	background-color: #616D7E;
+	color: #FFFFFF;
+}
+#pwd {
+	background-color: #FFFFFF;
+	color: #000000;
+}
+#pwd:focus {
+	background-color: #616D7E;
+	color: #FFFFFF;
+}
+/* FOR admin_delete table secion */
+.odd {
+	background-color:#4863A0;
+}
+.even {
+	background-color: #5D5D5D;
+	color: #FFFFFF;
+}
+tr:hover {
+	background-color: #2F3A76;
+  	color: #FFFFFF;
+}
+.admindeletetable {
+	margin-bottom: -4px;
+}
+.admintable {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 14px;
+	padding-left: 25px;
+	text-decoration: none;
+	color: #FFFFFF;
+}
+.admintable:hover {
+	color: #888888;
+}
+/* QUIZLET */
+#quizletList {
+	
+}
+.quizletText {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 18px;
+	color: #FFFFFF;
+}
+#quizletList h3 {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	color: #CDE1FF;
+	font-weight: 700;
+	text-decoration: underline;
+}
+/* FINALS SCHED WEBEDITION */
+#finalsSched table {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 15px;
+	color: #CDE1FF;
+	border: 2px solid #000000;
+}
+#finalsSched td {
+	border-right: 1px dashed #000000;
+	border-bottom: 1px dashed #000000;
+}
+.finalsSchedLinks {
+	font-family: Arial, "MS Trebuchet", sans-serif;
+	font-size: 15px;
+	color: #CDE1FF;
+	text-decoration: none;
+}
+.finalsSchedLinks:hover {
+	color: #FFFFFF;
+}

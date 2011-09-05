@@ -19,7 +19,7 @@ function __autoload($class)
  * Before running this script, make sure to up the version number by 1 (or to the latest version (located at the bottom));
  */
 $version = 1;
-$databaseName = "lala";
+$databaseName = "RoboticsSIS";
 $dbhost = "localhost:8889";
 $dbuser = "root";
 $dbpass = "root";
@@ -41,15 +41,18 @@ if($i == 1) {
 
 	$array1[1] = array("PRIMARY KEY(UserID)", "");
 	$array1[2] = array("UserName", "TEXT");
-	$array1[3] = array("UserDescription", "TEXT");
-	$array1[4] = array("UserPhoneNumber", "TEXT");
-	$array1[5] = array("UserYear", "INT");
-	$array1[6] = array("UserMomEmail", "TINYTEXT");
-	$array1[7] = array("UserDadEmail", "TINYTEXT");
-	$array1[8] = array("UserEmail", "TINYTEXT");
-	$array1[9] = array("UserTitle", "TINYTEXT");
-	$array1[10] = array("UserPicture", "TINYTEXT");
-	$array1[11] = array("UserPassword", "TINYTEXT");
+	$array1[3] = array("UserFullName", "TEXT");
+	$array1[4] = array("UserDescription", "TEXT");
+	$array1[5] = array("UserPhoneNumber", "TEXT");
+	$array1[6] = array("UserYear", "INT");
+	$array1[7] = array("UserMomEmail", "TINYTEXT");
+	$array1[8] = array("UserDadEmail", "TINYTEXT");
+	$array1[9] = array("UserEmail", "TINYTEXT");
+	$array1[10] = array("UserTitle", "TINYTEXT");
+	$array1[11] = array("UserPicture", "TINYTEXT");
+	$array1[12] = array("UserPassword", "TINYTEXT");
+	$array1[13] = array("ActivationCode", "INT");
+	$array1[14] = array("Activated", "BOOL"); // nonzero val is true
 
 	if($dbConfig->createINNODBTable("RoboUsers", $array1)) echo "Success! Your RoboUsers Table is now set up! <br />";
 //print_r($dbConfig->createINNODBTable("CollegeSummary", $array1));
