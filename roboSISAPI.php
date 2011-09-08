@@ -8,28 +8,34 @@
 /**
  * test case: http://localhost:8888/roboSISAPI.php?id=1&timestamp=9999
  */
-
-// The function __autoload is the method for loading all the classes being used in the script. Use it at the beginning of every php main page.
-function __autoload($class)
+class roboSISAPI
 {
-	require_once $class . '.php';
-}
+	protected $_dbConnection;
+	
+	public function __construct($dbConnection)
+	{
+		$this->_dbConnection = new relationalDBConnections("RoboticsSIS", "localhost:8889", "root", "root");
+	}
+	
+	/**
+	 * returns: an array of timestamps for all previous checkins for the given user
+	 */
+	public function getCheckIns($timestamp, $userID)
+	{
+		$table = "UserHistories";
+		$columnforid = "UserID";
+		$arrayTime = array("HistoryTimeStamp" => $timestamp);
+		$dbConnection->insertIntoTable($table, "RoboUsers", $columnforid, $userID, "UserID", $arrayTime);
+	}
 
-$databaseName = "RoboticsSIS";
-$dbhost = "localhost:8889";
-$dbuser = "root";
-$dbpass = "root";
-
-$dbConnection = new relationalDBConnections($databaseName, $dbhost, $dbuser, $dbpass);
-
-$table = $_GET["table"]; // RoboUsers, UserBadges
+/*$table = $_GET["table"]; // RoboUsers, UserBadges
 //$username = $_GET["username"];
 $timestamp = $_GET["timestamp"]; // for check-ins only
 $columnforid = $_GET["columnforid"];
 $id = $_GET["id"];
 $attribute = $_GET["attribute"]; // can be null
-
-if (!is_null($timestamp)) // means that call is a check-in
+*/
+/*if (!is_null($timestamp)) // means that call is a check-in
 {
 	$columnforid = "UserID";
 	$table = "UserHistories";
@@ -37,8 +43,8 @@ if (!is_null($timestamp)) // means that call is a check-in
 	$dbConnection->insertIntoTable($table, "RoboUsers", $columnforid, $id, "UserID", $arrayTime);
 	//printf(time());
 	return false;
-}
-
+}*/
+/*
 // the following code handles read calls
 $resourceid;
 switch ($id)
@@ -70,5 +76,6 @@ else // attribute is unspecified, gets data for all attributes
 $outputcontent = $array;
 $outputcontent = json_encode($outputcontent);
 echo $outputcontent; // prints out JSON data to page
-
+*/
+}
 ?>
