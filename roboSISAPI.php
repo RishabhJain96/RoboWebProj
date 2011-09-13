@@ -11,24 +11,58 @@
 class roboSISAPI
 {
 	protected $_dbConnection;
+	$table; // RoboUsers, UserBadges
+	$username;
+	$timestamp; // for check-ins only
+	$columnforid;
+	$id;
+	$attribute; // can be null
 	
 	public function __construct($dbConnection)
 	{
 		$this->_dbConnection = new relationalDBConnections("RoboticsSIS", "localhost:8889", "root", "root");
 	}
 	
-	/**
-	 * returns: an array of timestamps for all previous checkins for the given user
-	 */
-	public function getCheckIns($timestamp, $userID)
+	public function inputCheckIn($timestamp, $id)
 	{
 		$table = "UserHistories";
 		$columnforid = "UserID";
 		$arrayTime = array("HistoryTimeStamp" => $timestamp);
 		$dbConnection->insertIntoTable($table, "RoboUsers", $columnforid, $userID, "UserID", $arrayTime);
 	}
+	
+	/**
+	 * returns: an array of timestamps for all previous checkins for the given user
+	 * $id: the UserID of the user to get the check-ins of
+	 */
+	public function getCheckIns($id)
+	{
+		$resourceid = $dbConnection->selectFromTable("UserHistories", "UserID", $id);
 
-/*$table = $_GET["table"]; // RoboUsers, UserBadges
+		$array = $dbConnection->formatQueryResults($resourceid, "HistoryTimeStamp");
+		if (is_null($array[0])) // NOTE: can't destinguish between null value in table and invalid attribute parameter (both return array with single, null element)
+		{
+			error_log("");
+			print 'NULL VALUE OR INVALID ATTRIBUTE';
+			return false;
+		}
+		
+		$outputcontent = $array;
+		$outputcontent = json_encode($outputcontent);
+		echo $outputcontent; // prints out JSON data to page
+	}
+	
+	/**
+	 * $username must already exist in the database
+	 * returns: the id of the user with the given username
+	 */
+	public function getUserID($username)
+	{
+		
+	}
+
+/* IGNORE EVERYTHING BELOW THIS LINE
+$table = $_GET["table"]; // RoboUsers, UserBadges
 //$username = $_GET["username"];
 $timestamp = $_GET["timestamp"]; // for check-ins only
 $columnforid = $_GET["columnforid"];
