@@ -1,0 +1,248 @@
+/*
+
+*/
+
+/* Reset */
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	}
+a {
+	text-decoration: none;
+}
+ol, ul {
+	list-style: none;
+	}
+
+blockquote, q {
+	quotes: none;
+	}
+
+:focus {
+	outline: 0;
+	}
+input {
+	border: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	}
+	
+/* Main */
+html, body {
+	font-family: Helvetica, sans-serif;
+	height: 100%;
+}
+body {
+	background-color: #333333;
+	background-position: 50% 50%;
+}
+#floater {
+	position: relative;
+	float: left;
+	height: 50%;
+	margin-bottom: -300px;
+	width: 1px;
+}
+#mainContainer {
+	position: relative;
+	clear: left;
+	height: 400px;
+	width: 800px;
+	margin: 0 auto;
+	padding: 0 25px;
+}
+.login {
+	height: 15em;
+	color: #000000;
+}
+.login_header {
+	color: #4D83C9;
+	font-size: 2em;
+	margin-bottom: 0.5em;
+	margin-left: 1.5em;
+}
+#upload-display ul {
+	color: #4D83C9;
+	margin-left: 3em;
+	margin-bottom: 1em;
+}
+#upload-display ul li {
+	padding-right: 1em;
+	list-style-type: none;
+	display: inline;
+	font-size: 2em;
+}
+#upload-display ul li a{
+	color: #4D83C9;
+}
+#upload-display ul li a:hover {
+	text-decoration: underline;
+}
+
+#logform {
+	background-color: #555555;
+	color: #FFFFFF;
+	padding: 2em;
+	font-size: 1.5em;
+}
+form#loginForm fieldset {
+	padding-bottom: 1em;
+}
+form#uploadForm fieldset {
+	padding-bottom: 1em;
+}
+.bigform {
+	height: 2em;
+	font-size: 1em;
+}
+input.login {
+	background-color: #555555;
+	color: #FFFFFF;
+ 	float: right;
+	height: 2em;
+	font-size: 1em;
+}
+input.login:hover {
+	background-color: #444444;
+}
+.login-error {
+	font-size: 0.8em;
+	background-color: #444444;
+	padding: 0.5em;
+}
+.login-error a {
+	font-size: 1em;
+	color: #FFFFFF;
+	text-decoration: underline;
+}
+.login-error a:hover {
+	color: #888888;
+}
+.login_register {
+	text-align: right;
+	font-size: 0.7em;
+	margin-top: 1em;
+}
+.login_register a {
+	color: #222222;
+	opacity: 0.7;
+}
+.login_register a:hover {
+	color: #FFFFFF;
+}
+#login_footer {
+	padding: 0.5em;
+	font-size: 0.4em;
+	color: #888888;
+	text-align: right;
+	position: relative;
+	top: 3em;
+}
+
+#file {
+	color: #FFFFFF;
+}
+
+#display-list {
+	background-color: #555555;
+	color: #FFFFFF;
+	padding: 2em;
+	font-size: 1.5em;
+}
+#display-list p {
+	padding-bottom: 0.5em;
+}
+#display-list p a {
+	color: #FFFFFF;
+}
+#display-list p a:hover {
+	color: #999999;
+	text-decoration: underline;
+}
+#display-list .upload_name {
+	font-size: 0.8em;
+	color: #7993AF;
+}
+
+form#logoutForm {
+	text-align: right;
+	font-size: 0.6em;
+	margin-top: 1em;
+}
+form#logoutForm input {
+	font-size: 1.1em;
+	padding: 0.5em;
+	background-color: #555555;
+	color: #FFFFFF;
+}
+form#logoutForm input:hover {
+	background-color: #444444;
+}
+
+input#activate {
+	background-color: #555555;
+	color: #FFFFFF;
+ 	float: right;
+	height: 2em;
+	font-size: 1em;
+	padding-bottom: 0.5em;
+	height: 15em;
+	color: #000000;
+}
+input#activate:hover {
+	background-color: #444444;
+}
+
+.message {
+	font-size: 0.6em;
+	background-color: #444444;
+	color: #FFFFFF;
+	padding: 0.5em;
+}
+#password {
+	margin-right: 4px;
+}
+#register-email {
+	margin-left: 4px;
+	margin-right: 18px;
+}
+#subject-dropdown {
+	margin-right: 28px;
+}
+
+/*Admin*/
+#admin {
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 0.8em;
+}
+#admin a {
+	color: #FFFFFF;
+}
+#admin a:hover {
+	color: #CCCCCC;
+}
+#admin table tr:hover {
+	background-color: #444444;
+}
+#admin table input {
+	font-size: 0.8em;
+}
+#admin table input:hover {
+	background-color: #333333;
+	color: #FFFFFF;
+}
+#adminfilename {
+	margin-left: 14px;
+}
+#subject-dropdownadmin {
+	margin-right: 40px;
+}

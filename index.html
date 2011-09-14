@@ -1,0 +1,145 @@
+<!doctype html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<style>
+	
+	.clearfix:before, .clearfix:after {
+		content: "";
+		display: table;
+	}
+	.clearfix:after {
+		clear: both;
+	}
+	.clearfix {
+		zoom: 1;
+	}
+
+	html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+		margin: 0;
+		padding: 0;
+		font-size: 100%;
+		vertical-align: baseline;
+		border: 0;
+		outline: 0;
+		background: transparent;
+	}
+	a {
+		text-decoration: none;
+		color: #000;
+	}
+	ol, ul {
+		list-style: none;
+	}
+
+	blockquote, q {
+		quotes: none;
+	}
+
+	:focus {
+		outline: 0;
+	}
+	input {
+		border: none;
+	}
+	table {
+		border-collapse: collapse;
+		border-spacing: 0;
+	}
+
+/* main */
+html, body {
+	font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
+	height: 100%;
+	background-color: #EEE;
+}
+
+#floater {
+	position: relative;
+	float: left;
+	height: 50%;
+	margin-bottom: -260px;
+	width: 1px;
+}
+#loginWindowWrap {
+	background-color: #333;
+	color: #FFF;
+	width: 640px;
+	margin: 1.5em auto;
+	position: relative;
+	clear: left;
+	padding: 2.5em;
+}
+#loginWindowWrap p {
+	margin-bottom: 1em;
+	font-size: 1.2em;
+}
+#loginWindowWrap p a {
+	color: #FFF;
+	padding: 0.5em;
+	background-color: #444;
+}
+#loginWindowWrap p a:hover {
+	text-decoration: underline;
+}
+#loginWindow {
+	margin-left: 1.5em;
+}
+
+form#loginForm fieldset {
+	padding: 1em 0;
+	color: #FFF;
+	font-size: 1.5em;
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+form#loginForm fieldset input#username, input#password {
+	font-size: 1.5em;
+	padding: 0.5em;
+	width: 400px;
+	display: block;
+}
+input.login {
+	background-color: #222;
+	color: #FFF;
+	font-size: 1em;
+	padding: 0.5em 1.5em;
+}
+input.login:hover {
+	background-color: #555;
+}
+input.login:active {
+	background-color: #FFF;
+	color: #000;
+}
+
+	</style>
+
+</head>
+<body>
+	<div id="floater"></div>
+	<div id="loginWindowWrap" class="clearfix">
+		<div id="loginWindow">
+			<form id="loginForm" method="post" name="loginForm" action="">
+				<fieldset>
+					<label for="username">Username </label>
+					<input type="text" name="username" id="username" class="bigform" value="username"/>
+				</fieldset>
+				<fieldset>
+					<label id="password" >Password </label>
+					<input type="password" name="pwd" id="password"value="password" />
+				</fieldset>
+				<fieldset>
+				<input name="login" type="submit" class="login" value="login" />
+				</fieldset>
+			</form>
+			<p><a href="#">Don't have an account yet? Register!</a></p>
+		</div>
+	</div>
+	<footer>
+	</footer>
+</body>
+</html>
