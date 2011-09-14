@@ -96,16 +96,16 @@ padding: 0.5em;
 width: 400px;
 display: block;
 }
-input.register {
+input.register, input.login {
 background-color: #222;
 color: #FFF;
 font-size: 1em;
 padding: 0.5em 1.5em;
 }
-input.register:hover {
+input.register:hover, input.login:hover {
 background-color: #555;
 }
-input.register:active {
+input.register:active, input.login:active {
 background-color: #FFF;
 color: #000;
 }

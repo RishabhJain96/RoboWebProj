@@ -4,7 +4,7 @@
 	<title></title>
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link rel="stylesheet" type="text/css" href="dashboardstyle.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 	<div id="floater"></div>
@@ -17,7 +17,7 @@
 				</fieldset>
 				<fieldset>
 					<label id="password" >Password </label>
-					<input type="password" name="pwd" id="password"value="password" />
+					<input type="password" name="pwd" class="bigform" id="password"value="password" />
 				</fieldset>
 				<fieldset>
 				<input name="login" type="submit" class="login" value="login" />
