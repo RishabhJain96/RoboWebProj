@@ -16,7 +16,8 @@ class register
 	
 	public function registerNewUser($username, $password)
 	{
-		
+		$rand = mt_rand() * mt_rand(); // activation number
+//		$this->_dbConnection->updateTable("RoboUsers", "RoboUsers", );
 	}
 	
 }

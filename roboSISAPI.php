@@ -1,45 +1,47 @@
 <?php
 /**
  * Robotics Student Information System General API
- * Make this object oriented!!!!!
- * format of call: http://localhost:8888/roboSISAPI.php?&id=$id&timestamp=$timestamp
+ * This api can be instantiated like so, if a dbconnection object has not yet been created:
+ * $varname = new roboSISAPI(new relationalDbConnections('RoboticsSIS', 'localhost:8889', 'root', 'root'));
+ * This api currently supports inputing a checkin, getting an array of all checkins, and getting a userID for a given username
  */
 
-/**
- * test case: http://localhost:8888/roboSISAPI.php?id=1&timestamp=9999
- */
 class roboSISAPI
 {
 	protected $_dbConnection;
-	$table; // RoboUsers, UserBadges
+/*	$table; // RoboUsers, UserBadges
 	$username;
 	$timestamp; // for check-ins only
 	$columnforid;
 	$id;
 	$attribute; // can be null
-	
+*/	
 	public function __construct($dbConnection)
 	{
-		$this->_dbConnection = new relationalDBConnections("RoboticsSIS", "localhost:8889", "root", "root");
+		$this->_dbConnection = $dbConnection;
 	}
 	
+	/**
+	 * $timestamp: pass the timestamp of the check in as a parameter
+	 * $id: the id of the user who is checking in (can be obtained using getUserID)
+	 */
 	public function inputCheckIn($timestamp, $id)
 	{
 		$table = "UserHistories";
 		$columnforid = "UserID";
 		$arrayTime = array("HistoryTimeStamp" => $timestamp);
-		$dbConnection->insertIntoTable($table, "RoboUsers", $columnforid, $userID, "UserID", $arrayTime);
+		$this->_dbConnection->insertIntoTable($table, "RoboUsers", $columnforid, $id, "UserID", $arrayTime);
 	}
 	
 	/**
-	 * returns: an array of timestamps for all previous checkins for the given user
-	 * $id: the UserID of the user to get the check-ins of
+	 * returns: an array in JSON format of timestamps for all previous checkins for the given user
+	 * $id: the UserID of the user to get the check-ins
 	 */
 	public function getCheckIns($id)
 	{
-		$resourceid = $dbConnection->selectFromTable("UserHistories", "UserID", $id);
+		$resourceid = $this->_dbConnection->selectFromTable("UserHistories", "UserID", $id);
 
-		$array = $dbConnection->formatQueryResults($resourceid, "HistoryTimeStamp");
+		$array = $this->_dbConnection->formatQueryResults($resourceid, "HistoryTimeStamp");
 		if (is_null($array[0])) // NOTE: can't destinguish between null value in table and invalid attribute parameter (both return array with single, null element)
 		{
 			error_log("");
@@ -47,18 +49,28 @@ class roboSISAPI
 			return false;
 		}
 		
-		$outputcontent = $array;
-		$outputcontent = json_encode($outputcontent);
-		echo $outputcontent; // prints out JSON data to page
+		$outputcontent = json_encode($array);
+		return $outputcontent;
+		//echo $outputcontent; // prints out JSON data to page
 	}
 	
 	/**
 	 * $username must already exist in the database
-	 * returns: the id of the user with the given username
+	 * returns: the id, as an int, of the user with the given username
 	 */
 	public function getUserID($username)
 	{
+		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers", "UserName", $username);
+
+		$array = $this->_dbConnection->formatQueryResults($resourceid, "UserID");
+		if (is_null($array[0])) // NOTE: can't destinguish between null value in table and invalid attribute parameter (both return array with single, null element)
+		{
+			error_log("");
+			print 'NULL VALUE OR INVALID ATTRIBUTE';
+			return false;
+		}
 		
+		return $array[0];
 	}
 
 /* IGNORE EVERYTHING BELOW THIS LINE

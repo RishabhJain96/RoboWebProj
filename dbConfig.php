@@ -52,7 +52,7 @@ if($i == 1) {
 	$array1[11] = array("UserPicture", "TINYTEXT");
 	$array1[12] = array("UserPassword", "TINYTEXT");
 	$array1[13] = array("ActivationCode", "INT");
-	$array1[14] = array("Activated", "BOOL"); // nonzero val is true
+	$array1[14] = array("Activated", "INT"); // nonzero val is true
 
 	if($dbConfig->createINNODBTable("RoboUsers", $array1)) echo "Success! Your RoboUsers Table is now set up! <br />";
 //print_r($dbConfig->createINNODBTable("CollegeSummary", $array1));
