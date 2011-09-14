@@ -15,7 +15,7 @@ class register
 	
 	public function __construct($dbConnection, $serverurl)
 	{
-		$this->serverurl = $serverurl;
+		$serverurl = "http://cytopic.net/robotics;
 		$this->_dbConnection = $dbConnection;
 		$this->_connection = $this->_dbConnection->open_db_connection();
 	}
