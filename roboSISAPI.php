@@ -19,6 +19,7 @@ class roboSISAPI
 	public function __construct($dbConnection)
 	{
 		$this->_dbConnection = $dbConnection;
+		//$this->_connection = $this->_dbConnection->open_db_connection();
 	}
 	
 	/**
@@ -44,7 +45,7 @@ class roboSISAPI
 		$array = $this->_dbConnection->formatQueryResults($resourceid, "HistoryTimeStamp");
 		if (is_null($array[0])) // NOTE: can't destinguish between null value in table and invalid attribute parameter (both return array with single, null element)
 		{
-			error_log("");
+			error_log("error in roboSISAPI getCheckINs");
 			print 'NULL VALUE OR INVALID ATTRIBUTE';
 			return false;
 		}
@@ -60,7 +61,7 @@ class roboSISAPI
 	 */
 	public function getUserID($username)
 	{
-		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers", "UserName", $username);
+		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers", "Username", $username);
 
 		$array = $this->_dbConnection->formatQueryResults($resourceid, "UserID");
 		if (is_null($array[0])) // NOTE: can't destinguish between null value in table and invalid attribute parameter (both return array with single, null element)

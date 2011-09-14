@@ -40,7 +40,7 @@ if($i == 1) {
 	$array1[0] = array("UserID", "int", "NOT NULL", "AUTO_INCREMENT");
 
 	$array1[1] = array("PRIMARY KEY(UserID)", "");
-	$array1[2] = array("UserName", "TEXT");
+	$array1[2] = array("Username", "TEXT");
 	$array1[3] = array("UserFullName", "TEXT");
 	$array1[4] = array("UserDescription", "TEXT");
 	$array1[5] = array("UserPhoneNumber", "TEXT");
@@ -51,7 +51,7 @@ if($i == 1) {
 	$array1[10] = array("UserTitle", "TINYTEXT");
 	$array1[11] = array("UserPicture", "TINYTEXT");
 	$array1[12] = array("UserPassword", "TINYTEXT");
-	$array1[13] = array("ActivationCode", "INT");
+	$array1[13] = array("ActivationCode", "TINYTEXT");
 	$array1[14] = array("Activated", "INT"); // nonzero val is true
 
 	if($dbConfig->createINNODBTable("RoboUsers", $array1)) echo "Success! Your RoboUsers Table is now set up! <br />";
