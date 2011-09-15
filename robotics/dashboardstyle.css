@@ -1,0 +1,157 @@
+body
+{
+	background-color: #EEE;
+}
+#main
+{
+	min-width: 1024px;
+	max-width: 1500px;
+	margin: 0 5px 0 5px;
+	font-family: Arial, "MS Trebuchet", sans-serif;
+}
+#main h1
+{
+	color:#789;
+	margin: 20px 0 0 0;
+	padding: 0 0 0 0;
+	font-family: Helvetica, Arial, sans-serif;
+}
+#headerMast
+{
+	padding: 0 0 0 0;
+	margin: 20px 0 20px 0;
+}
+
+.signin-status
+{
+	float: right;
+	margin-top: 20px;
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+}
+
+.signin-status a
+{
+	color:#789;
+	text-decoration:none;
+}
+.signin-status a:hover
+{
+	text-decoration:underline;
+}
+#mainContent 
+{
+	background-color: #333;
+	padding: 0 0 0 0;
+	width: 60%;
+	min-width: 400px;
+	max-width: 1024px;
+	float: left;
+	border-radius:19px;
+	-webkit-border-bottom-right-radius:0px;
+	-moz-border-radius-bottomright-radius:0px;
+}
+#mainContent p
+{
+	padding: 0 15px 0 15px;
+	margin: 0 0 20px 0;
+	color: #CCC;
+}
+#mainContent h2
+{
+	padding: 0 0 0 0;
+	font-size: 30px;
+	margin-left: 0.5em;
+	color: #CCC;
+	font-style: italic;
+}
+
+#rightPanel
+{
+	background-color:#999;
+	min-width: 300px;
+	width: 37%;
+	float: right;
+	padding: 0 0 0 20px;
+	margin: 0 0 0 0;
+	border-radius:9px;
+}/*
+nav
+{
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+	width:100%;
+}
+nav ul
+{
+	background-color:#eee;
+	background: -webkit-linear-gradient(#DDD, #CCC); /*Chrome and Safari*/
+	background: -moz-linear-gradient(top, #DDD, #CCC); /*Firefox*/
+	background: -o-linear-gradient(top, #DDD, #CCC); /*Opera*/
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#DDDDDD',  
+endColorstr='#CCCCCC');/*IE*/
+	border-radius:19px;
+	margin: 0;
+	list-style-type:none;
+	padding: 15px;
+}
+nav ul li
+{
+	font-size:16px;
+	display: inline;
+}
+nav ul li a
+{
+	padding: 15px;
+	font-size:16px;
+	font-family:Arial, Helvetica, sans-serif;
+	text-decoration:none;
+	font-weight:bold;
+	color:#789;
+}
+nav ul li a:hover
+{
+	color:#555;
+	background-color:#CCC;
+}
+*/
+#header
+{
+	background-color:#789;
+	font-size:10px;
+}
+nav
+{
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+	width:100%;
+}
+nav ul
+{
+	margin: 0;
+	list-style-type:none;
+	padding: 15px;
+}
+nav ul li
+{
+	font-size:16px;
+	display: inline;
+}
+nav ul li a
+{
+	padding: 15px;
+	font-size:16px;
+	font-family:Arial, Helvetica, sans-serif;
+	text-decoration:none;
+	font-weight:bold;
+	color:#789;
+}
+nav ul li a:hover
+{
+	color:#555;
+	background-color:#CCC;
+	background: -webkit-linear-gradient(#789, #CCC); /*Chrome and Safari*/
+	background: -moz-linear-gradient(top, #DDD, #CCC); /*Firefox*/
+	background: -o-linear-gradient(top, #DDD, #CCC); /*Opera*/
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#DDDDDD', endColorstr='#CCCCCC');/*IE*/
+}
