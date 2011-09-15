@@ -1,4 +1,10 @@
-<?php session_start()?>
+<?php
+session_start();
+if (!(isset($_SESSION['robo']))) {
+  header('Location: http://cytopic.net/robotics/index.php');
+  exit;
+  }
+?>
 <!DOCTYPE html>
 <head>
 	<meta charset="utf-8">
