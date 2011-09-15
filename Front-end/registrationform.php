@@ -27,9 +27,9 @@
 				$username = form($_POST['username']);
 				$password = form($_POST['password']);
 				
-				if(($register =="")) exit("Please complete both fields and try again.");
+				if(($username =="")) exit("Please complete both fields and try again.");
 				
-				$robotics = new roboSISAPI(new relationalDbConnections('RoboticsSIS', 'localhost:8889', 'root', 'root'));
+				$register = new roboSISAPI(new relationalDbConnections('RoboticsSIS', 'http://cytopic.net/robotics', 'yroot', 'cytopic'));
 				$register->register($username, $password);
 				?>
 			</form>
