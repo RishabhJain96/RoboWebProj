@@ -38,7 +38,5 @@ class login
 		// username and password are valid
 		return true;
 	}
-	
 }
-
 ?>
