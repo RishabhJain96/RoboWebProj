@@ -1,8 +1,7 @@
 <?php
 session_start();
 if (!(isset($_SESSION['robo']))) {
-  header('Location: http://cytopic.net/robotics/index.php');
- exit;
+	header('Location: index.php');
   }
 ?>
 <!DOCTYPE html>
@@ -30,6 +29,7 @@ if (!(isset($_SESSION['robo']))) {
 						<li><a href="">My Profile</a></li>
 					</ul>
 				</nav>
+				<!-- hi devin :D -->
 				<span class="signin-status"><a href="">Log Out</a></span>
 			</div>
 		</div>
@@ -39,7 +39,7 @@ if (!(isset($_SESSION['robo']))) {
 				<p class="clearfix">
 					<?php
 					//code to get subteam tasks will eventually go here
-					//$api = new roboSISAPI(new relationalDbConnections('RoboticsSIS', 'mysql', 'yroot', 'cytopic'));
+					//$api = new roboSISAPI(new relationalDbConnections('RoboticsSIS', 'localhost:8889', 'root', 'root'));
 					//$result = $api->getCheckins($api->getUserId());
 					//$json = '["Time 5","Time 4","Time 3","Time 2","Time 1"]';
 					?>
@@ -60,15 +60,14 @@ if (!(isset($_SESSION['robo']))) {
 						{
 							require_once $class . '.php';
 						}
-						/*$username = $_SESSION['robo'];
-						$api = new roboSISAPI(new relationalDbConnections('RoboticsSIS', 'mysql', 'yroot', 'cytopic'));
-						$result = $api->getCheckIns($api->getUserID($username));
-						$table = json_decode($result);
-						$json = '["Time 5","Time 4","Time 3","Time 2","Time 1"]';
-						$len = count($table);
-						for($i = 0; $i < $len; $i++)
-							echo "<li>".$table[$i]."</li>";
-						*/
+						//$username = $_SESSION['robo'];
+						$username = "12rohits";
+						//$api = new roboSISAPI(new relationalDbConnections('RoboticsSIS', 'localhost:8889', 'root', 'root'));
+						//$result = $api->getCheckIns($api->getUserID($username));
+						//$table = json_decode($result);
+						//$len = count($table);
+						//for($i = 0; $i < $len; $i++)
+						//	echo "<li>".$table[$i]."</li>";
 						?>
 					</ul>
 				</p>

@@ -8,7 +8,7 @@ function __autoload($class)
 }
 
 $code = $_GET["acode"];
-$dbConnection = new relationalDbConnections('RoboticsSIS', 'mysql', 'yroot', 'cytopic');
+$dbConnection = new relationalDbConnections('RoboticsSIS', 'localhost:8889', 'root', 'root');
 
 $resourceid = $dbConnection->selectFromTable("RoboUsers", "ActivationCode", $acode);
 $arr = $dbConnection->formatQueryResults($resourceid, "ActivationCode");

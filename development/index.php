@@ -1,7 +1,7 @@
 <?php
 session_start();
 if ((isset($_SESSION['robo']))) {
-  //header('Location: http://cytopic.net/robotics/dashboard.php');
+	header('Location: dashboard.php');
 }
 /*$db_user = "yroot";
 $db_pass = "cytopic";
@@ -21,21 +21,22 @@ function form($data) { // Prevents SQL Injection
 if(isset($_POST['login'])) {
 	if(isset($_POST['pwd'])) {
 		if(isset($_POST['username'])) {
-			$md5_password = md5($_POST['pwd']);
+			$password = ($_POST['pwd']);
 			$username = $_POST['username'];
 			function __autoload($class)
 			{
 				require_once $class . '.php';
 			}
-			$login = new login(new relationalDbConnections('RoboticsSIS', 'mysql', 'yroot', 'cytopic'));
-			$login->checkLogin($username, $md5_password);
-			
-				echo 'test';
+			$login = new login(new relationalDbConnections('RoboticsSIS', 'localhost:8889', 'root', 'root'));
+			if($login->checkLogin($username, $password))
+			{
+				$_SESSION['robo'] = "$username";
+				header('Location: dashboard.php');
+			}
 				//$_SESSION['robo'] = "$username";
-				//header('Location: http://cytopic.net/robotics/dashboard.php');
+				//header('Location: dashboard.php');
 			//	break;
 			
-			echo 'tests2';
 			//print_r($username_login);
 			/*$q = mysql_query("SELECT * FROM RoboUsers WHERE Username='$username_login'");
 			if ($q == 0) print '0';

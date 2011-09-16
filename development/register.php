@@ -11,11 +11,11 @@ class register
 {
 	// instance variables
 	protected $_dbConnection;
-	protected $serverurl;
+	protected $_serverurl;
 	
-	public function __construct($dbConnection, $serverurl)
+	public function __construct($dbConnection)
 	{
-		$serverurl = "http://cytopic.net/robotics";
+		$this->_serverurl = "http://cytopic.net/robotics";
 		$this->_dbConnection = $dbConnection;
 		$this->_connection = $this->_dbConnection->open_db_connection();
 	}
@@ -26,16 +26,17 @@ class register
 	public function register($username, $password)
 	{
 		$code = md5(mt_rand());
-		$result = $this->inputNewUser($username, $password, $code); // result stores a text string or text string 'true' depending on the outcome of the input method
-		if ($result === 'true') // checks literal string value
+		$result = $this->inputNewUser($username, $password, $code); // result stores false or text string 'true' depending on the outcome of the input method
+		if ($result) // checks literal string value
 		{
+			//print 'result is TRUE';
 			$this->inputEmail($username);
 			$this->emailNewUser($username, $code);
-			return true;
+			return true; // success in inputting user
 		}
 		else
 		{
-			return $result; // allows front-side to format the message as desired
+			return false; // username already taken
 		}
 	}
 	
@@ -51,14 +52,15 @@ class register
 		{
 			error_log("This username is already taken!");
 			//print 'The username ' . $username . ' is already taken! Please choose a different one.'; // for debugging purposes
-			return "The username ' . $username . ' is already taken! Please choose a different one."; // returns so it can be displayed as wished
+			echo "<p>The username $username is already taken! Please choose a different one.</p>";
+			return false;
 		}
 		// username is a valid, new username at this point
 		$password = md5($password); // encodes password in md5 for security/privacy
 		//print_r($passwordCoded);
 		$array = array("ActivationCode" => $code, "Username" => $username, "UserPassword" => $password);
 		$this->_dbConnection->insertIntoTable("RoboUsers", "RoboUsers", "Username", $username, "UserID", $array);
-		return 'true';
+		return true;
 	}
 	
 	/**
@@ -68,7 +70,7 @@ class register
 	 */
 	public function inputEmail($username)
 	{
-		$email = $username . "@students.harker.org";
+		$email = "" . $username . "@students.harker.org";
 		$array = $array = array("UserEmail" => $email);
 		$this->_dbConnection->updateTable("RoboUsers", "RoboUsers", "Username", $username, "UserID", $array, "Username = '$username'");
 	}
@@ -78,11 +80,26 @@ class register
 	 */
 	public function emailNewUser($username, $code)
 	{
-		$to = $username . "@students.harker.org";
+		/*$to = $username . "@students.harker.org";
 		$subject = "Robotics SIS Account Creation";
-		$message = "Hello $username, \n\n Please go to: $this->serverurl/activation.php?acode=$code to activate your account. \n\n Thanks,\n The Robotics 1072 Web Team"; // server url 
+		$message = "Hello $username, \n\n Please go to: $this->_serverurl/activation.php?acode=$code to activate your account. \n\n Thanks,\n The Robotics 1072 Web Team"; // _serverurl is global var set at construction
 		$header = "From: harker1072@gmail.com";
-		mail($to, $subject, $message, $header);
+		echo "<a href=\"$this->_serverurl/activation.php?acode=$code\">$this->_serverurl/activation.php?acode=$code</a>";
+		*/
+		
+		// temporary in-place activation code
+		$bool = 1; // any nonzero value to indicated activated status
+		$stuffing = "Activated"; // clears the activation code field to md5 for clarity
+		$array = array("Activated" => $bool, "ActivationCode" => $stuffing);
+		$this->_dbConnection->updateTable("RoboUsers", "RoboUsers", "ActivationCode", $code, "UserID", $array, "ActivationCode = '$code'");
+
+		//echo 'Congratulations! Your account has been activated.';
+		/*print_r($to);
+		print_r($subject);
+		print_r($message);
+		print_r($header);
+		*/
+		//mail($to, $subject, $message, $header);
 	}
 	
 }
