@@ -81,4 +81,13 @@ class relationalDbConnections extends dbConnections
 		}
 	}
 	
+	/**
+	 * 
+	 */
+//	public function writeToDatabse($tablename, $columntoupdate, $columnforid, $id)
+//	{
+//		this->updateTable($tablename, $columntoupdate, $columnforid, $id, $primarykeyforcolumntoupdate, ); // unfinished
+//	}
+	
+	
 } // END class 

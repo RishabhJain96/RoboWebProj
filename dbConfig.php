@@ -27,7 +27,7 @@ $dbpass = "root";
 
 //Do NOT EDIT THIS PORTION OF THE CODE.
 $dbConfig = new databaseProperties($databaseName, $dbhost, $dbuser, $dbpass);
-$totalVersions = 3;
+$totalVersions = 4;
 
 for($i = $version; $i <= $totalVersions; $i++)
 {
@@ -106,6 +106,16 @@ if($i == 3)
 	
 	if($dbConfig->setRelation("UserTasks", "RoboUsers", "UserID")) echo "Success! Your UserTasks and RoboUsers Table are now linked via UsersID! <br />";
 	
+}
+
+if($i=4)
+{
+	$arr[0] = array("TaskID", "int", "NOT NULL", "AUTO_INCREMENT");
+	$arr[1] = array("PRIMARY KEY(TaskID)");
+	$arr[2] = array("TaskName", "TEXT");
+	$arr[3] = array("UserID", "INT");
+	$arr[4] = array("Deadline", "TINYTEXT");
+	$arr[5] = array("AssignedByUserID", "INT");
 }
 
 }

@@ -38,7 +38,7 @@ if (!(isset($_SESSION['robo']))) {
 				<h2>Tasks</h2>
 				<p class="clearfix">
 					<?php
-					//$api = new roboSISAPI();
+					//$api = new roboSISAPI(new relationalDbConnections('RoboticsSIS', 'mysql', 'yroot', 'cytopic'));
 					//$result = $api->getCheckins($api->getUserId());
 						$json = '["Time 5","Time 4","Time 3","Time 2","Time 1"]';
 					?>

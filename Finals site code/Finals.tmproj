@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>FinalsImprov/variables.php</string>
+	<string>register2.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -13,15 +13,13 @@
 					<key>filename</key>
 					<string>FinalsImprov/register.php</string>
 					<key>lastUsed</key>
-					<date>2011-09-02T00:09:56Z</date>
+					<date>2011-09-14T07:30:31Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>FinalsImprov/variables.php</string>
 					<key>lastUsed</key>
-					<date>2011-09-02T00:09:56Z</date>
-					<key>selected</key>
-					<true/>
+					<date>2011-09-14T22:43:00Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
@@ -33,7 +31,9 @@
 					<key>filename</key>
 					<string>register2.php</string>
 					<key>lastUsed</key>
-					<date>2011-09-02T00:09:34Z</date>
+					<date>2011-09-14T22:43:00Z</date>
+					<key>selected</key>
+					<true/>
 				</dict>
 				<dict>
 					<key>filename</key>
@@ -45,7 +45,7 @@
 					<key>filename</key>
 					<string>FinalsImprov/login.php</string>
 					<key>lastUsed</key>
-					<date>2011-09-02T00:09:10Z</date>
+					<date>2011-09-14T22:35:58Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
@@ -102,7 +102,7 @@
 							<key>filename</key>
 							<string>ConnectMysql.php</string>
 							<key>lastUsed</key>
-							<date>2011-09-02T00:08:51Z</date>
+							<date>2011-09-14T22:42:59Z</date>
 						</dict>
 						<dict>
 							<key>filename</key>
@@ -326,14 +326,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>8</integer>
 				<key>line</key>
-				<integer>14</integer>
+				<integer>57</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>29</integer>
 		</dict>
 		<key>FinalsImprov/upload.php</key>
 		<dict>
@@ -354,14 +354,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>27</integer>
 				<key>line</key>
-				<integer>22</integer>
+				<integer>19</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>50</integer>
+			<integer>0</integer>
 		</dict>
 		<key>login.php</key>
 		<dict>
@@ -382,9 +382,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>30</integer>
+				<integer>24</integer>
 				<key>line</key>
-				<integer>7</integer>
+				<integer>1</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -395,10 +395,10 @@
 	<key>openDocuments</key>
 	<array>
 		<string>FinalsImprov/login.php</string>
-		<string>FinalsImprov/variables.php</string>
 		<string>FinalsImprov/OldCrap/nav.inc.php</string>
 		<string>register2.php</string>
 		<string>FinalsImprov/register.php</string>
+		<string>FinalsImprov/variables.php</string>
 		<string>FinalsImprov/upload.php</string>
 		<string>FinalsImprov/activation.php</string>
 		<string>FinalsImprov/OldCrap/footer.inc.php</string>
