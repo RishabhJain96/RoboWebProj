@@ -49,8 +49,14 @@ body
 
 input.signin-status
 {
-	float: right;
+	float: left;
 	font-size: 1.5em;
+}
+input.signin-status2
+{
+	float: right;
+	font-size: 3em;
+	margin: 20px 0px 0px 0px;
 }
 #mainContent 
 {

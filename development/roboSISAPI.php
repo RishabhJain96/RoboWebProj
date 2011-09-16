@@ -32,6 +32,7 @@ class roboSISAPI
 		$columnforid = "UserID";
 		$arrayTime = array("HistoryTimeStamp" => $timestamp);
 		$this->_dbConnection->insertIntoTable($table, "RoboUsers", $columnforid, $id, "UserID", $arrayTime);
+		return true;
 	}
 	
 	/**
@@ -45,8 +46,8 @@ class roboSISAPI
 		$array = $this->_dbConnection->formatQueryResults($resourceid, "HistoryTimeStamp");
 		if (is_null($array[0])) // NOTE: can't destinguish between null value in table and invalid attribute parameter (both return array with single, null element)
 		{
-			error_log("error in roboSISAPI getCheckINs");
-			print 'NULL VALUE OR INVALID ATTRIBUTE';
+			//error_log("error in roboSISAPI getCheckINs");
+			echo 'There are no recent check-ins to display!';
 			return false;
 		}
 		
@@ -67,7 +68,7 @@ class roboSISAPI
 		if (is_null($array[0])) // NOTE: can't destinguish between null value in table and invalid attribute parameter (both return array with single, null element)
 		{
 			error_log("");
-			print 'NULL VALUE OR INVALID ATTRIBUTE';
+			//echo 'The username '$username' does not exist';
 			return false;
 		}
 		

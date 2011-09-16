@@ -73,6 +73,7 @@ if(isset($_POST['login'])) {
 	<div id="floater"></div>
 	<div id="loginWindowWrap" class="clearfix">
 		<div id="loginWindow">
+			<h1>Login</h1>
 			<form id="loginForm" method="post" name="loginForm" action="">
 				<fieldset>
 					<label for="username">Username </label>
@@ -86,7 +87,7 @@ if(isset($_POST['login'])) {
 				<input name="login" type="submit" class="login" value="login" />
 				</fieldset>
 			</form>
-			<p><a href="http://cytopic.net/robotics/registrationform.php">Don't have an account yet? Register!</a></p>
+			<p><a href="registration.php">Don't have an account yet? Register!</a></p>
 		</div>
 	</div>
 	<footer>

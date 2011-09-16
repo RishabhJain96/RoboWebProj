@@ -41,7 +41,7 @@
 					$register = new register(new relationalDbConnections('RoboticsSIS', 'localhost:8889', 'root', 'root'));
 					if ($register->register($username, $password))
 					{
-						echo '<p>Congratulations! Your account has been set up and you may now login. </p>';
+						echo '<p>Congratulations! Your account has been set up and you may now login.</p>';
 					}
 				}
 				?>

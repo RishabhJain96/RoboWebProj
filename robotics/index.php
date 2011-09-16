@@ -1,7 +1,7 @@
 <?php
 session_start();
 if ((isset($_SESSION['robo']))) {
-  //header('Location: http://cytopic.net/robotics/dashboard.php');
+	header('Location: dashboard.php');
 }
 /*$db_user = "yroot";
 $db_pass = "cytopic";
@@ -21,21 +21,22 @@ function form($data) { // Prevents SQL Injection
 if(isset($_POST['login'])) {
 	if(isset($_POST['pwd'])) {
 		if(isset($_POST['username'])) {
-			$md5_password = md5($_POST['pwd']);
+			$password = ($_POST['pwd']);
 			$username = $_POST['username'];
 			function __autoload($class)
 			{
 				require_once $class . '.php';
 			}
 			$login = new login(new relationalDbConnections('RoboticsSIS', 'mysql', 'yroot', 'cytopic'));
-			$login->checkLogin($username, $md5_password);
-			
-				echo 'test';
+			if($login->checkLogin($username, $password))
+			{
+				$_SESSION['robo'] = "$username";
+				header('Location: dashboard.php');
+			}
 				//$_SESSION['robo'] = "$username";
-				//header('Location: http://cytopic.net/robotics/dashboard.php');
+				//header('Location: dashboard.php');
 			//	break;
 			
-			echo 'tests2';
 			//print_r($username_login);
 			/*$q = mysql_query("SELECT * FROM RoboUsers WHERE Username='$username_login'");
 			if ($q == 0) print '0';
@@ -72,6 +73,7 @@ if(isset($_POST['login'])) {
 	<div id="floater"></div>
 	<div id="loginWindowWrap" class="clearfix">
 		<div id="loginWindow">
+			<h1>Login</h1>
 			<form id="loginForm" method="post" name="loginForm" action="">
 				<fieldset>
 					<label for="username">Username </label>
@@ -85,7 +87,7 @@ if(isset($_POST['login'])) {
 				<input name="login" type="submit" class="login" value="login" />
 				</fieldset>
 			</form>
-			<p><a href="http://cytopic.net/robotics/registrationform.php">Don't have an account yet? Register!</a></p>
+			<p><a href="registration.php">Don't have an account yet? Register!</a></p>
 		</div>
 	</div>
 	<footer>

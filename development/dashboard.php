@@ -1,8 +1,25 @@
 <?php
 session_start();
-if (!(isset($_SESSION['robo']))) {
+if (!(isset($_SESSION['robo'])))
+{
 	header('Location: index.php');
-  }
+}
+
+if(isset($_POST['logout']))
+{
+	unset($_SESSION['robo']);
+	header('Location: index.php');
+}
+
+if(isset($_POST['checkin']))
+{
+	$username = $_SESSION['robo'];
+	$api = new roboSISAPI(new relationalDbConnections('RoboticsSIS', 'localhost:8889', 'root', 'root'));
+	date_default_timezone_set('America/Los_Angeles');
+	$timestamp = date("l, F j \a\\t g:i a");
+	$result = $api->inputCheckIn($timestamp, $api->getUserID($username));
+}
+
 ?>
 <!DOCTYPE html>
 <head>
@@ -29,15 +46,22 @@ if (!(isset($_SESSION['robo']))) {
 						<li><a href="">My Profile</a></li>
 					</ul>
 				</nav>
-				<!-- hi devin :D -->
-				<!-- hi rohit :O -->
-				<fieldset><input name="logout" type="submit" class="signin-status" value="Logout" /></fieldset>
+				<p>Logged in as: <?php echo $_SESSION['robo']; ?></p>
+				<form method="post" name="loginForm" action="">
+				<fieldset>
+					<input name="logout" type="submit" class="signin-status" value="Logout" />
+				</fieldset>
+				<fieldset>
+					<input name="checkin" type="submit" class="signin-status2" value="Check-In" />
+				</fieldset>
+				</form>
 			</div>
 		</div>
 		<div id="contentSections">
 			<div id="mainContent">
 				<h2>Tasks</h2>
 				<p class="clearfix">
+					<p>Tasks will be used at a later date.</p>
 					<?php
 					//code to get subteam tasks will eventually go here
 					//$api = new roboSISAPI(new relationalDbConnections('RoboticsSIS', 'localhost:8889', 'root', 'root'));
@@ -47,13 +71,13 @@ if (!(isset($_SESSION['robo']))) {
 				</p>
 				<h2>General Information</h2>
 				<p class="clearfix">
-					Welcome to Robotics!
+					<p>Welcome to Robotics!</p>
 				</p>
 
 			</div><!-- mainContent -->
 			
 			<div id="rightPanel">
-				<h2>Check-Ins</h2>
+				<h2>Recent Check-Ins</h2>
 				<p class="clearfix">
 					<ul>
 						<?php
@@ -61,14 +85,14 @@ if (!(isset($_SESSION['robo']))) {
 						{
 							require_once $class . '.php';
 						}
-						//$username = $_SESSION['robo'];
-						$username = "12rohits";
-						//$api = new roboSISAPI(new relationalDbConnections('RoboticsSIS', 'localhost:8889', 'root', 'root'));
-						//$result = $api->getCheckIns($api->getUserID($username));
-						//$table = json_decode($result);
-						//$len = count($table);
-						//for($i = 0; $i < $len; $i++)
-						//	echo "<li>".$table[$i]."</li>";
+						$username = $_SESSION['robo'];
+						$api = new roboSISAPI(new relationalDbConnections('RoboticsSIS', 'localhost:8889', 'root', 'root'));
+						$result = $api->getCheckIns($api->getUserID($username));
+						//echo $result;
+						$table = json_decode($result);
+						$len = count($table);
+						for($i = 0; $i < $len; $i++)
+							echo "<li>".$table[$i]."</li>";
 						?>
 					</ul>
 				</p>
