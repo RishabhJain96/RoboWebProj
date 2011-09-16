@@ -1,3 +1,28 @@
+/* RESET */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	padding: 0;
+	border: 0;
+	vertical-align: baseline;
+}
+
+/* CLEARFIX */
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+
 body
 {
 	background-color: #EEE;
@@ -6,43 +31,31 @@ body
 {
 	min-width: 1024px;
 	max-width: 1500px;
-	margin: 0 5px 0 5px;
-	font-family: Arial, "MS Trebuchet", sans-serif;
+	margin: 0 5px;
+	font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
 }
 #main h1
 {
 	color:#789;
 	margin: 20px 0 0 0;
-	padding: 0 0 0 0;
+	padding: 0;
 	font-family: Helvetica, Arial, sans-serif;
 }
 #headerMast
 {
-	padding: 0 0 0 0;
-	margin: 20px 0 20px 0;
+	padding: 0;
+	margin: 20px 0;
 }
 
-.signin-status
+input.signin-status
 {
 	float: right;
-	margin-top: 20px;
-	padding: 0 0 0 0;
-	margin: 0 0 0 0;
-}
-
-.signin-status a
-{
-	color:#789;
-	text-decoration:none;
-}
-.signin-status a:hover
-{
-	text-decoration:underline;
+	font-size: 1.5em;
 }
 #mainContent 
 {
 	background-color: #333;
-	padding: 0 0 0 0;
+	padding: 0;
 	width: 60%;
 	min-width: 400px;
 	max-width: 1024px;
@@ -53,13 +66,13 @@ body
 }
 #mainContent p
 {
-	padding: 0 15px 0 15px;
+	padding: 0 15px;
 	margin: 0 0 20px 0;
 	color: #CCC;
 }
 #mainContent h2
 {
-	padding: 0 0 0 0;
+	padding: 0 0;
 	font-size: 30px;
 	margin-left: 0.5em;
 	color: #CCC;

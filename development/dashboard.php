@@ -30,7 +30,8 @@ if (!(isset($_SESSION['robo']))) {
 					</ul>
 				</nav>
 				<!-- hi devin :D -->
-				<span class="signin-status"><a href="">Log Out</a></span>
+				<!-- hi rohit :O -->
+				<fieldset><input name="logout" type="submit" class="signin-status" value="Logout" /></fieldset>
 			</div>
 		</div>
 		<div id="contentSections">
