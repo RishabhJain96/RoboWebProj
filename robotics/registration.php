@@ -28,6 +28,11 @@
 				{
 					require_once $class . '.php';
 				}
+				$dbArr = file("dbParameters.txt");
+				$dbArr[0] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[0]);
+				$dbArr[1] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[1]);
+				$dbArr[2] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[2]);
+				$dbArr[3] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[3]);
 				if (isset($_POST['register']))
 				{
 					$username = $_POST['username'];
@@ -38,10 +43,10 @@
 						exit("Please complete both fields and try again.");
 					}
 					
-					$register = new register(new relationalDbConnections('RoboticsSIS', 'mysql', 'yroot', 'cytopic'));
+					$register = new register(new relationalDbConnections($dbArr[0], $dbArr[1], $dbArr[2], $dbArr[3]));
 					if ($register->register($username, $password))
 					{
-						echo '<p>Congratulations! Your account has been set up and you may now login. </p>';
+						echo '<p>Congratulations! Your account has been set up and you may now login.</p>';
 					}
 				}
 				?>

@@ -19,14 +19,15 @@ function __autoload($class)
  * Before running this script, make sure to up the version number by 1 (or to the latest version (located at the bottom));
  */
 $version = 1;
-$databaseName = "RoboticsSIS";
-$dbhost = "localhost:8889";
-$dbuser = "root";
-$dbpass = "root";
 
+$dbArr = file("dbParameters.txt");
+$dbArr[0] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[0]);
+$dbArr[1] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[1]);
+$dbArr[2] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[2]);
+$dbArr[3] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[3]);
 
 //Do NOT EDIT THIS PORTION OF THE CODE.
-$dbConfig = new databaseProperties($databaseName, $dbhost, $dbuser, $dbpass);
+$dbConfig = new databaseProperties($dbArr[0], $dbArr[1], $dbArr[2], $dbArr[3]);
 $totalVersions = 4;
 
 for($i = $version; $i <= $totalVersions; $i++)

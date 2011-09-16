@@ -10,11 +10,15 @@ if(isset($_POST['logout']))
 	unset($_SESSION['robo']);
 	header('Location: index.php');
 }
-
+$dbArr = file("dbParameters.txt");
+$dbArr[0] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[0]);
+$dbArr[1] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[1]);
+$dbArr[2] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[2]);
+$dbArr[3] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[3]);
 if(isset($_POST['checkin']))
 {
 	$username = $_SESSION['robo'];
-	$api = new roboSISAPI(new relationalDbConnections('RoboticsSIS', 'localhost:8889', 'root', 'root'));
+	$api = new roboSISAPI(new relationalDbConnections($dbArr[0], $dbArr[1], $dbArr[2], $dbArr[3]));
 	date_default_timezone_set('America/Los_Angeles');
 	$timestamp = date("l, F j \a\\t g:i a");
 	$result = $api->inputCheckIn($timestamp, $api->getUserID($username));
@@ -64,7 +68,12 @@ if(isset($_POST['checkin']))
 					<p>Tasks will be used at a later date.</p>
 					<?php
 					//code to get subteam tasks will eventually go here
-					//$api = new roboSISAPI(new relationalDbConnections('RoboticsSIS', 'localhost:8889', 'root', 'root'));
+					//$dbArr = file("dbParameters.txt");
+					//$dbArr[0] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[0]);
+					//$dbArr[1] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[1]);
+					//$dbArr[2] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[2]);
+					//$dbArr[3] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[3]);
+					//$api = new roboSISAPI(new relationalDbConnections($dbArr[0], $dbArr[1], $dbArr[2], $dbArr[3]));
 					//$result = $api->getCheckins($api->getUserId());
 					//$json = '["Time 5","Time 4","Time 3","Time 2","Time 1"]';
 					?>
@@ -85,8 +94,13 @@ if(isset($_POST['checkin']))
 						{
 							require_once $class . '.php';
 						}
+						$dbArr = file("dbParameters.txt");
+						$dbArr[0] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[0]);
+						$dbArr[1] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[1]);
+						$dbArr[2] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[2]);
+						$dbArr[3] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[3]);
 						$username = $_SESSION['robo'];
-						$api = new roboSISAPI(new relationalDbConnections('RoboticsSIS', 'localhost:8889', 'root', 'root'));
+						$api = new roboSISAPI(new relationalDbConnections($dbArr[0], $dbArr[1], $dbArr[2], $dbArr[3]));
 						$result = $api->getCheckIns($api->getUserID($username));
 						//echo $result;
 						$table = json_decode($result);

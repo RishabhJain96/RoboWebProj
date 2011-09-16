@@ -18,6 +18,11 @@ function form($data) { // Prevents SQL Injection
 }
 
 */
+$dbArr = file("dbParameters.txt");
+$dbArr[0] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[0]);
+$dbArr[1] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[1]);
+$dbArr[2] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[2]);
+$dbArr[3] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[3]);
 if(isset($_POST['login'])) {
 	if(isset($_POST['pwd'])) {
 		if(isset($_POST['username'])) {
@@ -27,7 +32,7 @@ if(isset($_POST['login'])) {
 			{
 				require_once $class . '.php';
 			}
-			$login = new login(new relationalDbConnections('RoboticsSIS', 'mysql', 'yroot', 'cytopic'));
+			$login = new login(new relationalDbConnections($dbArr[0], $dbArr[1], $dbArr[2], $dbArr[3]));
 			if($login->checkLogin($username, $password))
 			{
 				$_SESSION['robo'] = "$username";
