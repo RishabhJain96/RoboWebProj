@@ -26,17 +26,26 @@ class login
 			return false;
 		}
 		
-		$password = md5($password);
+		$md5password = md5($password);
 		$resourceid2 = $this->_dbConnection->selectFromTable("RoboUsers", "Username", $username);
 		$arr2 = $this->_dbConnection->formatQueryResults($resourceid2, "UserPassword");
-		if (strcmp($password,$arr2[0]) != 0)
+		print_r($arr2);
+		print_r($md5password)
+//		return true;
+//		print_r($)
+		if (strcmp($md5password,$arr2[0]) == 0)
+		{
+			// username and password are valid
+			return true;
+		}
+		else
 		{
 			error_log("Your password is incorrect.");
 			echo "<p>Your password is incorrect.</p>";
 			return false;
 		}
-		// username and password are valid
-		return true;
 	}
+	
 }
+
 ?>

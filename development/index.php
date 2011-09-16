@@ -1,5 +1,9 @@
 <?php
-$db_user = "yroot";
+session_start();
+if ((isset($_SESSION['robo']))) {
+  //header('Location: http://cytopic.net/robotics/dashboard.php');
+}
+/*$db_user = "yroot";
 $db_pass = "cytopic";
 $db_databse = "RoboticsSIS";
 $db_host = "mysql";
@@ -13,19 +17,31 @@ function form($data) { // Prevents SQL Injection
    return stripslashes($data);
 }
 
-session_start();
-if ((isset($_SESSION['robo']))) {
-  header('Location: http://cytopic.net/robotics/dashboard.php');
-}
-
+*/
 if(isset($_POST['login'])) {
 	if(isset($_POST['pwd'])) {
 		if(isset($_POST['username'])) {
 			$md5_password = md5($_POST['pwd']);
-			$q = mysql_query("SELECT * FROM RoboUsers WHERE Username='$username_login'");
+			$username = $_POST['username'];
+			function __autoload($class)
+			{
+				require_once $class . '.php';
+			}
+			$login = new login(new relationalDbConnections('RoboticsSIS', 'mysql', 'yroot', 'cytopic'));
+			$login->checkLogin($username, $md5_password);
+			
+				echo 'test';
+				//$_SESSION['robo'] = "$username";
+				//header('Location: http://cytopic.net/robotics/dashboard.php');
+			//	break;
+			
+			echo 'tests2';
+			//print_r($username_login);
+			/*$q = mysql_query("SELECT * FROM RoboUsers WHERE Username='$username_login'");
+			if ($q == 0) print '0';
 			$r = mysql_num_rows($q);
 			if($r > 0) {
-				$result = mysql_query("SELECT password FROM RoboUsers WHERE UserPassword='$username_login'");
+				$result = mysql_query("SELECT password FROM RoboUsers WHERE UserPassword='$md5_password'");
 				$result2 = mysql_fetch_array($result);
 				$database_password = $result2['password'];
 				if($md5_password == $database_password) {
@@ -34,10 +50,12 @@ if(isset($_POST['login'])) {
 					break;
 				} else {
 					$true_false = true;
+					echo '<p>Your password is incorrect.</p>';
 				}
 			} else {
 				$other_true = true;
-			}
+				echo '<p>Your username does not exist.</p>';
+			}*/
 		}
 	}
 }
@@ -57,11 +75,11 @@ if(isset($_POST['login'])) {
 			<form id="loginForm" method="post" name="loginForm" action="">
 				<fieldset>
 					<label for="username">Username </label>
-					<input type="text" name="username" id="username" class="bigform" value="username"/>
+					<input type="text" name="username" id="username" class="bigform" value=""/>
 				</fieldset>
 				<fieldset>
 					<label id="password" >Password </label>
-					<input type="password" name="pwd" class="bigform" id="password"value="password" />
+					<input type="password" name="pwd" class="bigform" id="password"value="" />
 				</fieldset>
 				<fieldset>
 				<input name="login" type="submit" class="login" value="login" />

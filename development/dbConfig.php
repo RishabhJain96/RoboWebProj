@@ -110,12 +110,18 @@ if($i == 3)
 
 if($i=4)
 {
-	$arr[0] = array("TaskID", "int", "NOT NULL", "AUTO_INCREMENT");
-	$arr[1] = array("PRIMARY KEY(TaskID)");
+	// finance table
+	$arr = array();
+	$arr[0] = array("OrderID", "int", "NOT NULL", "AUTO_INCREMENT");
+	$arr[1] = array("PRIMARY KEY(OrderID)");
 	$arr[2] = array("TaskName", "TEXT");
 	$arr[3] = array("UserID", "INT");
 	$arr[4] = array("Deadline", "TINYTEXT");
 	$arr[5] = array("AssignedByUserID", "INT");
+	
+	if($dbConfig->createINNODBTable("FinanceTable", $arr)) echo "Success! Your Finance Table is now set up! <br />";
+	
+	if($dbConfig->setRelation("FinanceTable", "RoboUsers", "UserID")) echo "Success! Your UserTasks and RoboUsers Table are now linked via UsersID! <br />";
 }
 
 }

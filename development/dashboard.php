@@ -1,9 +1,8 @@
 <?php
 session_start();
-if (!(isset($_SESSION['robo'])))
-{
-	//header('Location: http://cytopic.net/robotics/index.php');
-	//exit;
+if (!(isset($_SESSION['robo']))) {
+  header('Location: http://cytopic.net/robotics/index.php');
+ exit;
   }
 ?>
 <!DOCTYPE html>
@@ -61,8 +60,7 @@ if (!(isset($_SESSION['robo'])))
 						{
 							require_once $class . '.php';
 						}
-						//$username = $_SESSION['robo'];
-						$username = "12rohits";
+						/*$username = $_SESSION['robo'];
 						$api = new roboSISAPI(new relationalDbConnections('RoboticsSIS', 'mysql', 'yroot', 'cytopic'));
 						$result = $api->getCheckIns($api->getUserID($username));
 						$table = json_decode($result);

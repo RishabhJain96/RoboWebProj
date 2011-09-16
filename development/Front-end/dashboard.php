@@ -1,9 +1,8 @@
 <?php
 session_start();
-if (!(isset($_SESSION['robo'])))
-{
-	//header('Location: http://cytopic.net/robotics/index.php');
-	//exit;
+if (!(isset($_SESSION['robo']))) {
+  header('Location: http://cytopic.net/robotics/index.php');
+  exit;
   }
 ?>
 <!DOCTYPE html>
@@ -39,15 +38,14 @@ if (!(isset($_SESSION['robo'])))
 				<h2>Tasks</h2>
 				<p class="clearfix">
 					<?php
-					//code to get subteam tasks will eventually go here
 					//$api = new roboSISAPI(new relationalDbConnections('RoboticsSIS', 'mysql', 'yroot', 'cytopic'));
 					//$result = $api->getCheckins($api->getUserId());
-					//$json = '["Time 5","Time 4","Time 3","Time 2","Time 1"]';
+						$json = '["Time 5","Time 4","Time 3","Time 2","Time 1"]';
 					?>
 				</p>
-				<h2>General Information</h2>
+				<h2>Other Information</h2>
 				<p class="clearfix">
-					Welcome to Robotics!
+					What's all this text for? What's all this text for? What's all this text for? What's all this text for? What's all this text for? What's all this text for? What's all this text for? What's all this text for? What's all this text for? What's all this text for? What's all this text for? What's all this text for? What's all this text for? What's all this text for? What's all this text for? What's all this text for? What's all this text for? What's all this text for? What's all this text for? What's all this text for? What's all this text for? 
 				</p>
 
 			</div><!-- mainContent -->
@@ -55,24 +53,15 @@ if (!(isset($_SESSION['robo'])))
 			<div id="rightPanel">
 				<h2>Check-Ins</h2>
 				<p class="clearfix">
-					<ul>
-						<?php
-						function __autoload($class)
-						{
-							require_once $class . '.php';
-						}
-						//$username = $_SESSION['robo'];
-						$username = "12rohits";
-						$api = new roboSISAPI(new relationalDbConnections('RoboticsSIS', 'mysql', 'yroot', 'cytopic'));
-						$result = $api->getCheckIns($api->getUserID($username));
-						$table = json_decode($result);
+					<ul><?php
+						//$api = new roboSISAPI();
+						//$result = $api->getCheckins($api->getUserId());
+						$table = json_decode($json);
 						$json = '["Time 5","Time 4","Time 3","Time 2","Time 1"]';
-						$len = count($table);
-						for($i = 0; $i < $len; $i++)
+						$sz = count($table);
+						for($i = 0; $i < $sz; $i++)
 							echo "<li>".$table[$i]."</li>";
-						*/
-						?>
-					</ul>
+					?></ul>
 				</p>
 			</div>
 		</div>
