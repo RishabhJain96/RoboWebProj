@@ -16,9 +16,9 @@ class roboSISAPI
 	$id;
 	$attribute; // can be null
 */	
-	public function __construct($dbConnection)
+	public function __construct()
 	{
-		$this->_dbConnection = $dbConnection;
+		$this->_dbConnection = dbUtils::getConnection();
 		//$this->_connection = $this->_dbConnection->open_db_connection();
 	}
 	
@@ -26,8 +26,9 @@ class roboSISAPI
 	 * $timestamp: pass the timestamp of the check in as a parameter
 	 * $id: the id of the user who is checking in (can be obtained using getUserID)
 	 */
-	public function inputCheckIn($timestamp, $id)
+	public function inputCheckIn($timestamp, $username)
 	{
+		$id = $this->getUserID($username);
 		$table = "UserHistories";
 		$columnforid = "UserID";
 		$arrayTime = array("HistoryTimeStamp" => $timestamp);
@@ -39,8 +40,9 @@ class roboSISAPI
 	 * returns: an array in JSON format of timestamps for all previous checkins for the given user
 	 * $id: the UserID of the user to get the check-ins
 	 */
-	public function getCheckIns($id)
+	public function getCheckIns($username)
 	{
+		$id = $this->getUserID($username);
 		$resourceid = $this->_dbConnection->selectFromTable("UserHistories", "UserID", $id);
 
 		$array = $this->_dbConnection->formatQueryResults($resourceid, "HistoryTimeStamp");

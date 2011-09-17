@@ -7,13 +7,7 @@ function __autoload($class)
 	require_once $class . '.php';
 }
 
-$code = $_GET["acode"];
-$dbArr = file("dbParameters.txt");
-$dbArr[0] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[0]);
-$dbArr[1] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[1]);
-$dbArr[2] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[2]);
-$dbArr[3] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[3]);
-$dbConnection = new relationalDbConnections($dbArr[0], $dbArr[1], $dbArr[2], $dbArr[3]);
+$dbConnection = dbUtils::getConnection();
 
 $resourceid = $dbConnection->selectFromTable("RoboUsers", "ActivationCode", $acode);
 $arr = $dbConnection->formatQueryResults($resourceid, "ActivationCode");

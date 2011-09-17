@@ -13,10 +13,10 @@ class register
 	protected $_dbConnection;
 	protected $_serverurl;
 	
-	public function __construct($dbConnection)
+	public function __construct()
 	{
 		$this->_serverurl = "http://cytopic.net/robotics";
-		$this->_dbConnection = $dbConnection;
+		$this->_dbConnection = dbUtils::getConnection();
 		$this->_connection = $this->_dbConnection->open_db_connection();
 	}
 	

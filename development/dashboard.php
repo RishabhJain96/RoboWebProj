@@ -9,19 +9,15 @@ if(isset($_POST['logout']))
 {
 	unset($_SESSION['robo']);
 	header('Location: index.php');
+	exit;
 }
-$dbArr = file("dbParameters.txt");
-$dbArr[0] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[0]);
-$dbArr[1] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[1]);
-$dbArr[2] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[2]);
-$dbArr[3] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[3]);
 if(isset($_POST['checkin']))
 {
 	$username = $_SESSION['robo'];
-	$api = new roboSISAPI(new relationalDbConnections($dbArr[0], $dbArr[1], $dbArr[2], $dbArr[3]));
+	$api = new roboSISAPI();
 	date_default_timezone_set('America/Los_Angeles');
 	$timestamp = date("l, F j \a\\t g:i a");
-	$result = $api->inputCheckIn($timestamp, $api->getUserID($username));
+	$api->inputCheckIn($timestamp, $username);
 }
 
 ?>
@@ -50,7 +46,7 @@ if(isset($_POST['checkin']))
 						<li><a href="">My Profile</a></li>
 					</ul>
 				</nav>
-				<p>Logged in as: <?php echo $_SESSION['robo']; ?></p>
+				<p>Logged in as: <?php echo $_SESSION['robo']; // echos the username?></p>
 				<form method="post" name="loginForm" action="">
 				<fieldset>
 					<input name="logout" type="submit" class="signin-status" value="Logout" />
@@ -68,14 +64,7 @@ if(isset($_POST['checkin']))
 					<p>Tasks will be used at a later date.</p>
 					<?php
 					//code to get subteam tasks will eventually go here
-					//$dbArr = file("dbParameters.txt");
-					//$dbArr[0] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[0]);
-					//$dbArr[1] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[1]);
-					//$dbArr[2] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[2]);
-					//$dbArr[3] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[3]);
-					//$api = new roboSISAPI(new relationalDbConnections($dbArr[0], $dbArr[1], $dbArr[2], $dbArr[3]));
-					//$result = $api->getCheckins($api->getUserId());
-					//$json = '["Time 5","Time 4","Time 3","Time 2","Time 1"]';
+					//$api = new roboSISAPI();
 					?>
 				</p>
 				<h2>General Information</h2>
@@ -94,19 +83,16 @@ if(isset($_POST['checkin']))
 						{
 							require_once $class . '.php';
 						}
-						$dbArr = file("dbParameters.txt");
-						$dbArr[0] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[0]);
-						$dbArr[1] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[1]);
-						$dbArr[2] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[2]);
-						$dbArr[3] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[3]);
 						$username = $_SESSION['robo'];
-						$api = new roboSISAPI(new relationalDbConnections($dbArr[0], $dbArr[1], $dbArr[2], $dbArr[3]));
-						$result = $api->getCheckIns($api->getUserID($username));
+						$api = new roboSISAPI();
+						$result = $api->getCheckIns($username);
 						//echo $result;
 						$table = json_decode($result);
-						$len = count($table);
-						for($i = 0; $i < $len; $i++)
+						for($i = 0; $i < count($table); $i++)
+						{
 							echo "<li>".$table[$i]."</li>";
+							//echo "<br />";
+						}
 						?>
 					</ul>
 				</p>

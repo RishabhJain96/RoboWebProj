@@ -1,101 +1,69 @@
 <?php
 session_start();
-if ((isset($_SESSION['robo']))) {
+if ((isset($_SESSION['robo'])))
+{
 	header('Location: dashboard.php');
 }
-/*$db_user = "yroot";
-$db_pass = "cytopic";
-$db_databse = "RoboticsSIS";
-$db_host = "mysql";
-$db_connect = mysql_connect ($db_host, $db_user, $db_pass);
-$db_select = mysql_select_db ($db_database);
-
-function form($data) { // Prevents SQL Injection
-   global $db_connect;
-   $data = ereg_replace("[\'\")(;|`,<>]", "", $data);
-   $data = mysql_real_escape_string(trim($data), $db_connect);
-   return stripslashes($data);
+global $result; // global definition of result
+function __autoload($class)
+{
+	require_once $class . '.php';
 }
-
-*/
-$dbArr = file("dbParameters.txt");
-$dbArr[0] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[0]);
-$dbArr[1] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[1]);
-$dbArr[2] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[2]);
-$dbArr[3] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[3]);
-if(isset($_POST['login'])) {
-	if(isset($_POST['pwd'])) {
-		if(isset($_POST['username'])) {
+if(isset($_POST['login']))
+{
+	if(isset($_POST['pwd']))
+	{
+		if(isset($_POST['username']))
+		{
 			$password = ($_POST['pwd']);
 			$username = $_POST['username'];
-			function __autoload($class)
-			{
-				require_once $class . '.php';
-			}
-			$login = new login(new relationalDbConnections($dbArr[0], $dbArr[1], $dbArr[2], $dbArr[3]));
-			if($login->checkLogin($username, $password))
+			$login = new login();
+			global $result; // allows $results to be used later in script
+			$result = $login->checkLogin($username, $password);
+			if(!is_string($result))
 			{
 				$_SESSION['robo'] = "$username";
 				header('Location: dashboard.php');
 			}
-				//$_SESSION['robo'] = "$username";
-				//header('Location: dashboard.php');
-			//	break;
-			
-			//print_r($username_login);
-			/*$q = mysql_query("SELECT * FROM RoboUsers WHERE Username='$username_login'");
-			if ($q == 0) print '0';
-			$r = mysql_num_rows($q);
-			if($r > 0) {
-				$result = mysql_query("SELECT password FROM RoboUsers WHERE UserPassword='$md5_password'");
-				$result2 = mysql_fetch_array($result);
-				$database_password = $result2['password'];
-				if($md5_password == $database_password) {
-					$_SESSION['robo'] = "$username_login";
-					header("Location: http://cytopic.net/robotics/dashboard.php");
-					break;
-				} else {
-					$true_false = true;
-					echo '<p>Your password is incorrect.</p>';
-				}
-			} else {
-				$other_true = true;
-				echo '<p>Your username does not exist.</p>';
-			}*/
 		}
 	}
 }
+
+echo '<!doctype html>';
+echo '<head>';
+echo '	<meta charset="utf-8">';
+echo '	<title></title>';
+echo '	<meta name="description" content="">';
+echo '	<meta name="author" content="">';
+echo '	<link rel="stylesheet" type="text/css" href="style.css">';
+echo '</head>';
+echo '<body>';
+echo '	<div id="floater"></div>';
+echo '	<div id="loginWindowWrap" class="clearfix">';
+echo '		<div id="loginWindow">';
+echo '			<h1>Login</h1>';
+echo '			<form id="loginForm" method="post" name="loginForm" action="">';
+echo '				<fieldset>';
+echo '					<label for="username">Username </label>';
+echo '					<input type="text" name="username" id="username" class="bigform" value=""/>';
+echo '				</fieldset>';
+echo '				<fieldset>';
+echo '					<label id="password" >Password </label>';
+echo '					<input type="password" name="pwd" class="bigform" id="password"value="" />';
+echo '				</fieldset>';
+if (is_string($result))
+{
+	echo $result; // outputs error message, if login was unsuccessful exists
+}
+echo '				<fieldset>';
+echo '				<input name="login" type="submit" class="login" value="login" />';
+echo '				</fieldset>';
+echo '			</form>';
+echo "			<p><a href=\"registration.php\">Don't have an account yet? Register!</a></p>";
+echo '		</div>';
+echo '	</div>';
+echo '	<footer>';
+echo '	</footer>';
+echo '</body>';
+echo '</html>';
 ?>
-<!doctype html>
-<head>
-	<meta charset="utf-8">
-	<title></title>
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-	<div id="floater"></div>
-	<div id="loginWindowWrap" class="clearfix">
-		<div id="loginWindow">
-			<h1>Login</h1>
-			<form id="loginForm" method="post" name="loginForm" action="">
-				<fieldset>
-					<label for="username">Username </label>
-					<input type="text" name="username" id="username" class="bigform" value=""/>
-				</fieldset>
-				<fieldset>
-					<label id="password" >Password </label>
-					<input type="password" name="pwd" class="bigform" id="password"value="" />
-				</fieldset>
-				<fieldset>
-				<input name="login" type="submit" class="login" value="login" />
-				</fieldset>
-			</form>
-			<p><a href="registration.php">Don't have an account yet? Register!</a></p>
-		</div>
-	</div>
-	<footer>
-	</footer>
-</body>
-</html>
