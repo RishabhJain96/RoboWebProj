@@ -19,15 +19,17 @@ function __autoload($class)
  * Before running this script, make sure to up the version number by 1 (or to the latest version (located at the bottom));
  */
 $version = 1;
-$databaseName = "RoboticsSIS";
-$dbhost = "mysql";
-$dbuser = "yroot";
-$dbpass = "cytopic";
 
+// do not use a dbUtil call to replace this, as this is being used for something other than a regular dbConnection
+$dbArr = file("dbParameters.txt");
+$dbArr[0] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[0]);
+$dbArr[1] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[1]);
+$dbArr[2] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[2]);
+$dbArr[3] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[3]);
 
 //Do NOT EDIT THIS PORTION OF THE CODE.
-$dbConfig = new databaseProperties($databaseName, $dbhost, $dbuser, $dbpass);
-$totalVersions = 3;
+$dbConfig = new databaseProperties($dbArr[0], $dbArr[1], $dbArr[2], $dbArr[3]);
+$totalVersions = 4;
 
 for($i = $version; $i <= $totalVersions; $i++)
 {
@@ -53,6 +55,8 @@ if($i == 1) {
 	$array1[12] = array("UserPassword", "TINYTEXT");
 	$array1[13] = array("ActivationCode", "TINYTEXT");
 	$array1[14] = array("Activated", "INT"); // nonzero val is true
+	$array1[15] = array("UserSubteam", "TINYTEXT");
+	$array1[16] = array("UserType", "TINYTEXT");
 
 	if($dbConfig->createINNODBTable("RoboUsers", $array1)) echo "Success! Your RoboUsers Table is now set up! <br />";
 //print_r($dbConfig->createINNODBTable("CollegeSummary", $array1));
@@ -73,7 +77,7 @@ if($i == 1) {
 }
 
 /**
- * PictureID Table
+ * UserHistories Table
  */
 if($i == 2)
 {
@@ -104,8 +108,50 @@ if($i == 3)
 	
 	if($dbConfig->createINNODBTable("UserTasks", $array1)) echo "Success! Your UserTasks Table is now set up! <br />";
 	
-	if($dbConfig->setRelation("UserTasks", "RoboUsers", "UserID")) echo "Success! Your UserTasks and RoboUsers Table are now linked via UsersID! <br />";
+	if($dbConfig->setRelation("UserTasks", "RoboUsers", "UserID")) echo "Success! Your UserTasks and RoboUsers Table are now linked via UserID! <br />";
 	
+}
+
+/**
+ * finance table
+ */
+if($i == 4)
+{
+	// finance table
+	$arr = array();
+	$arr[0] = array("OrderID", "int", "NOT NULL", "AUTO_INCREMENT");
+	$arr[1] = array("PRIMARY KEY(OrderID)");
+	$arr[2] = array("UserID", "INT"); // submitting user
+	$arr[3] = array("Username", "TINYTEXT"); // submitting user
+	$arr[4] = array("UserSubteam", "TINYTEXT"); // submitting user
+	$arr[5] = array("DateSubmitted", "TINYTEXT");
+	$arr[6] = array("DateApproved", "TINYTEXT");
+	$arr[7] = array("ReasonForPurchase", "TEXT");
+	$arr[8] = array("PartNumber", "INT");
+	$arr[9] = array("PartName", "TINYTEXT");
+	$arr[10] = array("PartSubsystem", "TINYTEXT");
+	$arr[11] = array("PartIndividualPrice", "DOUBLE");
+	$arr[12] = array("PartQuantity", "INT");
+	$arr[13] = array("ShippingAndHandling", "DOUBLE");
+	$arr[14] = array("TaxPrice", "DOUBLE");
+	$arr[15] = array("EstimatedTotalPrice", "DOUBLE");
+	$arr[16] = array("PartVendorName", "TINYTEXT");
+	$arr[17] = array("PartVendorEmail", "TINYTEXT");
+	$arr[18] = array("PartVendorAddress", "TINYTEXT"); // adress stored as one line
+	$arr[19] = array("PartVendorPhoneNumber", "TINYTEXT");
+	//$arr[] = array("AdminUserID", "INT");
+	//$arr[] = array("AdminUserName", "TINYTEXT");
+	$arr[20] = array("AdminComment", "TEXT");
+	$arr[21] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
+	$arr[22] = array("NelsonComment", "TEXT");
+	$arr[23] = array("NelsonApproved", "INT"); // int acts as bool, 0 and 1
+	$arr[24] = array("ConfirmationOfPurchase", "INT"); // int acts as bool, 0 and 1
+	$arr[25] = array("ActualTotalPrice", "DOUBLE");
+	
+	
+	if($dbConfig->createINNODBTable("FinanceTable", $arr)) echo "Success! Your Finance Table is now set up! <br />";
+	
+	if($dbConfig->setRelation("FinanceTable", "RoboUsers", "UserID")) echo "Success! Your FinanceTable and RoboUsers Table are now linked via UserID! <br />";
 }
 
 }

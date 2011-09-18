@@ -67,6 +67,58 @@ class dbConnections
 		}
 	}
 	
+	// returns the mysql array in descending order of the column $orderColumn
+	// author: wilbur yang
+	public function selectFromTableDesc($tableName, $key = null, $value = null, $orderColumn)
+	{
+		try
+		{
+			if(!is_null($key))
+			{
+				if(!is_null($value))
+				{
+					$result = mysql_query("SELECT * FROM `$tableName` WHERE `$key`='$value' ORDER BY `$orderColumn` DESC");
+					return $result;
+				}
+			}
+			else
+			{
+				$result = mysql_query("SELECT * FROM $tableName");
+				return $result;
+			}
+		}
+		catch(Exception $err)
+		{
+			throw new Exception('Error: Could not connect execute the SELECT * FROM query as specified in selectFromTable() function!');
+		}
+	}
+	
+	// returns the mysql array in ascending order of the colum $orderColumn
+	// author: wilbur yang
+	public function selectFromTableAsc($tableName, $key = null, $value = null, $orderColumn)
+	{
+		try
+		{
+			if(!is_null($key))
+			{
+				if(!is_null($value))
+				{
+					$result = mysql_query("SELECT * FROM `$tableName` WHERE `$key`='$value' ORDER BY `$orderColumn` ASC");
+					return $result;
+				}
+			}
+			else
+			{
+				$result = mysql_query("SELECT * FROM $tableName");
+				return $result;
+			}
+		}
+		catch(Exception $err)
+		{
+			throw new Exception('Error: Could not connect execute the SELECT * FROM query as specified in selectFromTable() function!');
+		}
+	}
+	
 	//returns the result of the Insert query
 	// array_fieldValues is the array of array('fieldId' => 'fieldValue');
 	public function insertIntoTable($tableName, $array_fieldValues)
