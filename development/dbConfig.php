@@ -47,16 +47,15 @@ if($i == 1) {
 	$array1[4] = array("UserDescription", "TEXT");
 	$array1[5] = array("UserPhoneNumber", "TEXT");
 	$array1[6] = array("UserYear", "INT");
-	$array1[7] = array("UserMomEmail", "TINYTEXT");
-	$array1[8] = array("UserDadEmail", "TINYTEXT");
-	$array1[9] = array("UserEmail", "TINYTEXT");
-	$array1[10] = array("UserTitle", "TINYTEXT");
-	$array1[11] = array("UserPicture", "TINYTEXT");
-	$array1[12] = array("UserPassword", "TINYTEXT");
-	$array1[13] = array("ActivationCode", "TINYTEXT");
-	$array1[14] = array("Activated", "INT"); // nonzero val is true
-	$array1[15] = array("UserSubteam", "TINYTEXT");
-	$array1[16] = array("UserType", "TINYTEXT");
+	$array1[7] = array("UserParentEmail", "TINYTEXT");
+	$array1[8] = array("UserEmail", "TINYTEXT");
+	$array1[9] = array("UserTitle", "TINYTEXT");
+	$array1[10] = array("UserPicture", "TINYTEXT");
+	$array1[11] = array("UserPassword", "TINYTEXT");
+	$array1[12] = array("ActivationCode", "TINYTEXT");
+	$array1[13] = array("Activated", "INT"); // nonzero val is true
+	$array1[14] = array("UserSubteam", "TINYTEXT");
+	$array1[15] = array("UserType", "TINYTEXT");
 
 	if($dbConfig->createINNODBTable("RoboUsers", $array1)) echo "Success! Your RoboUsers Table is now set up! <br />";
 //print_r($dbConfig->createINNODBTable("CollegeSummary", $array1));
@@ -113,11 +112,10 @@ if($i == 3)
 }
 
 /**
- * finance table
+ * Orders table
  */
 if($i == 4)
 {
-	// finance table
 	$arr = array();
 	$arr[0] = array("OrderID", "int", "NOT NULL", "AUTO_INCREMENT");
 	$arr[1] = array("PRIMARY KEY(OrderID)");
@@ -125,33 +123,30 @@ if($i == 4)
 	$arr[3] = array("Username", "TINYTEXT"); // submitting user
 	$arr[4] = array("UserSubteam", "TINYTEXT"); // submitting user
 	$arr[5] = array("DateSubmitted", "TINYTEXT");
-	$arr[6] = array("DateApproved", "TINYTEXT");
-	$arr[7] = array("ReasonForPurchase", "TEXT");
-	$arr[8] = array("PartNumber", "INT");
-	$arr[9] = array("PartName", "TINYTEXT");
-	$arr[10] = array("PartSubsystem", "TINYTEXT");
-	$arr[11] = array("PartIndividualPrice", "DOUBLE");
-	$arr[12] = array("PartQuantity", "INT");
-	$arr[13] = array("ShippingAndHandling", "DOUBLE");
-	$arr[14] = array("TaxPrice", "DOUBLE");
-	$arr[15] = array("EstimatedTotalPrice", "DOUBLE");
-	$arr[16] = array("PartVendorName", "TINYTEXT");
-	$arr[17] = array("PartVendorEmail", "TINYTEXT");
-	$arr[18] = array("PartVendorAddress", "TINYTEXT"); // adress stored as one line
-	$arr[19] = array("PartVendorPhoneNumber", "TINYTEXT");
-	//$arr[] = array("AdminUserID", "INT");
-	//$arr[] = array("AdminUserName", "TINYTEXT");
-	$arr[20] = array("AdminComment", "TEXT");
-	$arr[21] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
-	$arr[22] = array("NelsonComment", "TEXT");
-	$arr[23] = array("NelsonApproved", "INT"); // int acts as bool, 0 and 1
-	$arr[24] = array("ConfirmationOfPurchase", "INT"); // int acts as bool, 0 and 1
-	$arr[25] = array("ActualTotalPrice", "DOUBLE");
+	//$arr[] = array("DateApproved", "TINYTEXT");
+	$arr[6] = array("ReasonForPurchase", "TEXT");
+	$arr[7] = array("PartNumber", "INT");
+	$arr[8] = array("PartName", "TINYTEXT");
+	$arr[9] = array("PartSubsystem", "TINYTEXT");
+	$arr[10] = array("PartIndividualPrice", "DOUBLE");
+	$arr[11] = array("PartQuantity", "INT");
+	$arr[12] = array("ShippingAndHandling", "DOUBLE");
+	$arr[13] = array("TaxPrice", "DOUBLE");
+	$arr[14] = array("EstimatedTotalPrice", "DOUBLE");
+	$arr[15] = array("PartVendorName", "TINYTEXT");
+	$arr[16] = array("PartVendorEmail", "TINYTEXT");
+	$arr[17] = array("PartVendorAddress", "TINYTEXT"); // adress stored as one line
+	$arr[18] = array("PartVendorPhoneNumber", "TINYTEXT");
+	$arr[19] = array("AdminComment", "TEXT");
+	$arr[20] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
+	$arr[21] = array("ConfirmationOfPurchase", "INT"); // int acts as bool, 0 and 1
+	$arr[22] = array("Locked", "INT"); // int acts as bool, 0 and 1
+	//$ar22r[25] = array("ActualTotalPrice", "DOUBLE");
 	
 	
-	if($dbConfig->createINNODBTable("FinanceTable", $arr)) echo "Success! Your Finance Table is now set up! <br />";
+	if($dbConfig->createINNODBTable("OrdersTable", $arr)) echo "Success! Your OrdersTable is now set up! <br />";
 	
-	if($dbConfig->setRelation("FinanceTable", "RoboUsers", "UserID")) echo "Success! Your FinanceTable and RoboUsers Table are now linked via UserID! <br />";
+	if($dbConfig->setRelation("OrdersTable", "RoboUsers", "UserID")) echo "Success! Your OrdersTable and RoboUsers Table are now linked via UserID! <br />";
 }
 
 }
