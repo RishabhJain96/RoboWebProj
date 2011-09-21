@@ -27,7 +27,8 @@ if(isset($_POST['checkin']))
 	<title></title>
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link rel="stylesheet" type="text/css" href="dashboardstyle.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="reset.css">
 </head>
 <body>
 
@@ -35,6 +36,14 @@ if(isset($_POST['checkin']))
 	<header>
 
 	</header>
+	<div id="login_status">
+		<p>Logged in as: <?php echo $_SESSION['robo']; // echos the username?></p>
+		<form method="post" name="form" action="">
+		<fieldset>
+			<input name="logout" type="submit" class="logout" value="Logout" />
+		</fieldset>
+		</form>
+	</div>
 	<div id="main" role="main">
 		<div id="header">
 			<h1>Robotics Team 1072 SIS</h1>
@@ -46,15 +55,8 @@ if(isset($_POST['checkin']))
 						<li><a href="">My Profile</a></li>
 					</ul>
 				</nav>
-				<p>Logged in as: <?php echo $_SESSION['robo']; // echos the username?></p>
-				<form method="post" name="loginForm" action="">
-				<fieldset>
-					<input name="logout" type="submit" class="signin-status" value="Logout" />
-				</fieldset>
-				<fieldset>
-					<input name="checkin" type="submit" class="signin-status2" value="Check-In" />
-				</fieldset>
-				</form>
+				
+				
 			</div>
 		</div>
 		<div id="contentSections">
@@ -75,6 +77,11 @@ if(isset($_POST['checkin']))
 			</div><!-- mainContent -->
 			
 			<div id="rightPanel">
+				<div id="checkin-form">
+					<fieldset>
+						<input name="checkin" type="submit" class="checkin" value="Check-In" />
+					</fieldset>
+				</div>
 				<h2>Recent Check-Ins</h2>
 				<p class="clearfix">
 					<ul>

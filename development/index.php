@@ -36,6 +36,7 @@ echo '	<title></title>';
 echo '	<meta name="description" content="">';
 echo '	<meta name="author" content="">';
 echo '	<link rel="stylesheet" type="text/css" href="style.css">';
+echo '  <link rel="stylesheet" type="text/css" href="reset.css">';
 echo '</head>';
 echo '<body>';
 echo '	<div id="floater"></div>';
