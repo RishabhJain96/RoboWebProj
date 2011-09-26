@@ -3,6 +3,7 @@ session_start();
 if (!(isset($_SESSION['robo'])))
 {
 	header('Location: index.php');
+	exit;
 }
 
 if(isset($_POST['logout']))
@@ -10,14 +11,6 @@ if(isset($_POST['logout']))
 	unset($_SESSION['robo']);
 	header('Location: index.php');
 	exit;
-}
-if(isset($_POST['checkin']))
-{
-	$username = $_SESSION['robo'];
-	$api = new roboSISAPI();
-	date_default_timezone_set('America/Los_Angeles');
-	$timestamp = date("l, F j \a\\t g:i a");
-	$api->inputCheckIn($timestamp, $username);
 }
 
 ?>
@@ -78,9 +71,11 @@ if(isset($_POST['checkin']))
 			
 			<div id="rightPanel">
 				<div id="checkin-form">
+					<form method="post" name="form2" action="">
 					<fieldset>
 						<input name="checkin" type="submit" class="checkin" value="Check-In" />
 					</fieldset>
+					</form>
 				</div>
 				<h2>Recent Check-Ins</h2>
 				<p class="clearfix">
@@ -92,6 +87,11 @@ if(isset($_POST['checkin']))
 						}
 						$username = $_SESSION['robo'];
 						$api = new roboSISAPI();
+						if(isset($_POST['checkin']))
+						{
+							$api->inputCheckIn($username);
+						}
+						//echo 'here';
 						$result = $api->getCheckIns($username);
 						//echo $result;
 						$table = json_decode($result);
