@@ -60,7 +60,7 @@ echo '				<fieldset>';
 echo '				<input name="login" type="submit" class="login" value="login" />';
 echo '				</fieldset>';
 echo '			</form>';
-echo "			<p><a href=\"registration.php\">Don't have an account yet? Register!</a></p>";
+echo '			<p><a href="registration.php">Don\'t have an account yet? Register!</a></p>';
 echo '		</div>';
 echo '	</div>';
 echo '	<footer>';
