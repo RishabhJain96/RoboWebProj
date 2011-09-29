@@ -17,10 +17,10 @@ if(isset($_POST['logout']))
 <!DOCTYPE html>
 <head>
 	<meta charset="utf-8">
-	<title></title>
+	<title>Robotics 1072 Dashboard</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="style2.css">
 	<link rel="stylesheet" type="text/css" href="reset.css">
 </head>
 <body>
