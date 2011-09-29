@@ -7,29 +7,27 @@ function __autoload($class)
 }
 
 /**
- * Versioning
- * Currently versioning will be done by a variable that will be manually set. Eventually it will just update a database.properties table
- * on each person's local.
+ * PLEASE MAKE SURE THAT THE DATABASE WITH THE APPROPRIATE dbName FROM dbParameters.txt
+ * HAS ALREADY BEEN MADE MANUALLY IN THE MYSQL BACK-END, ELSE THIS CODE WILL NOT WORK.
  * 
- * The Variables $dbhost, $databaseName, $dbuser, $dbpass need to be filled with your local settings.
- * 
- * If you are more than one version number behind, set it to the version right after the one you got before. If you already have 2, set it 
- * to 3 (for example!). This will trigger the for() loop which should add all the updates for you till the most recent version number.
- * 
- * Before running this script, make sure to up the version number by 1 (or to the latest version (located at the bottom));
  */
-$version = 1;
+$version = 1; // no reason to change this
 
 // do not use a dbUtil call to replace this, as this is being used for something other than a regular dbConnection
 $dbArr = file("dbParameters.txt");
-$dbArr[0] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[0]);
-$dbArr[1] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[1]);
-$dbArr[2] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[2]);
-$dbArr[3] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[3]);
+$dbName = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[0]);
+$dbHost = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[1]);
+$dbUser = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[2]);
+$dbPass = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[3]);
+
+if (is_null($dbPass))
+{
+	$dbPass = ""; // ensures password field gets sent, even if empty
+}
 
 //Do NOT EDIT THIS PORTION OF THE CODE.
-$dbConfig = new databaseProperties($dbArr[0], $dbArr[1], $dbArr[2], $dbArr[3]);
-$totalVersions = 4;
+$dbConfig = new databaseProperties($dbName, $dbHost, $dbUser, $dbPass);
+$totalVersions = 5;
 
 for($i = $version; $i <= $totalVersions; $i++)
 {
@@ -44,14 +42,14 @@ if($i == 1) {
 	$array1[1] = array("PRIMARY KEY(UserID)", "");
 	$array1[2] = array("Username", "TEXT");
 	$array1[3] = array("UserFullName", "TEXT");
-	$array1[4] = array("UserDescription", "TEXT");
+	$array1[4] = array("UserDescription", "TEXT"); // needed?
 	$array1[5] = array("UserPhoneNumber", "TEXT");
 	$array1[6] = array("UserYear", "INT");
-	$array1[7] = array("UserMomEmail", "TINYTEXT");
-	$array1[8] = array("UserDadEmail", "TINYTEXT");
+	$array1[7] = array("UserMomEmail", "TINYTEXT"); // split into mom/dad email?
+	$array1[8] = array("UserDadEmail", "TINYTEXT"); // split into mom/dad email?
 	$array1[9] = array("UserEmail", "TINYTEXT");
-	$array1[10] = array("UserTitle", "TINYTEXT");
-	$array1[11] = array("UserPicture", "TINYTEXT");
+	$array1[10] = array("UserTitle", "TINYTEXT"); // needed?
+	$array1[11] = array("UserPicture", "TINYTEXT"); // needed?
 	$array1[12] = array("UserPassword", "TINYTEXT");
 	$array1[13] = array("ActivationCode", "TINYTEXT");
 	$array1[14] = array("Activated", "INT"); // nonzero val is true
@@ -85,7 +83,8 @@ if($i == 2)
 	$array[0] = array("HistoryID", "int", "NOT NULL", "AUTO_INCREMENT");
 	$array[1] = array("PRIMARY KEY(HistoryID)");
 	$array[2] = array("HistoryTimeStamp", "TINYTEXT");
-	$array[3] = array("UserID", "INT");
+	$array[3] = array("NumericTimeStamp", "TINYTEXT");
+	$array[4] = array("UserID", "INT");
 	
 	if($dbConfig->createINNODBTable("UserHistories", $array)) echo "Success! Your UserHistory Table is now set up! <br />";
 	
@@ -113,11 +112,10 @@ if($i == 3)
 }
 
 /**
- * finance table
+ * Orders table
  */
 if($i == 4)
 {
-	// finance table
 	$arr = array();
 	$arr[0] = array("OrderID", "int", "NOT NULL", "AUTO_INCREMENT");
 	$arr[1] = array("PRIMARY KEY(OrderID)");
@@ -125,33 +123,43 @@ if($i == 4)
 	$arr[3] = array("Username", "TINYTEXT"); // submitting user
 	$arr[4] = array("UserSubteam", "TINYTEXT"); // submitting user
 	$arr[5] = array("DateSubmitted", "TINYTEXT");
-	$arr[6] = array("DateApproved", "TINYTEXT");
-	$arr[7] = array("ReasonForPurchase", "TEXT");
-	$arr[8] = array("PartNumber", "INT");
-	$arr[9] = array("PartName", "TINYTEXT");
-	$arr[10] = array("PartSubsystem", "TINYTEXT");
-	$arr[11] = array("PartIndividualPrice", "DOUBLE");
-	$arr[12] = array("PartQuantity", "INT");
-	$arr[13] = array("ShippingAndHandling", "DOUBLE");
-	$arr[14] = array("TaxPrice", "DOUBLE");
-	$arr[15] = array("EstimatedTotalPrice", "DOUBLE");
-	$arr[16] = array("PartVendorName", "TINYTEXT");
-	$arr[17] = array("PartVendorEmail", "TINYTEXT");
-	$arr[18] = array("PartVendorAddress", "TINYTEXT"); // adress stored as one line
-	$arr[19] = array("PartVendorPhoneNumber", "TINYTEXT");
-	//$arr[] = array("AdminUserID", "INT");
-	//$arr[] = array("AdminUserName", "TINYTEXT");
-	$arr[20] = array("AdminComment", "TEXT");
-	$arr[21] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
-	$arr[22] = array("NelsonComment", "TEXT");
-	$arr[23] = array("NelsonApproved", "INT"); // int acts as bool, 0 and 1
-	$arr[24] = array("ConfirmationOfPurchase", "INT"); // int acts as bool, 0 and 1
-	$arr[25] = array("ActualTotalPrice", "DOUBLE");
+	//$arr[] = array("DateApproved", "TINYTEXT");
+	$arr[6] = array("ReasonForPurchase", "TEXT");
+	$arr[7 ] = array("ShippingAndHandling", "DOUBLE");
+	$arr[8 ] = array("TaxPrice", "DOUBLE");
+	$arr[9 ] = array("EstimatedTotalPrice", "DOUBLE");
+	$arr[10] = array("PartVendorName", "TINYTEXT");
+	$arr[11] = array("PartVendorEmail", "TINYTEXT");
+	$arr[12] = array("PartVendorAddress", "TINYTEXT"); // adress stored as one line
+	$arr[13] = array("PartVendorPhoneNumber", "TINYTEXT");
+	$arr[14] = array("AdminComment", "TEXT");
+	$arr[15] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
+	$arr[16] = array("AdminUsername", "INT"); // NOT DB LINKED
+	$arr[16] = array("ConfirmationOfPurchase", "INT"); // int acts as bool, 0 and 1
+	$arr[17] = array("Locked", "INT"); // int acts as bool, 0 and 1
+	//$arr[18] = array("ActualTotalPrice", "DOUBLE");
+	
+	if($dbConfig->createINNODBTable("OrdersTable", $arr)) echo "Success! Your OrdersTable is now set up! <br />";
+	
+	if($dbConfig->setRelation("OrdersTable", "RoboUsers", "UserID")) echo "Success! Your OrdersTable and RoboUsers Table are now linked via UserID! <br />";
+}
+
+if ($i == 5)
+{
+	$arr1 = array();
+	$arr[0] = array("OrderListID", "int", "NOT NULL", "AUTO_INCREMENT");
+	$arr[1] = array("PRIMARY KEY(OrderListID)");
+	$arr[2] = array("OrderID", "INT");
+	$arr[3] = array("PartNumber", "INT");
+	$arr[4] = array("PartName", "TINYTEXT");
+	$arr[5] = array("PartSubsystem", "TINYTEXT");
+	$arr[6] = array("PartIndividualPrice", "DOUBLE");
+	$arr[7] = array("PartQuantity", "INT");
 	
 	
-	if($dbConfig->createINNODBTable("FinanceTable", $arr)) echo "Success! Your Finance Table is now set up! <br />";
+	if($dbConfig->createINNODBTable("OrdersListTable", $arr)) echo "Success! Your OrdersListTable is now set up! <br />";
 	
-	if($dbConfig->setRelation("FinanceTable", "RoboUsers", "UserID")) echo "Success! Your FinanceTable and RoboUsers Table are now linked via UserID! <br />";
+	if($dbConfig->setRelation("OrdersListTable", "OrdersTable", "OrderID")) echo "Success! Your OrdersTable and OrdersListTable are now linked via OrderID! <br />";
 }
 
 }
