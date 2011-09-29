@@ -1,0 +1,99 @@
+<?php
+session_start();
+if (!(isset($_SESSION['robo'])))
+{
+	header('Location: index.php');
+	exit;
+}
+
+if(isset($_POST['logout']))
+{
+	unset($_SESSION['robo']);
+	header('Location: index.php');
+	exit;
+}
+
+?>
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>Robotics 1072 Dashboard</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="stylesheet" type="text/css" href="style3.css">
+	<link rel="stylesheet" type="text/css" href="reset.css">
+</head>
+<body>
+
+<div id="container">
+	<header>
+
+	</header>
+	<div id="login_status">
+		<p>Logged in as: <?php echo $_SESSION['robo']; // echos the username?></p>
+		<form method="post" name="form" action="">
+		<fieldset>
+			<input name="logout" type="submit" class="logout" value="Logout" />
+		</fieldset>
+		</form>
+	</div>
+	<div id="main" role="main">
+		<div id="header">
+			<h1>Robotics Team 1072 SIS</h1>
+			<div id="headerMast">
+				<nav>
+					<ul>
+						<li><a href="">Home</a></li>
+						<li><a href="">My Check-Ins</a></li>
+						<li><a href="">My Profile</a></li>
+					</ul>
+				</nav>
+				
+				
+			</div>
+		</div>
+		<div id="contentSections">
+			<div id="mainContent">
+				<div id="selectdate-form">
+					<form method="post" name="form4" action="" style="float:right">
+					<fieldset>
+						<p>
+							Username: 
+							<input name="usersearched" type="text" class="" value="12bobj" />
+							<input name="searchuser" type="submit" class="searchuser" value="Get this user's checkins" />
+						</p>
+					</fieldset>
+					</form>
+					<form method="post" name="form3" action="">
+					<fieldset>
+						<p>
+							Specific date:
+							<select name="dateselected">
+								<!--Generate the following with php.-->
+								<option value="today">Today</option>
+								<option value="yesterday">Yesterday</option>
+								<option value="bla">Bla</option>
+							</select>
+							<input name="getdate" type="submit" class="getdate" value="Get checkins" />
+						</p>
+					</fieldset>
+					</form>
+				</div>
+				<h2>People who checked in that day:</h2>
+				<table class="clearfix">
+					<!-- note to the php writer: the rows in the table alternate in color with alternating classes. -->
+					<tr class="r1"><td>Bob Jones</td><td>9-28-11 11:30pm</td></tr>
+					<tr class="r2"><td>Taylor Johnson</td><td>9-28-11 11:20pm</td></tr>
+					<tr class="r1"><td>John Smith</td><td>9-28-11 10:30pm</td></tr>
+				</table>
+			</div><!-- mainContent -->
+		</div>
+		
+	</div>
+	<footer>
+
+	</footer>
+</div> <!--! end of #container -->
+
+</body>
+</html>
