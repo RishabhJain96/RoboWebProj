@@ -43,11 +43,15 @@ class roboSISAPI
 	}
 	
 	/**
-	 * Emails the whole mailing list
+	 * Returns an array of all the emails in the database
 	 */
-	public function mailAllRegisteredUsers($value)
+	public function getAllEmails()
 	{
-		// to be implemented
+		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers");
+		$arr = $this->_dbConnection->formatQueryResults($resourceid, "UserEmail");
+		$output = json_encode($arr);
+		//echo $output;
+		return $output;
 	}
 	
 	
@@ -162,7 +166,7 @@ class roboSISAPI
 		}
 		$array_usernames = array_values($array_usernames);
 		$output = json_encode($array_usernames);
-		echo $output;
+		//echo $output;
 		return $output;
 	}
 	
