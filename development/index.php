@@ -32,11 +32,11 @@ if(isset($_POST['login']))
 echo '<!doctype html>';
 echo '<head>';
 echo '	<meta charset="utf-8">';
-echo '	<title></title>';
+echo '	<title>Robotics 1072 Login</title>';
 echo '	<meta name="description" content="">';
 echo '	<meta name="author" content="">';
 echo '	<link rel="stylesheet" type="text/css" href="style.css">';
-echo '  <link rel="stylesheet" type="text/css" href="reset.css">';
+//echo '  <link rel="stylesheet" type="text/css" href="reset.css">';
 echo '</head>';
 echo '<body>';
 echo '	<div id="floater"></div>';

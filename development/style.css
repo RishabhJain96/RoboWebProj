@@ -1,149 +1,44 @@
-
-/*DASHBOARD*/
-#main
-{
-	min-width: 1024px;
-	max-width: 1500px;
-	margin: 0 5px;
-	font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
+.clearfix:before, .clearfix:after {
+	content: "";
+	display: table;
 }
-#main h1
-{
-	color:#789;
-	margin: 20px 0 0 0;
-	padding: 0;
-	font-family: Helvetica, Arial, sans-serif;
+.clearfix:after {
+	clear: both;
 }
-#header h1
-{
-	font-size: 2em;
-}
-#headerMast
-{
-	padding: 0;
-	margin: 20px 0;
-}
-#mainContent 
-{
-	background-color: #333;
-	padding: 0;
-	width: 60%;
-	min-width: 400px;
-	max-width: 1024px;
-	float: left;
-	border-radius:19px;
-	-webkit-border-bottom-right-radius:0px;
-	-moz-border-radius-bottomright-radius:0px;
-}
-#mainContent p
-{
-	padding: 0 15px;
-	margin: 0 0 20px 0;
-	color: #CCC;
-}
-#mainContent h2
-{
-	padding: 0 0;
-	font-size: 30px;
-	margin-left: 0.5em;
-	color: #CCC;
-	font-style: italic;
+.clearfix {
+	zoom: 1;
 }
 
-#rightPanel
-{
-	background-color:#999;
-	min-width: 300px;
-	width: 37%;
-	float: right;
-	padding: 0 0 0 20px;
-	margin: 0 0 0 0;
-	border-radius:9px;
-}
-#rightPanel h2
-{
-	font-size: 1.5em;
-}
-
-/*
-nav
-{
-	padding: 0 0 0 0;
-	margin: 0 0 0 0;
-	width:100%;
-}
-nav ul
-{
-	background-color:#eee;
-	background: -webkit-linear-gradient(#DDD, #CCC); /*Chrome and Safari*/
-	background: -moz-linear-gradient(top, #DDD, #CCC); /*Firefox*/
-	background: -o-linear-gradient(top, #DDD, #CCC); /*Opera*/
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#DDDDDD',  
-endColorstr='#CCCCCC');/*IE*/
-	border-radius:19px;
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
 	margin: 0;
-	list-style-type:none;
-	padding: 15px;
+	padding: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	border: 0;
+	outline: 0;
+	background: transparent;
 }
-nav ul li
-{
-	font-size:16px;
-	display: inline;
+a {
+	text-decoration: none;
+	color: #000;
 }
-nav ul li a
-{
-	padding: 15px;
-	font-size:16px;
-	font-family:Arial, Helvetica, sans-serif;
-	text-decoration:none;
-	font-weight:bold;
-	color:#789;
+ol, ul {
+	list-style: none;
 }
-nav ul li a:hover
-{
-	color:#555;
-	background-color:#CCC;
+
+blockquote, q {
+	quotes: none;
 }
-*/
-#header
-{
-	background-color:#789;
-	font-size:10px;
+
+:focus {
+	outline: 0;
 }
-nav
-{
-	padding: 0 0 0 0;
-	margin: 0 0 0 0;
-	width:100%;
+input {
+	border: none;
 }
-nav ul
-{
-	margin: 0;
-	list-style-type:none;
-	padding: 15px;
-}
-nav ul li
-{
-	font-size:16px;
-	display: inline;
-}
-nav ul li a
-{
-	padding: 15px;
-	font-size:16px;
-	font-family:Arial, Helvetica, sans-serif;
-	text-decoration:none;
-	font-weight:bold;
-	color:#789;
-}
-nav ul li a:hover
-{
-	color:#555;
-	background-color:#CCC;
-	background: -webkit-linear-gradient(#789, #CCC); /*Chrome and Safari*/
-	background: -moz-linear-gradient(top, #DDD, #CCC); /*Firefox*/
-	background: -o-linear-gradient(top, #DDD, #CCC); /*Opera*/
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#DDDDDD', endColorstr='#CCCCCC');/*IE*/
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
 /* main */
@@ -213,13 +108,4 @@ background-color: #555;
 input.register:active, input.login:active {
 background-color: #FFF;
 color: #000;
-}
-
-#login_status
-{
-	float: right;
-}
-#login_status .logout
-{
-	float: right;
 }
