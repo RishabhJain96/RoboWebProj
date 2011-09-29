@@ -1,10 +1,10 @@
 <!doctype html>
 <head>
 	<meta charset="utf-8">
-	<title></title>
+	<title>Robotics 1072 Registration</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link rel="stylesheet" type="text/css" href="	style.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 	<div id="floater"></div>
