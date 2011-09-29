@@ -30,7 +30,6 @@ class roboSISAPI
 	public function getUserID($username)
 	{
 		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers", "Username", $username);
-
 		$array = $this->_dbConnection->formatQueryResults($resourceid, "UserID");
 		if (is_null($array[0])) // NOTE: can't destinguish between null value in table and invalid attribute parameter (both return array with single, null element)
 		{
@@ -40,6 +39,19 @@ class roboSISAPI
 		}
 		
 		return $array[0];
+	}
+	
+	/**
+	 * Returns the type of the user as a string, or null if user does not have a defined type
+	 */
+	public function getUserType($username)
+	{
+		$id = $this->getUserID($username);
+		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers", "UserID", $id);
+		$array = $this->_dbConnection->formatQueryResults($resourceid, "UserType");
+		$type = $array[0];
+		//echo $type;
+		return $type;
 	}
 	
 	/**
