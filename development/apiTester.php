@@ -12,6 +12,7 @@ $api = new roboSISAPI();
 //$api->inputCheckIn($jk,"12rohits");
 //print_r($api->getUserID("12rohits"));
 //$api->getUsersCheckedInForDate("20110924");
-$api->getAllEmails();
+//$api->getAllEmails();
+$api->getUserType("12rohits");
 
 ?>

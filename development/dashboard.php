@@ -43,9 +43,17 @@ if(isset($_POST['logout']))
 			<div id="headerMast">
 				<nav>
 					<ul>
-						<li><a href="">Home</a></li>
+						<li><a href="dashboard.php">Home</a></li>
 						<li><a href="">My Check-Ins</a></li>
 						<li><a href="">My Profile</a></li>
+						<?php
+						$username = $_SESSION['robo'];
+						$api = new roboSISAPI();
+						if ($api->getUserType($username) == "Admin")
+						{
+							echo '<li><a href="admin_dashboard.php">Admin</a></li>';
+						}
+						?>
 					</ul>
 				</nav>
 				

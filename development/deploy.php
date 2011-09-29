@@ -27,6 +27,8 @@ $array_filenames[11] = 'reset.css';
 $array_filenames[12] = 'roboSISAPI.php';
 $array_filenames[13] = 'style.css';
 $array_filenames[14] = 'style2.css';
+$array_filenames[15] = 'style3.css';
+$array_filenames[16] = 'admin_dashboard.php';
 
 $production_path = '../robotics/';
 
