@@ -1,0 +1,164 @@
+-- phpMyAdmin SQL Dump
+-- version 2.11.9
+-- http://www.phpmyadmin.net
+--
+-- Host: mysql
+-- Generation Time: Sep 29, 2011 at 10:12 PM
+-- Server version: 4.1.14
+-- PHP Version: 5.2.12
+
+--
+-- Database: `RoboticsSIS`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `RoboUsers`
+--
+
+CREATE TABLE IF NOT EXISTS `RoboUsers` (
+  `UserID` int(11) NOT NULL auto_increment,
+  `Username` text,
+  `UserFullName` text,
+  `UserDescription` text,
+  `UserPhoneNumber` text,
+  `UserYear` int(11) default NULL,
+  `UserMomEmail` tinytext,
+  `UserDadEmail` tinytext,
+  `UserEmail` tinytext,
+  `UserTitle` tinytext,
+  `UserPicture` tinytext,
+  `UserPassword` tinytext,
+  `ActivationCode` tinytext,
+  `Activated` int(11) default NULL,
+  `UserSubteam` tinytext,
+  `UserType` tinytext,
+  PRIMARY KEY  (`UserID`)
+) TYPE=MyISAM AUTO_INCREMENT=68 ;
+
+--
+-- Dumping data for table `RoboUsers`
+--
+
+INSERT INTO `RoboUsers` (`UserID`, `Username`, `UserFullName`, `UserDescription`, `UserPhoneNumber`, `UserYear`, `UserMomEmail`, `UserDadEmail`, `UserEmail`, `UserTitle`, `UserPicture`, `UserPassword`, `ActivationCode`, `Activated`, `UserSubteam`, `UserType`) VALUES
+(7, '12devinn', NULL, NULL, NULL, NULL, NULL, NULL, '12devinn@students.harker.org', NULL, NULL, '098f6bcd4621d373cade4e832627b4f6', 'Activated', 1, NULL, NULL),
+(8, '12rohits', NULL, NULL, NULL, NULL, NULL, NULL, '12rohits@students.harker.org', NULL, NULL, 'fca8337b8cdee98460f7518a5bd5f235', 'Activated', 1, NULL, NULL),
+(44, '15ayushm', NULL, NULL, NULL, NULL, NULL, NULL, '15ayushm@students.harker.org', NULL, NULL, 'b2a2b051303e59ebf6d906232d5318dd', 'Activated', 1, NULL, NULL),
+(10, '12paulw', NULL, NULL, NULL, NULL, NULL, NULL, '12paulw@students.harker.org', NULL, NULL, '9a102d7135dea053abdbb38e9da69707', 'Activated', 1, NULL, 'Admin'),
+(43, '15siddhantj', NULL, NULL, NULL, NULL, NULL, NULL, '15siddhantj@students.harker.org', NULL, NULL, '0600fe47a323b8fd849135eb7e731d9c', 'Activated', 1, NULL, NULL),
+(12, '15kevinz', NULL, NULL, NULL, NULL, NULL, NULL, '15kevinz@students.harker.org', NULL, NULL, '61f60212734be40de8ca74c0165628fd', 'Activated', 1, NULL, NULL),
+(13, '15MichaelL', NULL, NULL, NULL, NULL, NULL, NULL, '15MichaelL@students.harker.org', NULL, NULL, 'b683012f824b15f365ce8a72c7176053', 'Activated', 1, NULL, 'Admin'),
+(14, '13wilbury', NULL, NULL, NULL, NULL, NULL, NULL, '13wilbury@students.harker.org', NULL, NULL, 'abc20d7bde1df257f890e152af2e3470', 'Activated', 1, NULL, NULL),
+(15, '14avia', NULL, NULL, NULL, NULL, NULL, NULL, '14avia@students.harker.org', NULL, NULL, '8436f2fc31fdb28cba5e862aef7dbe00', 'Activated', 1, NULL, NULL),
+(16, '14sinam', NULL, NULL, NULL, NULL, NULL, NULL, '14sinam@students.harker.org', NULL, NULL, '4bd1b487c85fbc446199ce50422820d1', 'Activated', 1, NULL, NULL),
+(17, '15AshwathT', NULL, NULL, NULL, NULL, NULL, NULL, '15AshwathT@students.harker.org', NULL, NULL, 'c416ccfd163019948849d1aaaeb9e3f6', 'Activated', 1, NULL, NULL),
+(18, '15madhavann', NULL, NULL, NULL, NULL, NULL, NULL, '15madhavann@students.harker.org', NULL, NULL, '832c82df2d7a41f0b263bd937a7262a0', 'Activated', 1, NULL, NULL),
+(19, '15nikashs', NULL, NULL, NULL, NULL, NULL, NULL, '15nikashs@students.harker.org', NULL, NULL, '4653411397c5596a10b5ce1ffef50390', 'Activated', 1, NULL, NULL),
+(21, '12abhinavk', NULL, NULL, NULL, NULL, NULL, NULL, '12abhinavk@students.harker.org', NULL, NULL, '80a7a58426c0f0727ea32735b144f643', 'Activated', 1, NULL, 'Admin'),
+(22, '15serenaw', NULL, NULL, NULL, NULL, NULL, NULL, '15serenaw@students.harker.org', NULL, NULL, '512029f06917b9240395c06f6c35ca43', 'Activated', 1, NULL, NULL),
+(23, '15SanjanaK', NULL, NULL, NULL, NULL, NULL, NULL, '15SanjanaK@students.harker.org', NULL, NULL, '76d4a26bac2267c5a5bb47951aace738', 'Activated', 1, NULL, NULL),
+(24, '15JessicaC', NULL, NULL, NULL, NULL, NULL, NULL, '15JessicaC@students.harker.org', NULL, NULL, '9149a7f222ab424311f706ac90dcdcd6', 'Activated', 1, NULL, NULL),
+(25, '14nicholasse', NULL, NULL, NULL, NULL, NULL, NULL, '14nicholasse@students.harker.org', NULL, NULL, '15eaf871761838ebd9260afba1f7ffcc', 'Activated', 1, NULL, NULL),
+(26, '15kaceyf', NULL, NULL, NULL, NULL, NULL, NULL, '15kaceyf@students.harker.org', NULL, NULL, '1201818c10b134014e0273e0c0c842eb', 'Activated', 1, NULL, NULL),
+(27, '14areejh', NULL, NULL, NULL, NULL, NULL, NULL, '14areejh@students.harker.org', NULL, NULL, '242dd222d6968f761d6d470e190bb5a9', 'Activated', 1, NULL, NULL),
+(28, '12erich', NULL, NULL, NULL, NULL, NULL, NULL, '12erich@students.harker.org', NULL, NULL, '850f9d3107a6b0eab0f54130b31de6e4', 'Activated', 1, NULL, 'Admin'),
+(29, '13tylery', NULL, NULL, NULL, NULL, NULL, NULL, '13tylery@students.harker.org', NULL, NULL, '3b08b2b6fae88b3f4485136766eb6149', 'Activated', 1, NULL, NULL),
+(30, '14zirenz', NULL, NULL, NULL, NULL, NULL, NULL, '14zirenz@students.harker.org', NULL, NULL, '5badcaf789d3d1d09794d8f021f40f0e', 'Activated', 1, NULL, NULL),
+(31, '14maryl', NULL, NULL, NULL, NULL, NULL, NULL, '14maryl@students.harker.org', NULL, NULL, '14a77047586f1e2a697f9e966bd322ad', 'Activated', 1, NULL, NULL),
+(32, '12rishib', NULL, NULL, NULL, NULL, NULL, NULL, '12rishib@students.harker.org', NULL, NULL, '54bd6f239681d330654eda2416aa3d03', 'Activated', 1, NULL, NULL),
+(33, '12jayr', NULL, NULL, NULL, NULL, NULL, NULL, '12jayr@students.harker.org', NULL, NULL, 'cf595e937b8689fbff6bf741f3727f1a', 'Activated', 1, NULL, 'Admin'),
+(34, '13christophers', NULL, NULL, NULL, NULL, NULL, NULL, '13christophers@students.harker.org', NULL, NULL, 'd62706ca8de35f6b3fc69011d3ae9e89', 'Activated', 1, NULL, NULL),
+(35, '13ravit', NULL, NULL, NULL, NULL, NULL, NULL, '13ravit@students.harker.org', NULL, NULL, 'f620016c583a3e25f79f9c6cbf84521b', 'Activated', 1, NULL, NULL),
+(36, '14brianc', NULL, NULL, NULL, NULL, NULL, NULL, '14brianc@students.harker.org', NULL, NULL, 'e97d8e29f8f1b8aa19ebe5350fa9154d', 'Activated', 1, NULL, NULL),
+(37, '14JeremyP', NULL, NULL, NULL, NULL, NULL, NULL, '14JeremyP@students.harker.org', NULL, NULL, 'bf1fe77a8ed3711e70a4dd35e966d36e', 'Activated', 1, NULL, NULL),
+(38, '15ashwinii', NULL, NULL, NULL, NULL, NULL, NULL, '15ashwinii@students.harker.org', NULL, NULL, '6c52e2686e752f53793c3f1890356bf2', 'Activated', 1, NULL, NULL),
+(39, '15priscillap', NULL, NULL, NULL, NULL, NULL, NULL, '15priscillap@students.harker.org', NULL, NULL, 'cfe7eedc2b6de672fdb7ff4c19c6bcfe', 'Activated', 1, NULL, NULL),
+(40, '12ChristopheP', NULL, NULL, NULL, NULL, NULL, NULL, '12ChristopheP@students.harker.org', NULL, NULL, '0b2bfde114f7dc49b9b16774f149900e', 'Activated', 1, NULL, NULL),
+(47, '14aaronl', NULL, NULL, NULL, NULL, NULL, NULL, '14aaronl@students.harker.org', NULL, NULL, '47fca2326aa124d11625310a59680235', 'Activated', 1, NULL, NULL),
+(46, '12crystalc', NULL, NULL, NULL, NULL, NULL, NULL, '12crystalc@students.harker.org', NULL, NULL, '9b12722ee3727807103f208287cdc433', 'Activated', 1, NULL, NULL),
+(48, '14aaronl@students.harker.org', NULL, NULL, NULL, NULL, NULL, NULL, '14aaronl@students.harker.org@students.harker.org', NULL, NULL, '47fca2326aa124d11625310a59680235', 'Activated', 1, NULL, NULL),
+(49, '14rahuls', NULL, NULL, NULL, NULL, NULL, NULL, '14rahuls@students.harker.org', NULL, NULL, '942fdf8a34378cc8546e85647d9db833', 'Activated', 1, NULL, NULL),
+(50, '12albertx', NULL, NULL, NULL, NULL, NULL, NULL, '12albertx@students.harker.org', NULL, NULL, 'eb98ff74d5ca5b50d514969ea03c08b7', 'Activated', 1, NULL, NULL),
+(51, '14zareenc@students.harker.org', NULL, NULL, NULL, NULL, NULL, NULL, '14zareenc@students.harker.org@students.harker.org', NULL, NULL, 'c48e5482ea2b6cf8b369b24d17b60f91', 'Activated', 1, NULL, NULL),
+(52, '12MaxI', NULL, NULL, NULL, NULL, NULL, NULL, '12MaxI@students.harker.org', NULL, NULL, '20b432753c42929fee85391deaff4464', 'Activated', 1, NULL, NULL),
+(53, '13SierraL', NULL, NULL, NULL, NULL, NULL, NULL, '13SierraL@students.harker.org', NULL, NULL, 'a4633fe207fefe9c5eca9d52238d0338', 'Activated', 1, NULL, NULL),
+(54, '15rahulj', NULL, NULL, NULL, NULL, NULL, NULL, '15rahulj@students.harker.org', NULL, NULL, 'fa11c2372769882c9d5895b6864a55a2', 'Activated', 1, NULL, NULL),
+(55, '14benjaminh', NULL, NULL, NULL, NULL, NULL, NULL, '14benjaminh@students.harker.org', NULL, NULL, 'ae88fda16bcf1536811a4b82c9bcaff7', 'Activated', 1, NULL, NULL),
+(56, '13simono', NULL, NULL, NULL, NULL, NULL, NULL, '13simono@students.harker.org', NULL, NULL, '7b379fcd10fb289ab4e0cd6a0273d449', 'Activated', 1, NULL, NULL),
+(57, '15glennr', NULL, NULL, NULL, NULL, NULL, NULL, '15glennr@students.harker.org', NULL, NULL, 'ed176f520674825313c6ac0e82f78581', 'Activated', 1, NULL, NULL),
+(58, '15ethanm', NULL, NULL, NULL, NULL, NULL, NULL, '15ethanm@students.harker.org', NULL, NULL, 'e62252a7c13662c14071f64652901c97', 'Activated', 1, NULL, NULL),
+(59, '15ChiragA', NULL, NULL, NULL, NULL, NULL, NULL, '15ChiragA@students.harker.org', NULL, NULL, 'b9591f2d9deaeed35a7cd08620719634', 'Activated', 1, NULL, NULL),
+(60, '14preethip', NULL, NULL, NULL, NULL, NULL, NULL, '14preethip@students.harker.org', NULL, NULL, 'a0848755f2082334c5a5d57972a4cc4e', 'Activated', 1, NULL, NULL),
+(61, '15rishabhj', NULL, NULL, NULL, NULL, NULL, NULL, '15rishabhj@students.harker.org', NULL, NULL, 'a3959eef6ffdd5fd4aa22016985deabf', 'Activated', 1, NULL, NULL),
+(62, '15ishanyaa', NULL, NULL, NULL, NULL, NULL, NULL, '15ishanyaa@students.harker.org', NULL, NULL, '2769b18f5343a96b0a724f8accd87c7e', 'Activated', 1, NULL, NULL),
+(63, '16testy', NULL, NULL, NULL, NULL, NULL, NULL, '16testy@students.harker.org', NULL, NULL, '098f6bcd4621d373cade4e832627b4f6', 'Activated', 1, NULL, NULL),
+(65, '14richardm', NULL, NULL, NULL, NULL, NULL, NULL, '14richardm@students.harker.org', NULL, NULL, 'eb4ec91e8f84c518c9aa699babd45366', 'Activated', 1, NULL, NULL),
+(66, '12nathans', NULL, NULL, NULL, NULL, NULL, NULL, '12nathans@students.harker.org', NULL, NULL, '56f9213e51fa695e8c7f411734eae5f7', 'Activated', 1, NULL, NULL),
+(67, '15richardg', NULL, NULL, NULL, NULL, NULL, NULL, '15richardg@students.harker.org', NULL, NULL, '8111cad52c678181151decaf1b7cd27f', 'Activated', 1, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `UserBadges`
+--
+
+CREATE TABLE IF NOT EXISTS `UserBadges` (
+  `BadgeID` int(11) NOT NULL auto_increment,
+  `BadgeName` text,
+  `UserID` int(11) default NULL,
+  PRIMARY KEY  (`BadgeID`),
+  KEY `UserID` (`UserID`)
+) TYPE=MyISAM AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `UserBadges`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `UserHistories`
+--
+
+CREATE TABLE IF NOT EXISTS `UserHistories` (
+  `HistoryID` int(11) NOT NULL auto_increment,
+  `HistoryTimeStamp` tinytext,
+  `NumericTimeStamp` tinytext,
+  `UserID` int(11) default NULL,
+  PRIMARY KEY  (`HistoryID`),
+  KEY `UserID` (`UserID`)
+) TYPE=MyISAM AUTO_INCREMENT=127 ;
+
+--
+-- Dumping data for table `UserHistories`
+--
+
+INSERT INTO `UserHistories` (`HistoryID`, `HistoryTimeStamp`, `NumericTimeStamp`, `UserID`) VALUES
+(126, 'Thursday, September 29 at 2:38 pm', '201109291438', 28),
+(125, 'Thursday, September 29 at 2:38 pm', '201109291438', 28),
+(124, 'Thursday, September 29 at 1:30 pm', '201109291330', 10),
+(123, 'Wednesday, September 28 at 11:57 pm', '201109282357', 14),
+(122, 'Wednesday, September 28 at 11:57 pm', '201109282357', 14);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `UserTasks`
+--
+
+CREATE TABLE IF NOT EXISTS `UserTasks` (
+  `TaskID` int(11) NOT NULL auto_increment,
+  `TaskName` text,
+  `UserID` int(11) default NULL,
+  `Deadline` tinytext,
+  `AssignedByUserID` int(11) default NULL,
+  PRIMARY KEY  (`TaskID`),
+  KEY `UserID` (`UserID`)
+) TYPE=MyISAM AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `UserTasks`
+--
+
