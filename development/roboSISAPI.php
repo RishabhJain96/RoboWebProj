@@ -164,28 +164,34 @@ class roboSISAPI
 				unset($array_id[$k]); // by definition, array_id must have the same number of elements as array_time
 			}
 		}
-		$array_time = array_values($array_time); // order elements in order
-		$array_id = array_values($array_id);
+		$array_time = array_values($array_time);// order elements in order
+		$array_id = array_values($array_id); // order elements in order
 		$array_usernames = array();
+		$array_fulltimes = array(); // array to hold the textual timestamp per user
 		for ($z=0; $z < count($array_id); $z++)
 		{
 			$resourceid3 = $this->_dbConnection->selectFromTable("RoboUsers", "UserID", $array_id[$z]);
-			$arr = $this->_dbConnection->formatQueryResults($resourceid3, "Username");
-			if (!in_array($arr[0],$array_usernames))
-			{
-				$array_usernames[$z] = $arr[0];
-			}
+			$arr_name = $this->_dbConnection->formatQueryResults($resourceid3, "Username");
+			$array_usernames[$z] = $arr_name[0];
+			$resourceid4 = $this->_dbConnection->selectFromTable("UserHistories", "UserID", $array_id[$z]);
+			$arr_time = $this->_dbConnection->formatQueryResults($resourceid4, "HistoryTimeStamp")
+			$array_fulltimes[$z] = 
+			// the following if block will ensure usernames are not duplicated in the list
+			// if (!in_array($arr[0],$array_usernames))
+			// {
+			//	$array_usernames[$z] = $arr[0];
+			// }
 		}
-		$array_usernames = array_values($array_usernames);
+		$array_usernames = array_values($array_usernames); // ordered list of all users who checked in
+		
 		$output = json_encode($array_usernames);
 		//echo $output;
 		return $output;
 	}
 	
+	
 	// FINANCE SYSTEM FUNCTIONS
 	
-	
-	/* THE FOLLOWING METHODS ARE STILL UNDER CONSTRUCTION */
 	
 	/**
 	 * Inputs an order, with all necessary associated fields passed as an array, into the db.
@@ -198,14 +204,6 @@ class roboSISAPI
 	}
 	
 	/**
-	 * Notifies relevant users of changes in the order status. This function relies on the php mail function.
-	 */
-	//public function notifyUsersAndAdmins($orderID)
-	//{
-		
-	//}
-	
-	/**
 	 * Returns an array in JSON format of all the past orders the given user has placed, with most recent order on top.
 	 */
 	public function getUsersOrders($username)
@@ -213,19 +211,12 @@ class roboSISAPI
 		
 	}
 	
-	
-	// PROFILE FUNCTIONS
-	
-	
 	/**
-	 * Returns an array with each element except the first element containing an array of a user's profile data. The first element is an array of the names of the columns.
+	 * Updates an order with new information
 	 */
-	public function getAllProfiles()
+	public function updateOrder($username, $array)
 	{
-		$array1 = array();
-		$array1[0] = array("Username", "Full Name", "Phone Number", "Graduation Year", "Mother's Email", "Father's Email", "Student Email", "Subteam"); // this element is the top row, lists the names of the columns
-		$array1[1] = array();
+		
 	}
-	
 }
 ?>
