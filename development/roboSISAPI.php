@@ -7,7 +7,7 @@
 class roboSISAPI
 {
 	// constants
-	const MAX_CHECKINS_PER_DAY = 2; // changed this to change the max number of checkins allowed per day
+	const MAX_CHECKINS_PER_DAY = 1; // changed this to change the max number of checkins allowed per day
 	
 	// instance variables
 	protected $_dbConnection;
@@ -139,13 +139,16 @@ class roboSISAPI
 	}
 	
 	/**
-	 * This method returns an array in JSON of the usernames of all the users who checked in on a given day
-	 * $timestamp: the day to get the list of checked in users for. Must be in the format of the NumericTimeStamp column: 20110923, which cane be obtained in php by: date("Ymd");
+	 * This method returns an array in JSON of the usernames and associated HistoryTimeStamps of all the users who checked in on a given day
+	 * $timestamp: the day to get the list of checked in users for. Must be in the format of the NumericTimeStamp column: 20110923
 	 */
 	public function getUsersCheckedInForDate($timestamp)
 	{
 		$resourceid = $this->_dbConnection->selectFromTable("UserHistories");
 		$array_time = $this->_dbConnection->formatQueryResults($resourceid, "NumericTimeStamp");
+		// allows to get HistoryTimeStamp for each user check-in on given day
+		$resourceid5 = $this->_dbConnection->selectFromTable("UserHistories");
+		$array_numerictime = $this->_dbConnection->formatQueryResults($resourceid5, "NumericTimeStamp");
 		$resourceid2 = $this->_dbConnection->selectFromTable("UserHistories");
 		$array_id = $this->_dbConnection->formatQueryResults($resourceid2, "UserID");
 		for ($i=0; $i < count($array_time); $i++)
@@ -162,30 +165,36 @@ class roboSISAPI
 			{
 				unset($array_time[$k]); // removes element at k but does not reindex array
 				unset($array_id[$k]); // by definition, array_id must have the same number of elements as array_time
+				unset($array_numerictime[$k]); // keeps in sync with $array_time
 			}
 		}
 		$array_time = array_values($array_time);// order elements in order
 		$array_id = array_values($array_id); // order elements in order
+		$array_numerictime = array_values($array_numerictime);
 		$array_usernames = array();
 		$array_fulltimes = array(); // array to hold the textual timestamp per user
 		for ($z=0; $z < count($array_id); $z++)
 		{
+			// fills array with usernames
 			$resourceid3 = $this->_dbConnection->selectFromTable("RoboUsers", "UserID", $array_id[$z]);
 			$arr_name = $this->_dbConnection->formatQueryResults($resourceid3, "Username");
 			$array_usernames[$z] = $arr_name[0];
-			$resourceid4 = $this->_dbConnection->selectFromTable("UserHistories", "UserID", $array_id[$z]);
-			$arr_time = $this->_dbConnection->formatQueryResults($resourceid4, "HistoryTimeStamp")
-			$array_fulltimes[$z] = 
-			// the following if block will ensure usernames are not duplicated in the list
+			// fills array with HistoryTimeStamps
+			$resourceid4 = $this->_dbConnection->selectFromTable("UserHistories", "NumericTimeStamp", $array_numerictime[$z]);
+			$arr_texttime = $this->_dbConnection->formatQueryResults($resourceid4, "HistoryTimeStamp");
+			$array_fulltimes[$z] = $arr_texttime[0];
+			// the following if block will ensure usernames are not duplicated in the list, currently unwanted
 			// if (!in_array($arr[0],$array_usernames))
 			// {
 			//	$array_usernames[$z] = $arr[0];
 			// }
 		}
 		$array_usernames = array_values($array_usernames); // ordered list of all users who checked in
-		
-		$output = json_encode($array_usernames);
-		//echo $output;
+		$array_fulltimes = array_values($array_fulltimes);
+		$array_output = array($array_usernames,$array_fulltimes);
+		$output = json_encode($array_output);
+		//$test = json_decode($output);
+		//print_r($test);
 		return $output;
 	}
 	
@@ -201,6 +210,10 @@ class roboSISAPI
 	public function inputOrder($username, $array)
 	{
 		$id = $this->getUserID($username);
+		for ($i=0; $i < count($array); $i++)
+		{
+			
+		}
 	}
 	
 	/**
