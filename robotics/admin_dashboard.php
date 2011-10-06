@@ -80,20 +80,57 @@ date_default_timezone_set('America/Los_Angeles'); // all times are in PST
 					<form method="post" name="form3" action="">
 					<fieldset>
 						<p>
-							Choose a date:
-							<select name="dateselected">
-								<!--Generate the following with php.-->
+							Choose a date: MM
+							<select name="month">
 								<?php
-								$username = $_SESSION['robo'];
-								$api = new roboSISAPI();
-								// currently only allows picking the current day
-								$timestamp = date("l, F j"); // of format Friday, September 23
-								$timestamp2 = date("Ymd"); // of format 20110923
-								echo "<option value=\"today\">" . $timestamp . "</option>";
-								//echo "<option value=\"yesterday\">Yesterday</option>";
+								$month = date("n"); // 1 to 12
+								for ($i=1; $i <= 12; $i++)
+								{
+									if ($i == $month)
+									{
+										echo "<option value=\"" . $i . "\" selected=\"selected\">" . $i . "</option>\n";
+									}
+									else
+									{
+										echo "<option value=\"" . $i . "\">" . $i . "</option>\n";
+									}
+								}
 								?>
 							</select>
-							<input name="getdate" type="submit" class="getdate" value="Get Check-Ins" />
+							DD
+							<select name="day">
+								<?php
+								$day = date("j"); // 1 to 31
+								for ($i=1; $i <= 31; $i++)
+								{
+									if ($i == $day)
+									{
+										echo "<option value=\"" . $i . "\" selected=\"selected\">" . $i . "</option>\n";
+									}
+									else
+									{
+										echo "<option value=\"" . $i . "\">" . $i . "</option>\n";
+									}
+								}
+								?>
+							</select>
+							YYYY
+							<select name="year">
+								<?php
+								$year = date("Y"); // 2011 - 2021
+								for ($i=2011; $i <= 2021; $i++)
+								{
+									if ($i == $year)
+									{
+										echo "<option value=\"" . $i . "\" selected=\"selected\">" . $i . "</option>\n";
+									}
+									else
+									{
+										echo "<option value=\"" . $i . "\">" . $i . "</option>\n";
+									}
+								}
+								?>
+							<input name="getcheckins" type="submit" class="getdate" value="Get Check-Ins" />
 						</p>
 					</fieldset>
 					</form>
@@ -102,26 +139,63 @@ date_default_timezone_set('America/Los_Angeles'); // all times are in PST
 				<table class="clearfix">
 					<!-- note to the php writer: the rows in the table alternate in color with alternating classes. -->
 					<?php
-					if(isset($_POST['getdate']))
+					if(isset($_POST['getcheckins']))
 					{
-						$username = $_SESSION['robo'];
+						// ensures proper formatting for api function
+						$month = intval($_POST['month']);
+						if($month<10) $month = "0".$month;
+						$day = intval($_POST['day']);
+						if($day<10) $day = "0".$day;
+						$year = intval($_POST['year']);
 						$api = new roboSISAPI();
-						//$timestamp = date("l, F j"); // of format Friday, September 23
-						$timestamp2 = date("Ymd"); // of format 20110923
-						$arr_names = $api->getUsersCheckedInForDate($timestamp2);
-						$arr_names = json_decode($arr_names);
-						for($i = 0; $i < count($arr_names); $i+=2)
+						$numericdate = "$year" . "$month" . "$day";
+						$arr_checkins = $api->getUsersCheckedInForDate($numericdate); // 2D Array
+						$arr_checkins = json_decode($arr_checkins);
+						// splits the array for easier management
+						$arr_usernames = $arr_checkins[0];
+						$arr_texttimes = $arr_checkins[1];
+						// checks if arrays are empty
+						if(empty($arr_usernames))
 						{
-							echo "<tr class=\"r1\"><td>" . $arr_names[$i] . "</td></tr>";
-							if (!is_null($arr_names[$i+1]))
+							echo "<br />";
+							echo "<p>There are no checkins for the selected date: $month/$day/$year.</p>";
+						}
+						for($i = 0; $i < count($arr_usernames); $i+=2)
+						{
+							echo "<tr class=\"r1\"><td>" . $arr_usernames[$i] . "</td><td>" . $arr_texttimes[$i] . "</td></tr>\n";
+							if (!is_null($arr_usernames[$i+1]))
 							{
-								echo "<tr class=\"r2\"><td>" . $arr_names[$i+1] . "</td></tr>";
+								echo "<tr class=\"r2\"><td>" . $arr_usernames[$i+1] . "</td><td>" . $arr_texttimes[$i+1] . "</td></tr>\n";
 							}
-							//<tr class="r1"><td>Bob Jones</td><td>9-28-11 11:30pm</td></tr>
-							//echo "<br />";
 						}
 					}
 					?>
+				</table>
+				<br />
+				<h2>Email List</h2>
+				<table class="clearfix">
+					<form method="post" name="form5" action="">
+						<fieldset>
+							<input name="emails" type="submit" class="getdate" value="Get Emails" />
+						</fieldset>
+					</form>
+				<?php
+				if (isset($_POST['emails']))
+				{
+					$api = new roboSISAPI();
+					$arr_emails = $api->getAllEmails();
+					$arr_emails = json_decode($arr_emails);
+					for($i = 0; $i < count($arr_emails); $i+=2)
+					{
+						echo "<tr class=\"r1\"><td>" . $arr_emails[$i] . "</td></tr>";
+						if (!is_null($arr_emails[$i+1]))
+						{
+							echo "<tr class=\"r2\"><td>" . $arr_emails[$i+1] . "</td></tr>";
+						}
+					}
+				}
+				?>
+				<br />
 				</table>
 			</div><!-- mainContent -->
 		</div>
