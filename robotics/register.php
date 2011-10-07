@@ -5,8 +5,6 @@
  * Inputs the username and password in the database, along with a randomly generated activation number. Emails the user with a link containing the activation number, which when clicked, sets the Activated field in the db to a nonzero value, indicating the user has registered.
  */
 
-// Should this class be static?
-
 class register
 {
 	// instance variables
@@ -23,10 +21,10 @@ class register
 	/**
 	 * combines all other methods under one hood. returns true on success and the username is taken message on failure.
 	 */
-	public function register($username, $password)
+	public function register($username, $password, $phonenumber)
 	{
 		$code = md5(mt_rand());
-		$result = $this->inputNewUser($username, $password, $code); // result stores false or text string 'true' depending on the outcome of the input method
+		$result = $this->inputNewUser($username, $password, $phonenumber, $code); // result stores false or text string 'true' depending on the outcome of the input method
 		if ($result) // checks literal string value
 		{
 			//print 'result is TRUE';
@@ -43,7 +41,7 @@ class register
 	/**
 	 * This function checks if the given username already exists in the database. It returns a string protesting the existence of the given username if it finds it in the db, otherwise it creates the username/password combo in the db
 	 */
-	public function inputNewUser($username, $password, $code)
+	public function inputNewUser($username, $password, $phonenumber, $code)
 	{
 		// checks if username already exists in db
 		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers", "Username", $username);
@@ -58,7 +56,7 @@ class register
 		// username is a valid, new username at this point
 		$password = md5($password); // encodes password in md5 for security/privacy
 		//print_r($passwordCoded);
-		$array = array("ActivationCode" => $code, "Username" => $username, "UserPassword" => $password);
+		$array = array("ActivationCode" => $code, "Username" => $username, "UserPassword" => $password, "UserPhoneNumber" => $phonenumber);
 		$this->_dbConnection->insertIntoTable("RoboUsers", "RoboUsers", "Username", $username, "UserID", $array);
 		return true;
 	}

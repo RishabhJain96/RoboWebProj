@@ -80,7 +80,7 @@ date_default_timezone_set('America/Los_Angeles'); // all times are in PST
 					<form method="post" name="form3" action="">
 					<fieldset>
 						<p>
-							Choose a date: MM
+							Choose a date: Month
 							<select name="month">
 								<?php
 								$month = date("n"); // 1 to 12
@@ -97,7 +97,7 @@ date_default_timezone_set('America/Los_Angeles'); // all times are in PST
 								}
 								?>
 							</select>
-							DD
+							Day
 							<select name="day">
 								<?php
 								$day = date("j"); // 1 to 31
@@ -114,7 +114,7 @@ date_default_timezone_set('America/Los_Angeles'); // all times are in PST
 								}
 								?>
 							</select>
-							YYYY
+							Year
 							<select name="year">
 								<?php
 								$year = date("Y"); // 2011 - 2021
@@ -185,12 +185,14 @@ date_default_timezone_set('America/Los_Angeles'); // all times are in PST
 					$api = new roboSISAPI();
 					$arr_emails = $api->getAllEmails();
 					$arr_emails = json_decode($arr_emails);
-					for($i = 0; $i < count($arr_emails); $i+=2)
+					$numemails = count($arr_emails);
+					echo "<p>There are $numemails emails currently in the database.</p>";
+					for($i = 0; $i < $numemails; $i+=2)
 					{
-						echo "<tr class=\"r1\"><td>" . $arr_emails[$i] . "</td></tr>";
+						echo "<tr class=\"r1\"><td>" . $arr_emails[$i] . ",</td></tr>";
 						if (!is_null($arr_emails[$i+1]))
 						{
-							echo "<tr class=\"r2\"><td>" . $arr_emails[$i+1] . "</td></tr>";
+							echo "<tr class=\"r2\"><td>" . $arr_emails[$i+1] . ",</td></tr>";
 						}
 					}
 				}

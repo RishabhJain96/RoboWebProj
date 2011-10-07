@@ -21,6 +21,10 @@
 					<input type="password" name="pwd" id="password" class="bigform" value="" />
 				</fieldset>
 				<fieldset>
+					<label for="phonenum">Cell-Phone Number</label>
+					<input type="text" name="phonenum" id="username" class="bigform" value=""/>
+				</fieldset>
+				<fieldset>
 				<input name="register" type="submit" class="register" value="register" />
 				</fieldset>
 				<?php
@@ -32,14 +36,15 @@
 				{
 					$username = $_POST['username'];
 					$password = $_POST['pwd'];
-
+					$phonenumber = $_POST['phonenum'];
+					
 					if($username =="")
 					{
 						exit("Please complete both fields and try again.");
 					}
 					
 					$register = new register();
-					if ($register->register($username, $password))
+					if ($register->register($username, $password, $phonenumber))
 					{
 						echo '<p>Congratulations! Your account has been set up and you may now login.</p>';
 					}

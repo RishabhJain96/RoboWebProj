@@ -139,8 +139,9 @@ class roboSISAPI
 	}
 	
 	/**
-	 * This method returns an array in JSON of the usernames and associated HistoryTimeStamps of all the users who checked in on a given day
-	 * $timestamp: the day to get the list of checked in users for. Must be in the format of the NumericTimeStamp column: 20110923
+	 * This method is unintentionally convoluted but it works so please don't mess around with it unless you're sure you know what you're doing.
+	 * This method returns a 2D array in JSON of the usernames and associated HistoryTimeStamps of all the users who checked in on a given day
+	 * $timestamp: the day to get the list of checked in users for. Must be in the format of the NumericTimeStamp column: 20110903 or YYYYMMDD
 	 */
 	public function getUsersCheckedInForDate($timestamp)
 	{
@@ -153,7 +154,7 @@ class roboSISAPI
 		$array_id = $this->_dbConnection->formatQueryResults($resourceid2, "UserID");
 		for ($i=0; $i < count($array_time); $i++)
 		{
-			$array_time[$i] = substr($array_time[$i], 0, -4); // trims hours and minutes from timestamps to allow getting checkins for the current day
+			$array_time[$i] = substr($array_time[$i], 0, -4); // trims hours and minutes from numeric timestamps to allow getting checkins for the given day
 		}
 		//echo json_encode($array_time);
 		//echo json_encode($array_id);
