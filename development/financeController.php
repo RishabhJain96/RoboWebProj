@@ -32,6 +32,7 @@ class financeController extends roboSISAPI
 	public function getUsersOrders($username)
 	{
 		$id = parent::getUserID($username);
+		return $id;
 	}
 
 	/**
