@@ -1,31 +1,32 @@
 <!doctype html>
 <head>
 	<meta charset="utf-8">
-	<title>Robotics 1072 Registration</title>
+	<title></title>
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="reset.css">
 </head>
 <body>
 	<div id="floater"></div>
 	<div id="loginWindowWrap" class="clearfix">
 		<div id="loginWindow">
-			<h1>Register</h1>
+			<h1>Reset Password</h1>
 			<form id="loginForm" method="post" name="loginForm" action="">
 				<fieldset>
-					<label for="username">Harker Username </label>
+					<label for="username">Username</label>
 					<input type="text" name="username" id="username" class="bigform" value=""/>
 				</fieldset>
 				<fieldset>
-					<label id="password" >Password </label>
-					<input type="password" name="pwd" id="password" class="bigform" value="" />
+					<label id="password" >Old Password</label>
+					<input type="password" name="oldpwd" id="password" class="bigform" value="" />
 				</fieldset>
 				<fieldset>
-					<label for="phonenum">Cell-Phone (###)-###-####</label>
-					<input type="text" name="phonenum" id="username" class="bigform" value=""/>
+					<label id="password" >New Password</label>
+					<input type="password" name="newpwd" id="password" class="bigform" value="" />
 				</fieldset>
 				<fieldset>
-				<input name="register" type="submit" class="register" value="register" />
+				<input name="reset" type="submit" class="register" value="reset" />
 				</fieldset>
 				<?php
 				function __autoload($class)
@@ -36,19 +37,14 @@
 				{
 					$username = $_POST['username'];
 					$password = $_POST['pwd'];
-					$phonenumber = $_POST['phonenum'];
-					
+
 					if($username =="")
 					{
-						exit("Please complete all fields and try again.");
+						exit("Please complete both fields and try again.");
 					}
-					if($phonenumber == "")
-					{
-						exit("Please complete all fields and try again.");
-					}
-					$username = strtolower($username);
+					
 					$register = new register();
-					if ($register->register($username, $password, $phonenumber))
+					if ($register->register($username, $password))
 					{
 						echo '<p>Congratulations! Your account has been set up and you may now login.</p>';
 					}

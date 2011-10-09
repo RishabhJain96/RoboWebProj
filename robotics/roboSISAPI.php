@@ -79,7 +79,7 @@ class roboSISAPI
 		$id = $this->getUserID($username);
 		if ($this->hasReachedCheckInLimit($id))
 		{
-			echo '<p>You have reached your check-in limit for today.';
+			echo '<p>You have reached your check-in limit for today.</p>';
 			return false;
 		}
 		$timestamp = date("l, F j \a\\t g:i a"); // Friday, September 23 at 11:05 pm
@@ -197,40 +197,6 @@ class roboSISAPI
 		//$test = json_decode($output);
 		//print_r($test);
 		return $output;
-	}
-	
-	
-	// FINANCE SYSTEM FUNCTIONS
-	
-	
-	/**
-	 * Inputs an order, with all necessary associated fields passed as an array, into the db.
-	 * $array should be in the format: array("PartName" => "Bolts", "Quantity" => 2) etc. for all necessary values. The $array should include 
-	 * $username: the user who is submitting the order
-	 */
-	public function inputOrder($username, $array)
-	{
-		$id = $this->getUserID($username);
-		for ($i=0; $i < count($array); $i++)
-		{
-			
-		}
-	}
-	
-	/**
-	 * Returns an array in JSON format of all the past orders the given user has placed, with most recent order on top.
-	 */
-	public function getUsersOrders($username)
-	{
-		
-	}
-	
-	/**
-	 * Updates an order with new information
-	 */
-	public function updateOrder($username, $array)
-	{
-		
 	}
 }
 ?>

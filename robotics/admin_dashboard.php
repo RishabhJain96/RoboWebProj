@@ -160,13 +160,18 @@ date_default_timezone_set('America/Los_Angeles'); // all times are in PST
 							echo "<br />";
 							echo "<p>There are no checkins for the selected date: $month/$day/$year.</p>";
 						}
-						for($i = 0; $i < count($arr_usernames); $i+=2)
+						for($i = 0; $i < count($arr_usernames); $i++)
 						{
-							echo "<tr class=\"r1\"><td>" . $arr_usernames[$i] . "</td><td>" . $arr_texttimes[$i] . "</td></tr>\n";
-							if (!is_null($arr_usernames[$i+1]))
+							$cl = "";
+							if ($i % 2 == 0) // allows table to alternate colors
 							{
-								echo "<tr class=\"r2\"><td>" . $arr_usernames[$i+1] . "</td><td>" . $arr_texttimes[$i+1] . "</td></tr>\n";
+								$cl = "r1";
 							}
+							else
+							{
+								$cl = "r2";
+							}
+							echo "<tr class=\"" . $cl . "\"><td>" . $arr_usernames[$i] . "</td><td>" . $arr_texttimes[$i] . "</td></tr>\n";
 						}
 					}
 					?>
@@ -187,13 +192,19 @@ date_default_timezone_set('America/Los_Angeles'); // all times are in PST
 					$arr_emails = json_decode($arr_emails);
 					$numemails = count($arr_emails);
 					echo "<p>There are $numemails emails currently in the database.</p>";
-					for($i = 0; $i < $numemails; $i+=2)
+					
+					for($i = 0; $i < $numemails; $i++)
 					{
-						echo "<tr class=\"r1\"><td>" . $arr_emails[$i] . ",</td></tr>";
-						if (!is_null($arr_emails[$i+1]))
+						$cl = "";
+						if ($i % 2 == 0) // allows table to alternate colors
 						{
-							echo "<tr class=\"r2\"><td>" . $arr_emails[$i+1] . ",</td></tr>";
+							$cl = "r1";
 						}
+						else
+						{
+							$cl = "r2";
+						}
+						echo "<tr class=\"" . $cl . "\"><td>" . $arr_emails[$i] . ",</td></tr>";
 					}
 				}
 				?>

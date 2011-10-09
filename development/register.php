@@ -46,7 +46,7 @@ class register
 		// checks if username already exists in db
 		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers", "Username", $username);
 		$arr = $this->_dbConnection->formatQueryResults($resourceid, "Username");
-		if (!is_null($arr[0]))
+		if (count($arr) > 0)
 		{
 			error_log("This username is already taken!");
 			//print 'The username ' . $username . ' is already taken! Please choose a different one.'; // for debugging purposes

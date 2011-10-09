@@ -17,7 +17,11 @@ $dbArr = file("dbParameters.txt");
 $dbName = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[0]);
 $dbHost = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[1]);
 $dbUser = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[2]);
-$dbPass = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[3]);
+$dbPass = ""; // declares variable to prevent error
+if (count($dbArr) > 3)
+{
+	$dbPass = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[3]);
+}
 
 if (is_null($dbPass))
 {

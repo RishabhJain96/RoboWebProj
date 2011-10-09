@@ -13,7 +13,7 @@
 			<h1>Register</h1>
 			<form id="loginForm" method="post" name="loginForm" action="">
 				<fieldset>
-					<label for="username">Username </label>
+					<label for="username">Harker Username </label>
 					<input type="text" name="username" id="username" class="bigform" value=""/>
 				</fieldset>
 				<fieldset>
@@ -21,7 +21,7 @@
 					<input type="password" name="pwd" id="password" class="bigform" value="" />
 				</fieldset>
 				<fieldset>
-					<label for="phonenum">Cell-Phone Number</label>
+					<label for="phonenum">Cell-Phone (###)-###-####</label>
 					<input type="text" name="phonenum" id="username" class="bigform" value=""/>
 				</fieldset>
 				<fieldset>
@@ -40,9 +40,13 @@
 					
 					if($username =="")
 					{
-						exit("Please complete both fields and try again.");
+						exit("Please complete all fields and try again.");
 					}
-					
+					if($phonenumber == "")
+					{
+						exit("Please complete all fields and try again.");
+					}
+					$username = strtolower($username);
 					$register = new register();
 					if ($register->register($username, $password, $phonenumber))
 					{
