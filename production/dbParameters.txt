@@ -1,4 +1,3 @@
-RoboticsSIS
-mysql
-yroot
-cytopic
+roboticssis
+localhost
+root

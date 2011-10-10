@@ -21,7 +21,7 @@
 					<input type="password" name="pwd" id="password" class="bigform" value="" />
 				</fieldset>
 				<fieldset>
-					<label for="phonenum">Cell-Phone (###)-###-####</label>
+					<label for="phonenum">Cell-Phone (###) ###-####</label>
 					<input type="text" name="phonenum" id="username" class="bigform" value=""/>
 				</fieldset>
 				<fieldset>

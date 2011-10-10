@@ -43,8 +43,8 @@ class relationalDbConnections extends dbConnections
 		{
 			$formatted = $this->formatQueryResults($result, $primaryKey);
 			$arrayOfValues[$primaryKey] = $formatted[0];
-			parent::insertIntoTable($tableName1, $arrayOfValues);
-			return true;
+			return parent::insertIntoTable($tableName1, $arrayOfValues); // return true if insertIntoTable returns true, false otherwise
+			// return true;
 		}
 		else
 		{
@@ -58,7 +58,7 @@ class relationalDbConnections extends dbConnections
 	 * 			same value.
 	 * @param: $tableName1: the table you wish to update
 	 * @param: $keyTable: the table containing the cross-table Key
-	 * @param: $foreignkey: the foreignKey your using to check;
+	 * @param: $foreignkey: the foreignKey you're using to check;
 	 * @param: $valueForKey: the value for the foreignKey;
 	 * @param: $primaryKey: the primaryKey of the database (the cross-table Key);
 	 * @param: $arrayOfValues: the values being updated;

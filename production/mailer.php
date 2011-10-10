@@ -1,7 +1,7 @@
 <?php
 $username = "12rohits";
-$code = md5("111111");
-$serverurl = "http://cytopic.net/robotics";
+$code = md5("12rohits");
+$serverurl = "http://robotics.harker.org";
 $to = $username . "@students.harker.org";
 $subject = "Robotics SIS Account Creation";
 $message = "Hello $username, \n\n Please go to: $serverurl/activation.php?acode=$code to activate your account. \n\n Thanks,\n The Robotics 1072 Web Team"; // server url 
