@@ -12,7 +12,10 @@ if(isset($_POST['logout']))
 	header('Location: index.php');
 	exit;
 }
-
+function __autoload($class)
+{
+	require_once $class . '.php';
+}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -150,6 +153,26 @@ if(isset($_POST['logout']))
 		text-decoration: underline;
 	}
 	
+	#forms h2 {
+		font-size: 1.75em;
+	}
+	#forms ul {
+		margin-top: 1.5em;
+	}
+	#forms ul li {
+		display: inline;
+		margin-right: 3em;
+	}
+	#forms ul li a {
+		color: #FFF;
+		background-color: #444;
+		padding: 0.6em 1em;
+		font-size: 1.1em;
+	}
+	#forms ul li a:hover {
+		text-decoration: underline;
+	}
+	
 	</style>
 </head>
 <body>
@@ -169,61 +192,33 @@ if(isset($_POST['logout']))
 						{
 							echo '<li><a href="admin_dashboard.php">Admin</a></li>';
 						}
-						?>					</ul>
+						?>					
+					</ul>
 				</div>
 				<div id="login_status">
-					<p>Logged in as: <?php echo $_SESSION['robo']; // echos the username?></p>
 					<form method="post" name="form" action="">
 					<fieldset>
 					<input name="logout" type="submit" class="logout" value="Logout" />
 					</fieldset>
 					</form>
+					<p>Logged in as: <?php echo $_SESSION['robo']; // echos the username?></p>
 				</div>
 			</div>
 			
 			<h1>The Harker School - Robotics Team 1072</h1>
 			
 			<div id="dashboard-checkin" class="clearfix">
-				<div id="checkin-header" class="clearfix">
-					<h2>Check-Ins</h2>
-					<form method="post" name="form2" action="">
-					<fieldset>
-					<input name="checkin" type="submit" class="checkin" value="Check-In" />
-					</fieldset>
-					</form>
+				<div id="forms" class="clearfix">
+					<h2>Purchase Order Forms</h2>
+					<ul>
+						<li><a href="submitform_page.php">Submit a Form</a></li>
+						<li><a href="viewforms_page.php">View Your Forms</a></li>
+						<li><a href="viewallforms_page.php">View All Forms</a></li>
+					</ul>
 				</div>
-				<div id="checkin-list">
-					<?php
-					function __autoload($class)
-					{
-						require_once $class . '.php';
-					}
-					$username = $_SESSION['robo'];
-					$api = new roboSISAPI();
-					if(isset($_POST['checkin']))
-					{
-						$api->inputCheckIn($username);
-					}
-					//echo 'here';
-					$result = $api->getCheckIns($username);
-					//echo $result;
-					$table = json_decode($result);
-					for($i = 0; $i < count($table); $i++)
-					{
-						echo "<li>".$table[$i]."</li>";
-						//echo "<br />";
-					}
-					?>
-				</div>
+
 			</div>
 			
-			<div id="tasks">
-				<h2>Tasks</h2>
-			</div>
-			
-			<div id="announcements">
-				<h2>Announcements</h2>
-			</div>
 		</div>
 		<footer>
 		</footer>

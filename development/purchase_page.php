@@ -12,7 +12,10 @@ if(isset($_POST['logout']))
 	header('Location: index.php');
 	exit;
 }
-
+function __autoload($class)
+{
+	require_once $class . '.php';
+}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -169,45 +172,6 @@ if(isset($_POST['logout']))
 	#forms ul li a:hover {
 		text-decoration: underline;
 	}
-	#forms ul li.form-selected {
-		padding: 0.6em 1em;
-		font-size: 1.1em;
-		background-color: #555;
-		font-weight: bold;
-	}
-	
-	#forms-submit form {
-		margin-top: 40px;
-	}
-	#forms-submit fieldset {
-		margin-bottom: 1em;
-		font-size: 1.25em;
-	}
-	#forms-submit fieldset label {
-		padding-right: 1em;
-	}
-	#forms-submit fieldset input.field {
-		font-size: 1em;
-		padding: 0.5em;
-		width: 275px;
-	}
-	#forms-submit fieldset input.save, input.submit {
-		padding: 0.5em;
-		font-size: 1em;
-	}
-	#forms-submit fieldset select.options {
-		font-size: 1em;
-		width: 150px;
-	}
-	#forms-submit fieldset textarea.form_textarea {
-		width: 375px;
-		min-height: 150px;
-	}
-	
-	#form-submitbuttons fieldset {
-		display: inline;
-		margin-right: 1.5em;
-	}
 	
 	</style>
 </head>
@@ -219,8 +183,8 @@ if(isset($_POST['logout']))
 				<div id="navbar">
 					<ul>
 						<li><a href="dashboard.php">Home</a></li>
-						<li><a href="">My Check-Ins</a></li>
-						<li><a href="">My Profile</a></li>
+						<!-- <li><a href="">My Profile</a></li> -->
+						<li><a href="purchase_page.php">Purchase Orders</a></li>
 						<?php
 						$username = $_SESSION['robo'];
 						$api = new roboSISAPI();
@@ -228,7 +192,8 @@ if(isset($_POST['logout']))
 						{
 							echo '<li><a href="admin_dashboard.php">Admin</a></li>';
 						}
-						?>					</ul>
+						?>					
+					</ul>
 				</div>
 				<div id="login_status">
 					<form method="post" name="form" action="">
@@ -244,76 +209,14 @@ if(isset($_POST['logout']))
 			
 			<div id="dashboard-checkin" class="clearfix">
 				<div id="forms" class="clearfix">
-					<h2>Purchase Order Forms - Submit a Form</h2>
+					<h2>Purchase Order Forms</h2>
 					<ul>
-						<li class="form-selected">Submit a Form</li>
-						<li><a href="#">View Your Forms</a></li>
-						<li><a href="#">View All Forms</a></li>
+						<li><a href="submitform_page.php">Submit a Form</a></li>
+						<li><a href="viewforms_page.php">View Your Forms</a></li>
+						<li><a href="viewallforms_page.php">View All Forms</a></li>
 					</ul>
 				</div>
-				<div id="forms-submit">
-					<form>
-							<fieldset>
-								<label for="field0">Field 0</label>
-								<input type="text" name="field0" id="" class="field" value=""/>
-							</fieldset>
-							<fieldset>
-								<label id="field1" >Field 1</label>
-								<input type="text" name="field1" id="" class="field" value="" />
-							</fieldset>
-							<fieldset>
-								<label for="field2">Field 2</label>
-								<input type="text" name="field2" id="" class="field" value=""/>
-							</fieldset>
-							<fieldset>
-								<label id="field3" >Field 3</label>
-								<input type="text" name="field3" id="" class="field" value="" />
-							</fieldset>
-							
-							<fieldset>
-								<input type="radio" name="yes" value="Yes" /> YES
-								<input type="radio" name="no" value="No" /> NO
-							</fieldset>
-							
-							<fieldset>
-								Select an Option:
-								<select name="options" class="options">
-								<option value="option_1">Option 1</option>
-								<option value="option_2">Option 2</option>
-								<option value="option_3">Option 3</option>
-								<option value="option_4">Option 4</option>
-								</select>
-							</fieldset>
-							
-							<fieldset>
-								Select an Option:
-								<select name="options2" class="options">
-								<option value="option_1">Option 1</option>
-								<option value="option_2">Option 2</option>
-								<option value="option_3">Option 3</option>
-								<option value="option_4">Option 4</option>
-								</select>
-							</fieldset>
-							
-							<fieldset>
-								<p>Type something here:</p>
-								<textarea class="form_textarea"></textarea>
-							</fieldset>
-							
-							<fieldset>
-								<input type="checkbox" name="verify" value="agree" /> I have agreed to the Terms and Conditions 
-							</fieldset>
-							
-							<div id="form-submitbuttons">
-							<fieldset>
-							<input name="submit" type="submit" class="submit" value="submit" />
-							</fieldset>
-							<fieldset>
-								<input name="save" type="submit" class="save" value="save for later" />
-							</fieldset>
-							</div>
-					</form>
-				</div>
+
 			</div>
 			
 		</div>

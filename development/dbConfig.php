@@ -55,7 +55,7 @@ if($i == 1) {
 	$array1[] = array("ActivationCode", "TINYTEXT");
 	$array1[] = array("Activated", "INT"); // nonzero val is true
 	$array1[] = array("UserSubteam", "TINYTEXT");
-	$array1[] = array("UserType", "TINYTEXT");
+	$array1[] = array("UserType", "TINYTEXT"); // vals: Regular, Admin, Nelson
 
 	if($dbConfig->createINNODBTable("RoboUsers", $array1)) echo "Success! Your RoboUsers Table is now set up! <br />";
 //print_r($dbConfig->createINNODBTable("CollegeSummary", $array1));
@@ -138,6 +138,7 @@ if($i == 4)
 	$arr[] = array("AdminComment", "TEXT");
 	$arr[] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
 	$arr[] = array("AdminUsername", "INT"); // NOT DB LINKED
+	$arr[] = array("Status", "TINYTEXT"); // vals: Unfinished, Pending, Approved, Completed
 	$arr[] = array("ConfirmationOfPurchase", "INT"); // int acts as bool, 0 and 1
 	$arr[] = array("Locked", "INT"); // int acts as bool, 0 and 1
 	$arr[] = array("UniqueID", "TINYTEXT"); // acts as a way to get a specific OrderID after inserting
@@ -157,12 +158,12 @@ if ($i == 5)
 	$arr[] = array("OrderListID", "int", "NOT NULL", "AUTO_INCREMENT");
 	$arr[] = array("PRIMARY KEY(OrderListID)");
 	$arr[] = array("OrderID", "INT");
+	$arr[] = array("UniqueEntryID", "TINYTEXT"); // allows updating of individual entries to work
 	$arr[] = array("PartNumber", "TINYTEXT");
 	$arr[] = array("PartName", "TINYTEXT");
 	$arr[] = array("PartSubsystem", "TINYTEXT");
 	$arr[] = array("PartIndividualPrice", "DOUBLE");
 	$arr[] = array("PartQuantity", "INT");
-	$arr[] = array("UniqueEntryID", "TINYTEXT"); // allows updating of individual entries to work
 		
 	
 	if($dbConfig->createINNODBTable("OrdersListTable", $arr)) echo "Success! Your OrdersListTable is now set up! <br />";

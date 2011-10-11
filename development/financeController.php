@@ -10,6 +10,8 @@ class financeController extends roboSISAPI
 		parent::__construct();
 	}
 	
+	// INPUT FUNCTIONS
+	
 	/**
 	 * This method inserts a new order into the database.
 	 * This method should be called only when an order is inputted into the database for the first time. Updating an order that has already been started should call updateOrder.
@@ -35,6 +37,7 @@ class financeController extends roboSISAPI
 		for ($i=0; $i < count($orderslist); $i++)
 		{
 			$list = $orderslist[$i];
+			$list["UniqueEntryID"] = uniqid("UEID");
 			$this->_dbConnection->insertIntoTable("OrdersListTable", "OrdersTable", "OrderID", $orderID, "OrderID", $list);
 		}
 		//echo "success";
@@ -62,29 +65,102 @@ class financeController extends roboSISAPI
 		//echo "success";
 	}
 	
+	// OUTPUT FUNCTIONS
+	
 	/**
-	 * Gets the order with given orderID
+	 * $orderID: the id of the order to get
 	 */
 	public function getOrder($orderID)
 	{
 		$resourceid = $this->_dbConnection->selectFromTable("OrdersTable", "OrderID", $orderID);
-		$arr = $this->_dbConnection->formatQueryResults($resourceid); // array is twice as big as it needs to be, should be optimized
+		$order = $this->_dbConnection->formatQuery($resourceid); // gets order with keys being column names
+		return $order;
+	}
+	
+	/**
+	 * Gets the list of parts associated with the given order
+	 */
+	public function getOrdersList($orderID)
+	{
+		$resourceid = $this->_dbConnection->selectFromTable("OrdersListTable", "OrderID", $orderID); // bug: only gives first row with given orderID
+		$arr = $this->_dbConnection->formatQuery($resourceid); // custom method built for this purpose
 		return $arr;
 	}
 	
 	/**
-	 * Returns an array in JSON format of all the past orders the given user has placed, with most recent order on top.
+	 * Returns a 2D array in JSON format of all the past orders the given user has placed, with most recent order on top. First array is orders, second array is orderslists, with sub-arrays being individual orders or lists(arrays) of parts per order.
 	 */
 	public function getUsersOrders($username)
 	{
 		$id = parent::getUserID($username);
-		$resourceid = $this->_dbConnection->selectFromTable("OrdersTable", "UserID", $id);
-		$arr = $this->_dbConnection->formatQueryResults($resourceid, "OrderID"); // holds all
-		$users_orders = array();
-		$users_orders[] = $this->getOrder($arr[0]);
-		$users_orders[] = $this->getOrder($arr[1]);
-		$users_orders[] = $this->getOrder($arr[2]);
+		$resourceid = $this->_dbConnection->selectFromTableDesc("OrdersTable", "UserID", $id, "NumericDateSubmitted"); // orders in most recently edited/submitted
+		$arr = $this->_dbConnection->formatQueryResults($resourceid, "OrderID"); // holds list of all the OrderIDs of the orders that the given user has placed
+		$orders = array(); // will be an array of arrays, each contained array being an order
+		for ($i=0; $i < count($arr); $i++)
+		{
+			$orders[$i] = $this->getOrder($arr[$i]); // gets a single order and adds it to orders array
+		}
+		$lists = array();
+		for ($i=0; $i < count($orders); $i++)
+		{
+			$lists[$i] = $this->getOrdersList($orders[$i][0]["OrderID"]); // gets the list of orderlist entries with given orderID as an array and stores it into one element of the lists array
+		}
+		$users_orders = array($orders, $lists); // puts into a 2D array
+		//$users_orders[] = $this->getOrder($arr[2]); // gets a single order
+		//return $orders;
 		return json_encode($users_orders);
+	}
+	
+	/**
+	 * gets ALL orders in the database in JSON format, with keys as db column names
+	 */
+	public function getAllOrders()
+	{
+		$resourceid = $this->_dbConnection->selectFromTable("OrdersTable");
+		$orders = $this->_dbConnection->formatQuery($resourceid);
+		return json_encode($orders);
+	}
+	
+	/**
+	 * Locks the order for processing and notifies admin
+	 */
+	public function submitToAdmin($orderID)
+	{
+		
+	}
+	
+	// ADMIN FUNCTIONS
+	
+	/**
+	 * Gets the list of pending orders in JSON
+	 */
+	public function getPendingOrders()
+	{
+		$resourceid = $this->_dbConnection->selectFromTable("OrdersTable", "Status", "Pending");
+		$orders = $this->_dbConnection->formatQuery($resourceid);
+		return json_encode($orders);
+	}
+	
+	/**
+	 * Sets the admin approval for an order
+	 * orderID: the orderID of the order to update
+	 * approved: Either boolean true for approved or false for rejected
+	 * comment: an optional text comment
+	 */
+	public function setApproval($orderID, $approved, $comment = null)
+	{
+		$status = "";
+		if ($approved)
+		{
+			$approved = 1; // allows to write to DB, since AdminApproved is an int, 1 = true 0 = false
+			$status = "Approved";
+		}
+		else
+		{
+			$approved = 0;
+			$status = "";
+		}
+		
 	}
 }
 

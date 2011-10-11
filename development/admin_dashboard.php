@@ -56,8 +56,8 @@ date_default_timezone_set('America/Los_Angeles'); // all times are in PST
 				<nav>
 					<ul>
 						<li><a href="dashboard.php">Home</a></li>
-						<li><a href="">My Check-Ins</a></li>
-						<li><a href="">My Profile</a></li>
+						<!-- <li><a href="">My Profile</a></li> -->
+						<li><a href="purchase_page.php">Purchase Orders</a></li>
 						<li><a href="admin_dashboard.php">Admin</a></li>
 					</ul>
 				</nav>

@@ -27,6 +27,7 @@ $orders = array(
 //"AdminComment" => "We have enough soldering irons.",
 //"AdminApproved" => 1,
 //"AdminUsername" => "12jayr",
+//"Status" => ""
 //"ConfirmationOfPurchase" => 0,
 //"Locked" => 0
 );
@@ -92,6 +93,9 @@ array(
 $finance->updateOrder(14, $orders, $orderslist);
 */
 
-$result = $finance->getUsersOrders($username);
-print_r($result);
+//$result = $finance->getUsersOrders($username);
+//$result = json_encode($finance->getOrdersList(14));
+//$result = $finance->getAllOrders();
+//$result = $finance->getPendingOrders();
+//print_r($result);
 ?>

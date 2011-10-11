@@ -12,7 +12,10 @@ if(isset($_POST['logout']))
 	header('Location: index.php');
 	exit;
 }
-
+function __autoload($class)
+{
+	require_once $class . '.php';
+}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -219,8 +222,8 @@ if(isset($_POST['logout']))
 				<div id="navbar">
 					<ul>
 						<li><a href="dashboard.php">Home</a></li>
-						<li><a href="">My Check-Ins</a></li>
-						<li><a href="">My Profile</a></li>
+						<!-- <li><a href="">My Profile</a></li> -->
+						<li><a href="purchase_page.php">Purchase Orders</a></li>
 						<?php
 						$username = $_SESSION['robo'];
 						$api = new roboSISAPI();
@@ -228,7 +231,8 @@ if(isset($_POST['logout']))
 						{
 							echo '<li><a href="admin_dashboard.php">Admin</a></li>';
 						}
-						?>					</ul>
+						?>					
+					</ul>
 				</div>
 				<div id="login_status">
 					<form method="post" name="form" action="">
@@ -246,18 +250,55 @@ if(isset($_POST['logout']))
 				<div id="forms" class="clearfix">
 					<h2>Purchase Order Forms - Submit a Form</h2>
 					<ul>
-						<li><a href="#">Submit a Form</a></li>
-						<li class="form-selected">View Your Forms</li>
-						<li><a href="#">View All Forms</a></li>
+						<li class="form-selected">Submit a Form</li>
+						<li><a href="viewforms_page.php">View Your Forms</a></li>
+						<li><a href="viewallforms_page.php">View All Forms</a></li>
 					</ul>
 				</div>
-				<div id="list-forms">
-					<ul>
-						<li>Form 1</li>
-						<li>Form 2</li>
-						<li>Form 3</li>	
-					</ul>
-				</div>
+				<div id="forms-submit">
+					<form id="orderform">
+							<fieldset>
+								<label for="vendorname">Vendor Name</label>
+								<input type="text" name="vendorname" id="vendorname" class="field" value=""/>
+							</fieldset>
+							<fieldset>
+								<label id="vendorphone" >Vendor Phone Number</label>
+								<input type="text" name="vendorphone" id="vendorphone" class="field" value="" />
+							</fieldset>
+							<fieldset>
+								<label for="vendoremail">Vendor Email</label>
+								<input type="text" name="vendoremail" id="vendoremail" class="field" value=""/>
+							</fieldset>
+							<fieldset>
+								<label id="vendoraddress" >Vendor Address</label>
+								<input type="text" name="vendoraddress" id="vendoraddress" class="field" value="" />
+							</fieldset>
+							<fieldset>
+								<p>Reason For Purchase</p>
+								<textarea class="form_textarea"></textarea>
+							</fieldset>
+							<fieldset>
+								<input type="radio" name="yes" value="1" /> YES
+								<input type="radio" name="no" value="0" /> NO
+							</fieldset>
+							
+							<fieldset>
+								<input type="checkbox" name="verify" value="agree" /> I have agreed to the Terms and Conditions 
+							</fieldset>
+							
+							<div id="form-submitbuttons">
+							<fieldset>
+							<input name="submit" type="submit" class="submit" value="submit" />
+							</fieldset>
+							<fieldset>
+								<input name="save" type="submit" class="save" value="save for later" />
+							</fieldset>
+							</div>
+					</form>
+					<?php
+					// code to input/save to database here
+					
+					?>
 				</div>
 			</div>
 			
