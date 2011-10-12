@@ -161,7 +161,7 @@ if(isset($_POST['logout']))
 					<ul>
 						<li><a href="dashboard.php">Home</a></li>
 						<!-- <li><a href="">My Profile</a></li> -->
-						<li><a href="purchase_page.php">Purchase Orders</a></li>
+						<li><a href="viewmyforms.php">Purchase Orders</a></li>
 						<?php
 						$username = $_SESSION['robo'];
 						$api = new roboSISAPI();

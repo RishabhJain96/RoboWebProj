@@ -223,7 +223,7 @@ function __autoload($class)
 					<ul>
 						<li><a href="dashboard.php">Home</a></li>
 						<!-- <li><a href="">My Profile</a></li> -->
-						<li><a href="purchase_page.php">Purchase Orders</a></li>
+						<li><a href="viewmyforms.php">Purchase Orders</a></li>
 						<?php
 						$username = $_SESSION['robo'];
 						$api = new roboSISAPI();
@@ -251,8 +251,16 @@ function __autoload($class)
 					<h2>Purchase Order Forms - Submit a Form</h2>
 					<ul>
 						<li class="form-selected">Submit a Form</li>
-						<li><a href="viewforms_page.php">View Your Forms</a></li>
-						<li><a href="viewallforms_page.php">View All Forms</a></li>
+						<li><a href="viewmyforms.php">View My Forms</a></li>
+						<li><a href="viewallforms.php">View All Forms</a></li>
+						<?php
+						$username = $_SESSION['robo'];
+						$api = new roboSISAPI();
+						if ($api->getUserType($username) != "Admin")
+						{
+							echo '<li><a href="adminviewpending.php">View Pending</a></li>';
+						}
+						?>
 					</ul>
 				</div>
 				<div id="forms-submit">

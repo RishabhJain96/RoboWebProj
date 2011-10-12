@@ -232,15 +232,8 @@ if ($api->getUserType($username) != "Admin")
 					<ul>
 						<li><a href="dashboard.php">Home</a></li>
 						<!-- <li><a href="">My Profile</a></li> -->
-						<li><a href="purchase_page.php">Purchase Orders</a></li>
-						<?php
-						$username = $_SESSION['robo'];
-						$api = new roboSISAPI();
-						if ($api->getUserType($username) == "Admin")
-						{
-							echo '<li><a href="admin_dashboard.php">Admin</a></li>';
-						}
-						?>					
+						<li><a href="viewmyforms.php">Purchase Orders</a></li>
+						<li><a href="admin_dashboard.php">Admin</a></li>
 					</ul>
 				</div>
 				<div id="login_status">
@@ -259,9 +252,10 @@ if ($api->getUserType($username) != "Admin")
 				<div id="forms" class="clearfix">
 					<h2>Purchase Order Forms - View Your Forms</h2>
 					<ul>
-						<li><a href="submitform_page.php">Submit a Form</a></li>
-						<li class="form-selected">View Your Forms</li>
-						<li><a href="viewallforms_page.php">View All Forms</a></li>
+						<li><a href="submitform.php">Submit a Form</a></li>
+						<li><a href="viewmyforms.php">View My Forms</a></li>
+						<li><a href="viewallforms.php">View All Forms</a></li>
+						<li class="form-selected">View Pending</li>
 					</ul>
 				</div>
 				<div id="formstable">
