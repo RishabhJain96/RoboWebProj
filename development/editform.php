@@ -16,6 +16,11 @@ function __autoload($class)
 {
 	require_once $class . '.php';
 }
+if (is_null($_GET['id']))
+{
+	header('Location: submitform.php'); // if there is no order to edit, redirects to new form page
+	exit;
+}
 // Will accept url parameter id=123 to get orderID
 ?>
 
@@ -251,13 +256,13 @@ function __autoload($class)
 				<div id="forms" class="clearfix">
 					<h2>Purchase Order Forms - Submit a Form</h2>
 					<ul>
-						<li class="form-selected">Submit a Form</li>
+						<li><a href="submitform.php">Submit a Form</a></li>
 						<li><a href="viewmyforms.php">View My Forms</a></li>
 						<li><a href="viewallforms.php">View All Forms</a></li>
 						<?php
 						$username = $_SESSION['robo'];
 						$api = new roboSISAPI();
-						if ($api->getUserType($username) != "Admin")
+						if ($api->getUserType($username) == "Admin")
 						{
 							echo '<li><a href="adminviewpending.php">View Pending</a></li>';
 						}

@@ -215,6 +215,14 @@ function __autoload($class)
 						<li><a href="submitform.php">Submit a Form</a></li>
 						<li><a href="viewmyforms.php">View My Forms</a></li>
 						<li><a href="viewallforms.php">View All Forms</a></li>
+						<?php
+						$username = $_SESSION['robo'];
+						$api = new roboSISAPI();
+						if ($api->getUserType($username) == "Admin")
+						{
+							echo '<li><a href="adminviewpending.php">View Pending</a></li>';
+						}
+						?>
 					</ul>
 				</div>
 

@@ -23,6 +23,11 @@ if ($api->getUserType($username) != "Admin")
 	header('Location: index.php');
 	exit;
 }
+if (is_null($_GET['id']))
+{
+	header('Location: submitform.php'); // if there is no order to edit, redirects to new form page
+	exit;
+}
 // Will accept url parameter id=123 to get orderID
 ?>
 

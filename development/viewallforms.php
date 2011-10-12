@@ -256,7 +256,7 @@ function __autoload($class)
 						<?php
 						$username = $_SESSION['robo'];
 						$api = new roboSISAPI();
-						if ($api->getUserType($username) != "Admin")
+						if ($api->getUserType($username) == "Admin")
 						{
 							echo '<li><a href="adminviewpending.php">View Pending</a></li>';
 						}
