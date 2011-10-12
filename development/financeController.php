@@ -152,15 +152,16 @@ class financeController extends roboSISAPI
 		$status = "";
 		if ($approved)
 		{
-			$approved = 1; // allows to write to DB, since AdminApproved is an int, 1 = true 0 = false
+			$approved = 1; // writeable to DB, since AdminApproved is an int, 1 = true 0 = false
 			$status = "Approved";
 		}
 		else
 		{
 			$approved = 0;
-			$status = "";
+			$status = "Rejected";
 		}
-		
+		$arr_vals = array("Status" => $status, "AdminApproved" => $approved);
+		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $arr_vals, "OrderID = $orderID");
 	}
 }
 

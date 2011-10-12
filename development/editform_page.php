@@ -16,6 +16,7 @@ function __autoload($class)
 {
 	require_once $class . '.php';
 }
+// Will accept url parameter id=123 to get orderID
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -275,7 +276,7 @@ function __autoload($class)
 							</fieldset>
 							<fieldset>
 								<p>Reason For Purchase</p>
-								<textarea class="form_textarea">Default</textarea>
+								<textarea class="form_textarea"></textarea>
 							</fieldset>
 							<fieldset>
 								<input type="radio" name="yes" value="1" /> YES
@@ -291,10 +292,10 @@ function __autoload($class)
 							<input name="submit" type="submit" class="submit" value="submit" />
 							</fieldset>
 							<fieldset>
-								<input name="save" type="submit" class="save" value="save" />
+								<input name="upate" type="submit" class="save" value="update" />
 							</fieldset>
-							<!-- save: input, then go to edit
-							     submit: input, goes to submitForApproval -->
+							<!-- update: updates, then reloads page 
+							     submit: updates, goes to submitForApproval -->
 							</div>
 					</form>
 					<?php

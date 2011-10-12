@@ -16,6 +16,7 @@ function __autoload($class)
 {
 	require_once $class . '.php';
 }
+// Will accept url parameter id=123 to get orderID
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
