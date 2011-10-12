@@ -10,6 +10,21 @@ class financeController extends roboSISAPI
 		parent::__construct();
 	}
 	
+	// BOOLEAN HELPER FUNCTIONS
+	
+	/**
+	 * Returns true if the order has been locked against further editing
+	 */
+	public function isLocked($orderID)
+	{
+		$resourceid = $this->_dbConnection->selectFromTable("OrdersTable", "OrderID", $orderID);
+		$order = $this->_dbConnection->formatQueryResults($resourceid, "Locked");
+		if ($order[0]) // loose checking, dunno if this works
+			return true;
+		else
+			return false;
+	}
+	
 	// INPUT FUNCTIONS
 	
 	/**
@@ -24,6 +39,12 @@ class financeController extends roboSISAPI
 		$orders["UserID"] = $id; // saves the front-end from making the api call to get the UserID
 		$uniqueID = uniqid("UID"); // generates a unique 16-character string starting with "UID"
 		$orders["UniqueID"] = $uniqueID; // adds the uniqueID string to the orders array, with key "UniqueID"
+		// sets default values for locked, confirmationofpurchase, english and numeric date submitted, status
+		$orders["Status"] = "Unfinished";
+		$orders["Locked"] = 0; // locked is false
+		$orders["ConfirmationOfPurchase"] = 0;
+		$orders["EnglishDateSubmitted"] = date("l, F j \a\\t g:i a"); // format: Sunday, January 31 at 3:66 pm
+		$orders["NumericDateSubmitted"] = date("YmdHi"); // format: YYYYMMDDhhmm i.e. 201109232355
 		// inserts the general orders-related info into the OrdersTable
 		//print_r($orders);
 		$this->_dbConnection->insertIntoTable("OrdersTable", "RoboUsers", "UserID", $id, "UserID", $orders);
@@ -147,8 +168,9 @@ class financeController extends roboSISAPI
 	 * approved: Either boolean true for approved or false for rejected
 	 * comment: an optional text comment
 	 */
-	public function setApproval($orderID, $approved, $comment = null)
+	public function setApproval($orderID, $approved, $adminusername, $comment = null)
 	{
+		// set status, AdminApproved, AdminComment, AdminUsername, Locked, English/NumericDateApproved
 		$status = "";
 		if ($approved)
 		{
@@ -160,7 +182,10 @@ class financeController extends roboSISAPI
 			$approved = 0;
 			$status = "Rejected";
 		}
-		$arr_vals = array("Status" => $status, "AdminApproved" => $approved);
+		$locked = $approved; // if order is approved, order stays locked, if not order is unlocked to allow user to edit it again
+		$englishdateapproved = date("l, F j \a\\t g:i a"); // of format Sunday, June 31 at 3:33 pm
+		$numericdateapproved = date("YmdHi"); // of format 201109232355
+		$arr_vals = array("Status" => $status, "AdminApproved" => $approved, "AdminComment" => $comment, "AdminUsername" => $adminusername, "Locked" => $locked, "EnglishDateSubmitted" => $englishdatesubmitted, "NumericDateSubmitted" => $numericdatesubmitted);
 		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $arr_vals, "OrderID = $orderID");
 	}
 }
