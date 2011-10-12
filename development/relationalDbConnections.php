@@ -82,6 +82,33 @@ class relationalDbConnections extends dbConnections
 	}
 	
 	/**
+	 * duplicates formatQueryResults with tweaked functionality; returns associative array if field is null
+	 */
+	public function formatQuery($value, $field = null)
+	{
+		$array = array();
+		$i = 0;
+		if(!is_null($field)) {
+			while($rows = mysql_fetch_array($value)) {
+				$array[$i] = $rows[$field];
+				$i++;
+			}
+			return $array;
+		} else {
+			$arr = array();
+			//$rows = mysql_fetch_array($value, MYSQL_ASSOC);
+			while($rows = mysql_fetch_array($value, MYSQL_ASSOC))
+			{
+				$arr[] = $rows;
+			}
+			if(empty($arr)) return $arr;
+			if(count($arr)>0) return $arr;
+			else return $arr[0];
+		}
+	}
+
+	
+	/**
 	 * 
 	 */
 //	public function writeToDatabse($tablename, $columntoupdate, $columnforid, $id)
