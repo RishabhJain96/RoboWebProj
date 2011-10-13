@@ -19,7 +19,7 @@ class financeController extends roboSISAPI
 	{
 		$resourceid = $this->_dbConnection->selectFromTable("OrdersTable", "OrderID", $orderID);
 		$order = $this->_dbConnection->formatQueryResults($resourceid, "Locked");
-		if ($order[0]) // loose checking, dunno if this works
+		if ($order[0] == 1) // loose checking
 			return true;
 		else
 			return false;
@@ -62,6 +62,7 @@ class financeController extends roboSISAPI
 			$this->_dbConnection->insertIntoTable("OrdersListTable", "OrdersTable", "OrderID", $orderID, "OrderID", $list);
 		}
 		//echo "success";
+		return true;
 	}
 	
 	/**
@@ -70,6 +71,7 @@ class financeController extends roboSISAPI
 	public function updateOrder($orderID, $orders, $orderslist)
 	{
 		//$id = parent::getUserID($username);
+		if($this->isLocked($orderID)) return false; // prevents updating a locked order
 		// updates the order with given orderID
 		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $orders, "OrderID = $orderID");
 		// iterates through orderslist and inserts the list of parts and associated info into the orderslist table
@@ -84,6 +86,7 @@ class financeController extends roboSISAPI
 			$this->_dbConnection->updateTable("OrdersListTable", "OrdersListTable", "UniqueEntryID", $list["UniqueEntryID"], "OrderID", $list, $condition);
 		}
 		//echo "success";
+		return true;
 	}
 	
 	// OUTPUT FUNCTIONS
@@ -106,6 +109,18 @@ class financeController extends roboSISAPI
 		$resourceid = $this->_dbConnection->selectFromTable("OrdersListTable", "OrderID", $orderID); // bug: only gives first row with given orderID
 		$arr = $this->_dbConnection->formatQuery($resourceid); // custom method built for this purpose
 		return $arr;
+	}
+	
+	/**
+	 * Returns multidimensional array of order and orderslist
+	 * calls internal methods getOrder and getOrdersList
+	 */
+	public function getFullOrder($orderID)
+	{
+		$orders = $this->getOrder($orderID);
+		$orderslist = $this->getOrdersList($orderID);
+		$fullorder = array($orders, $orderslist);
+		return $fullorder;
 	}
 	
 	/**
@@ -143,11 +158,16 @@ class financeController extends roboSISAPI
 	}
 	
 	/**
-	 * Locks the order for processing and notifies admin
+	 * Locks the order and sets status to pending
 	 */
-	public function submitToAdmin($orderID)
+	public function submitForAdminApproval($orderID)
 	{
-		
+		$locked = 1; // Locks the order while under approval process
+		$status = "Pending";
+		$eds = date("l, F j \a\\t g:i a");
+		$nds = date("YmdHi");
+		$arr_vals = array("Locked" => $locked, "Status" => $status, "EnglishDateSubmitted" => $eds, "NumericDateSubmitted" => $nds);
+		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $orders, "OrderID = $orderID");
 	}
 	
 	// ADMIN FUNCTIONS
@@ -163,10 +183,11 @@ class financeController extends roboSISAPI
 	}
 	
 	/**
-	 * Sets the admin approval for an order
+	 * Sets the admin approval for an order, when admin makes decision
 	 * orderID: the orderID of the order to update
 	 * approved: Either boolean true for approved or false for rejected
 	 * comment: an optional text comment
+	 * $adminusername: the username of the admin who make the decision
 	 */
 	public function setApproval($orderID, $approved, $adminusername, $comment = null)
 	{
