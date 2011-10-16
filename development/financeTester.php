@@ -97,5 +97,8 @@ $finance->updateOrder(14, $orders, $orderslist);
 //$result = json_encode($finance->getOrdersList(14));
 //$result = $finance->getAllOrders();
 //$result = $finance->getPendingOrders();
+//$result = $finance->isLocked(13);
+//$result = $finance->getFullOrder(13);
+//$result = $finance->setApproval(13, false, "12paulw", "Try upping the quantity.");
 //print_r($result);
 ?>

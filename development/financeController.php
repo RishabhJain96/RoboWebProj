@@ -112,7 +112,7 @@ class financeController extends roboSISAPI
 	}
 	
 	/**
-	 * Returns multidimensional array of order and orderslist
+	 * Returns multidimensional array of order and orderslist in JSON
 	 * calls internal methods getOrder and getOrdersList
 	 */
 	public function getFullOrder($orderID)
@@ -120,7 +120,7 @@ class financeController extends roboSISAPI
 		$orders = $this->getOrder($orderID);
 		$orderslist = $this->getOrdersList($orderID);
 		$fullorder = array($orders, $orderslist);
-		return $fullorder;
+		return json_encode($fullorder);
 	}
 	
 	/**
@@ -206,7 +206,7 @@ class financeController extends roboSISAPI
 		$locked = $approved; // if order is approved, order stays locked, if not order is unlocked to allow user to edit it again
 		$englishdateapproved = date("l, F j \a\\t g:i a"); // of format Sunday, June 31 at 3:33 pm
 		$numericdateapproved = date("YmdHi"); // of format 201109232355
-		$arr_vals = array("Status" => $status, "AdminApproved" => $approved, "AdminComment" => $comment, "AdminUsername" => $adminusername, "Locked" => $locked, "EnglishDateSubmitted" => $englishdatesubmitted, "NumericDateSubmitted" => $numericdatesubmitted);
+		$arr_vals = array("Status" => $status, "AdminApproved" => $approved, "AdminComment" => $comment, "AdminUsername" => $adminusername, "Locked" => $locked, "EnglishDateApproved" => $englishdateapproved, "NumericDateApproved" => $numericdateapproved);
 		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $arr_vals, "OrderID = $orderID");
 	}
 }
