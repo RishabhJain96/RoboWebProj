@@ -50,7 +50,7 @@
 					$register = new register();
 					if ($register->register($username, $password, $phonenumber))
 					{
-						echo '<p>Congratulations! Your account has been set up and you may now login.</p>';
+						echo '<p>Congratulations! Your account has been set up and you may now <a href="index.php">login</a>.</p>';
 					}
 				}
 				?>
