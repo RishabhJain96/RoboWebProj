@@ -137,7 +137,7 @@ if($i == 4)
 	$arr[] = array("PartVendorPhoneNumber", "TINYTEXT");
 	$arr[] = array("AdminComment", "TEXT");
 	$arr[] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
-	$arr[] = array("AdminUsername", "INT"); // NOT DB LINKED
+	$arr[] = array("AdminUsername", "TINYTEXT"); // NOT DB LINKED
 	$arr[] = array("Status", "TINYTEXT"); // vals: Unfinished, Pending, Approved, Completed, Rejected
 	$arr[] = array("ConfirmationOfPurchase", "INT"); // int acts as bool, 0 and 1
 	$arr[] = array("Locked", "INT"); // int acts as bool, 0 and 1
