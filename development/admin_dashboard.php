@@ -155,10 +155,18 @@ date_default_timezone_set('America/Los_Angeles'); // all times are in PST
 						$arr_usernames = $arr_checkins[0];
 						$arr_texttimes = $arr_checkins[1];
 						// checks if arrays are empty
+						$size = count($arr_usernames);
 						if(empty($arr_usernames))
 						{
 							echo "<br />";
 							echo "<p>There are no checkins for the selected date: $month/$day/$year.</p>";
+						}
+						else
+						{
+							if($size == 1) // allows appropriate grammar; person vs. people
+								echo "<p>$size person checked in on $month/$day/$year.</p>";
+							else
+								echo "<p>$size people checked in on $month/$day/$year.</p>";
 						}
 						for($i = 0; $i < count($arr_usernames); $i++)
 						{
