@@ -32,193 +32,7 @@ if (is_null($_GET['id']))
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Harker Robotics 1072</title>
 	
-	<style>
-	.clearfix:before, .clearfix:after {
-		content: "";
-		display: table;
-	}
-	.clearfix:after {
-		clear: both;
-	}
-	.clearfix {
-		zoom: 1;
-	}
-
-	html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
-		margin: 0;
-		padding: 0;
-		font-size: 100%;
-		vertical-align: baseline;
-		border: 0;
-		outline: 0;
-		background: transparent;
-	}
-	a {
-		text-decoration: none;
-		color: #000;
-	}
-	ol, ul {
-		list-style: none;
-	}
-
-	blockquote, q {
-		quotes: none;
-	}
-
-	:focus {
-		outline: 0;
-	}
-	input {
-		border: none;
-	}
-	table {
-		border-collapse: collapse;
-		border-spacing: 0;
-	}
-
-	/* main */
-	html, body {
-	font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
-	height: 100%;
-	background-color: #EEE;
-	}
-
-	#floater {
-	position: relative;
-	float: left;
-	height: 50%;
-	margin-bottom: -260px;
-	width: 1px;
-	}
-	
-	#dashboardWindow {
-		background-color: #333;
-		color: #FFF;
-		width: 640px;
-		margin: 1.5em auto;
-		position: relative;
-		clear: left;
-		padding: 2em;
-	}
-	#dashboardWindow div {
-		margin-bottom: 1.5em;
-	}
-	#dashboardWindow h2 {
-		font-size: 1.5em;
-	}
-	#login_status {
-		float: right;
-		margin-bottom: 1em;
-	}
-	#login_status form input.logout {
-		padding: 5px 15px;
-		font-size: 0.9em;
-		background-color: #FFF;
-		float: right;
-	}
-	#login_status form input.logout:active {
-		background-color: #888;
-		color: #FFF;
-	}
-	#dashboardWindow h1 {
-		font-size: 2em;
-		font-weight: bold;
-		clear: both;
-	}
-	#dashboard-checkin {
-		margin-top: 2.5em;
-	}
-	#checkin-header form {
-		float: right;
-	}
-	#checkin-header form input.checkin {
-		padding: 0.5em 1.5em;
-		font-size: 1.25em;
-		background-color: #FFF;
-		font-weight: bold;
-	}
-	#checkin-header form input.checkin:active {
-		background-color: #888;
-		color: #FFF;
-	}
-	#checkin-header h2 {
-		float: left;
-	}
-	
-	#navbar {
-		float: left;
-	}
-	#navbar ul li {
-		display: inline;
-	}
-	#navbar ul li a {
-		color: #FFF;
-		padding: 0.75em 1.25em;
-	}
-	#navbar ul li a:hover {
-		text-decoration: underline;
-	}
-	
-	#forms h2 {
-		font-size: 1.75em;
-	}
-	#forms ul {
-		margin-top: 1.5em;
-	}
-	#forms ul li {
-		display: inline;
-		margin-right: 3em;
-	}
-	#forms ul li a {
-		color: #FFF;
-		background-color: #444;
-		padding: 0.6em 1em;
-		font-size: 1.1em;
-	}
-	#forms ul li a:hover {
-		text-decoration: underline;
-	}
-	#forms ul li.form-selected {
-		padding: 0.6em 1em;
-		font-size: 1.1em;
-		background-color: #555;
-		font-weight: bold;
-	}
-	
-	#forms-submit form {
-		margin-top: 40px;
-	}
-	#forms-submit fieldset {
-		margin-bottom: 1em;
-		font-size: 1.25em;
-	}
-	#forms-submit fieldset label {
-		padding-right: 1em;
-	}
-	#forms-submit fieldset input.field {
-		font-size: 1em;
-		padding: 0.5em;
-		width: 275px;
-	}
-	#forms-submit fieldset input.save, input.submit {
-		padding: 0.5em;
-		font-size: 1em;
-	}
-	#forms-submit fieldset select.options {
-		font-size: 1em;
-		width: 150px;
-	}
-	#forms-submit fieldset textarea.form_textarea {
-		width: 375px;
-		min-height: 150px;
-	}
-	
-	#form-submitbuttons fieldset {
-		display: inline;
-		margin-right: 1.5em;
-	}
-	
-	</style>
+	<link rel="stylesheet" href="form.css" type="text/css" />
 </head>
 <body>
 	<div id="mainWrapper">
@@ -270,10 +84,36 @@ if (is_null($_GET['id']))
 					</ul>
 				</div>
 				<div id="forms-submit">
-					<form id="orderform">
+					<form id="orderform" method="post">
 							<fieldset>
-								<label for="vendorname">Vendor Name</label>
-								<input type="text" name="vendorname" id="vendorname" class="field" value=""/>
+								<label for="name">Name</label>
+								<input type="text" name="name" id="name" class="field" value=""/>
+							</fieldset>
+							
+							<fieldset>
+								<label for="email">Email</label>
+								<input type="text" name="email" id="email" class="field" value=""/>
+							</fieldset>
+							
+							<fieldset>
+								<label for="cellphone">Cell Phone Number</label>
+								<input type="text" name="cellphone" id="cellphone" class="field" value=""/>
+							</fieldset>
+							
+							<fieldset id="subteam_select">
+								<label for="subteam">Subteam</label>
+								<fieldset>
+								<input type="radio" name="subteam" value="M" /> M
+								<input type="radio" name="subteam" value="E" /> E
+								<input type="radio" name="subteam" value="P" /> P
+								<input type="radio" name="subteam" value="O" /> O
+								</fieldset>
+							</fieldset>
+							
+							
+							<fieldset>
+								<label id="vendorname">Vendor Name</label>
+								<input type="text" name="vendorname" id="vendorname" class="field" value="" />
 							</fieldset>
 							<fieldset>
 								<label id="vendorphone" >Vendor Phone Number</label>
@@ -287,13 +127,114 @@ if (is_null($_GET['id']))
 								<label id="vendoraddress" >Vendor Address</label>
 								<input type="text" name="vendoraddress" id="vendoraddress" class="field" value="" />
 							</fieldset>
-							<fieldset>
+							<fieldset id="reason">
 								<p>Reason For Purchase</p>
-								<textarea class="form_textarea"></textarea>
+								<textarea class="form_textarea">Default</textarea>
 							</fieldset>
+							
+							<!-- Come up with schema to generate the following table, multidimensional arrays in html name? -->
+							<div id="order_table">
+								<table>
+									<tr id="partnumber">
+										<th class="th_alt">Part #</th>
+										<th>Part Name</th>
+										<th class="th_alt">Subsystem</th>
+										<th>$ / Unit</th>
+										<th class="th_alt" id="quantity">Quantity</th>
+										<th>Total</th>
+									</tr>
+									<tr class="data">
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt">
+										<fieldset>
+											<input type="text" class="order_table_field" />
+										</fieldset>
+										</td>
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="quantity"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+									</tr>
+									<tr class="data_alt">
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="quantity"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+									</tr>
+									<tr class="data">
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="quantity"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+									</tr>
+									<tr class="data_alt">
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="quantity"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+									</tr>
+									<tr class="data">
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="quantity"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+									</tr>
+									<tr class="data_alt">
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="quantity"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+									</tr>
+									<tr class="data">
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td  class="quantity"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+									</tr>
+									<tr class="data_alt">
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td  class="quantity"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+									</tr>
+									<tr class="data">
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="quantity"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+									</tr>
+									<tr class="data_alt">
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td  class="quantity"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+										<td class="td_alt"><fieldset><input type="text" class="order_table_field" /></fieldset></td>
+									</tr>
+									
+								</table>
+							</div>
+							
+							
 							<fieldset>
-								<input type="radio" name="yes" value="1" /> YES
-								<input type="radio" name="no" value="0" /> NO
+								<input type="radio" name="subteam" value="M" /> YES
+								<input type="radio" name="subteam" value="E" /> NO
 							</fieldset>
 							
 							<fieldset>
@@ -305,11 +246,12 @@ if (is_null($_GET['id']))
 							<input name="submit" type="submit" class="submit" value="submit" />
 							</fieldset>
 							<fieldset>
-								<input name="upate" type="submit" class="save" value="update" />
+								<input name="save" type="submit" class="save" value="save" />
 							</fieldset>
-							<!-- update: updates, then reloads page 
-							     submit: updates, goes to submitForApproval -->
+							<!-- save: input, then go to edit
+							     submit: input, goes to submitForApproval -->
 							</div>
+							
 					</form>
 					<?php
 					// code to input/save to database here

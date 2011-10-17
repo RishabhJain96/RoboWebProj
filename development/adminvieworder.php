@@ -25,7 +25,7 @@ if ($api->getUserType($username) != "Admin")
 }
 if (is_null($_GET['id']))
 {
-	header('Location: submitform.php'); // if there is no order to edit, redirects to new form page
+	header('Location: viewmyforms.php'); // if there is no order to view, redirects to viewmyforms page
 	exit;
 }
 // Will accept url parameter id=123 to get orderID
@@ -39,154 +39,7 @@ if (is_null($_GET['id']))
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Harker Robotics 1072</title>
 	
-	<style>
-	.clearfix:before, .clearfix:after {
-		content: "";
-		display: table;
-	}
-	.clearfix:after {
-		clear: both;
-	}
-	.clearfix {
-		zoom: 1;
-	}
-
-	html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
-		margin: 0;
-		padding: 0;
-		font-size: 100%;
-		vertical-align: baseline;
-		border: 0;
-		outline: 0;
-		background: transparent;
-	}
-	a {
-		text-decoration: none;
-		color: #000;
-	}
-	ol, ul {
-		list-style: none;
-	}
-
-	blockquote, q {
-		quotes: none;
-	}
-
-	:focus {
-		outline: 0;
-	}
-	input {
-		border: none;
-	}
-	table {
-		border-collapse: collapse;
-		border-spacing: 0;
-	}
-
-	/* main */
-	html, body {
-	font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
-	height: 100%;
-	background-color: #EEE;
-	}
-
-	#floater {
-	position: relative;
-	float: left;
-	height: 50%;
-	margin-bottom: -260px;
-	width: 1px;
-	}
-	
-	#dashboardWindow {
-		background-color: #333;
-		color: #FFF;
-		width: 640px;
-		margin: 1.5em auto;
-		position: relative;
-		clear: left;
-		padding: 2em;
-	}
-	#dashboardWindow div {
-		margin-bottom: 1.5em;
-	}
-	#dashboardWindow h2 {
-		font-size: 1.5em;
-	}
-	#login_status {
-		float: right;
-		margin-bottom: 1em;
-	}
-	#login_status form input.logout {
-		padding: 5px 15px;
-		font-size: 0.9em;
-		background-color: #FFF;
-		float: right;
-	}
-	#login_status form input.logout:active {
-		background-color: #888;
-		color: #FFF;
-	}
-	#dashboardWindow h1 {
-		font-size: 2em;
-		font-weight: bold;
-		clear: both;
-	}
-	#dashboard-checkin {
-		margin-top: 2.5em;
-	}
-	#checkin-header form {
-		float: right;
-	}
-	#checkin-header form input.checkin {
-		padding: 0.5em 1.5em;
-		font-size: 1.25em;
-		background-color: #FFF;
-		font-weight: bold;
-	}
-	#checkin-header form input.checkin:active {
-		background-color: #888;
-		color: #FFF;
-	}
-	#checkin-header h2 {
-		float: left;
-	}
-	
-	#navbar {
-		float: left;
-	}
-	#navbar ul li {
-		display: inline;
-	}
-	#navbar ul li a {
-		color: #FFF;
-		padding: 0.75em 1.25em;
-	}
-	#navbar ul li a:hover {
-		text-decoration: underline;
-	}
-	
-	#forms h2 {
-		font-size: 1.75em;
-	}
-	#forms ul {
-		margin-top: 1.5em;
-	}
-	#forms ul li {
-		display: inline;
-		margin-right: 3em;
-	}
-	#forms ul li a {
-		color: #FFF;
-		background-color: #444;
-		padding: 0.6em 1em;
-		font-size: 1.1em;
-	}
-	#forms ul li a:hover {
-		text-decoration: underline;
-	}
-	
-	</style>
+	<link rel="stylesheet" href="form.css" type="text/css" />
 </head>
 <body>
 	<div id="mainWrapper">
@@ -223,7 +76,65 @@ if (is_null($_GET['id']))
 						<li><a href="adminviewpending.php">View Pending</a></li>
 					</ul>
 				</div>
-
+				<div id="formstable">
+					<table>
+						<?php
+						$columns = array( // the list of column headers
+						"OrderID",
+						"Username",
+						"UserSubteam",
+						"EnglishDateSubmitted",
+						"NumericDateSubmitted",
+						"EnglishDateApproved",
+						"NumericDateApproved",
+						"ReasonForPurchase",
+						"ShippingAndHandling",
+						"TaxPrice",
+						"EstimatedTotalPrice",
+						"PartVendorName",
+						"PartVendorEmail",
+						"PartVendorAddress",
+						"PartVendorPhoneNumber",
+						"AdminComment",
+						"AdminApproved",
+						"AdminUsername",
+						"ConfirmationOfPurchase",
+						"Locked"
+						);
+						?>
+						<tr id="header">
+							<th>OrderID</th>
+							<th>Submitting User</th>
+							<th>Subteam</th>
+							<th>Date Submitted</th>
+							<th>Date Approved</th>
+							<th>Reason For Purchase</th>
+							<th>Shipping &amp; Handling</th>
+							<th>Tax</th>
+							<th>Estimated Total Price</th>
+							<th>Vendor Name</th>
+							<th>Vendor Email</th>
+							<th>Vendor Address</th>
+							<th>Vendor Phone Number</th>
+							<th>Admin Comment</th>
+							<th>Admin Approved</th>
+							<th>Admin Username</th>
+							<th>Locked</th>
+						</tr>
+						<tr class="data">
+							<td>Key</td>
+							<td>Value</td>
+						</tr>
+						<tr class="data">
+							<td>Key</td>
+							<td>Value</td>
+						</tr>
+						<tr class="data">
+							<td>Key</td>
+							<td>Value</td>
+						</tr>
+					</table>
+				</div>
 			</div>
 			
 		</div>
