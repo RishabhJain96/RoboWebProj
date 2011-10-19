@@ -32,6 +32,7 @@ class financeController extends roboSISAPI
 	 * This method should be called only when an order is inputted into the database for the first time. Updating an order that has already been started should call updateOrder.
 	 * Check the finance tester for an example of how the $orders and $orderslist arrays should be structured, the examples are too large to reasonably fit here.
 	 * $username: the user who is submitting the order
+	 * returns the orderID of the order just inputted
 	 */
 	public function inputOrder($username, $orders, $orderslist)
 	{
@@ -62,7 +63,7 @@ class financeController extends roboSISAPI
 			$this->_dbConnection->insertIntoTable("OrdersListTable", "OrdersTable", "OrderID", $orderID, "OrderID", $list);
 		}
 		//echo "success";
-		return true;
+		return $orderID;
 	}
 	
 	/**
@@ -125,6 +126,7 @@ class financeController extends roboSISAPI
 	
 	/**
 	 * Returns a 2D array in JSON format of all the past orders the given user has placed, with most recent order on top. First array is orders, second array is orderslists, with sub-arrays being individual orders or lists(arrays) of parts per order.
+	 * UPDATED: Returns an array of the users orders only, no lists. Keys are DB column names.
 	 */
 	public function getUsersOrders($username)
 	{
@@ -136,15 +138,16 @@ class financeController extends roboSISAPI
 		{
 			$orders[$i] = $this->getOrder($arr[$i]); // gets a single order and adds it to orders array
 		}
-		$lists = array();
-		for ($i=0; $i < count($orders); $i++)
-		{
-			$lists[$i] = $this->getOrdersList($orders[$i][0]["OrderID"]); // gets the list of orderlist entries with given orderID as an array and stores it into one element of the lists array
-		}
-		$users_orders = array($orders, $lists); // puts into a 2D array
+		//$lists = array();
+		//for ($i=0; $i < count($orders); $i++)
+		//{
+		//	$lists[$i] = $this->getOrdersList($orders[$i][0]["OrderID"]); // gets the list of orderlist entries with given orderID as an array and stores it into one element of the lists array
+		//}
+		//$users_orders = array($orders, $lists); // puts into a 2D array
 		//$users_orders[] = $this->getOrder($arr[2]); // gets a single order
 		//return $orders;
-		return json_encode($users_orders);
+		//return json_encode($users_orders);
+		return json_encode($orders);
 	}
 	
 	/**

@@ -54,7 +54,7 @@ if($i == 1) {
 	$array1[] = array("UserPassword", "TINYTEXT");
 	$array1[] = array("ActivationCode", "TINYTEXT");
 	$array1[] = array("Activated", "INT"); // nonzero val is true
-	$array1[] = array("UserSubteam", "TINYTEXT");
+	$array1[] = array("UserSubteam", "TINYTEXT"); // vals: Mechanical, Electronics, Programming, Operational
 	$array1[] = array("UserType", "TINYTEXT"); // vals: Regular, Admin, Nelson
 
 	if($dbConfig->createINNODBTable("RoboUsers", $array1)) echo "Success! Your RoboUsers Table is now set up! <br />";
@@ -164,6 +164,7 @@ if ($i == 5)
 	$arr[] = array("PartSubsystem", "TINYTEXT");
 	$arr[] = array("PartIndividualPrice", "DOUBLE");
 	$arr[] = array("PartQuantity", "INT");
+	$arr[] = array("PartTotalPrice", "DOUBLE");
 		
 	
 	if($dbConfig->createINNODBTable("OrdersListTable", $arr)) echo "Success! Your OrdersListTable is now set up! <br />";
