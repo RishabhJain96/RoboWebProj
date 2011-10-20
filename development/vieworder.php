@@ -12,14 +12,14 @@ if(isset($_POST['logout']))
 	header('Location: index.php');
 	exit;
 }
-function __autoload($class)
-{
-	require_once $class . '.php';
-}
 if (is_null($_GET['id']))
 {
 	header('Location: viewmyforms.php'); // if there is no order to view, redirects to viewmyforms page
 	exit;
+}
+function __autoload($class)
+{
+	require_once $class . '.php';
 }
 // Will accept url parameter id=123 to get orderID
 ?>
@@ -68,7 +68,7 @@ if (is_null($_GET['id']))
 			
 			<div id="dashboard-checkin" class="clearfix">
 				<div id="forms" class="clearfix">
-					<h2>Purchase Order Forms</h2>
+					<h2>Purchase Order Forms - View Order #<?php echo $_GET['id'];// displays the shown orderID number ?></h2>
 					<ul>
 						<li><a href="submitform.php">Submit a Form</a></li>
 						<li><a href="viewmyforms.php">View My Forms</a></li>
@@ -85,32 +85,9 @@ if (is_null($_GET['id']))
 				</div>
 				<div id="formstable">
 					<table>
-						<?php
-						$columns = array( // the list of column headers
-						"OrderID",
-						"Username",
-						"UserSubteam",
-						"EnglishDateSubmitted",
-						"NumericDateSubmitted",
-						"EnglishDateApproved",
-						"NumericDateApproved",
-						"ReasonForPurchase",
-						"ShippingAndHandling",
-						"TaxPrice",
-						"EstimatedTotalPrice",
-						"PartVendorName",
-						"PartVendorEmail",
-						"PartVendorAddress",
-						"PartVendorPhoneNumber",
-						"AdminComment",
-						"AdminApproved",
-						"AdminUsername",
-						"ConfirmationOfPurchase",
-						"Locked"
-						);
-						?>
 						<tr id="header">
 							<th>OrderID</th>
+							<th>Status</th>
 							<th>Submitting User</th>
 							<th>Subteam</th>
 							<th>Date Submitted</th>
@@ -128,18 +105,80 @@ if (is_null($_GET['id']))
 							<th>Admin Username</th>
 							<th>Locked</th>
 						</tr>
-						<tr class="data">
-							<td>Key</td>
-							<td>Value</td>
+						<?php
+						$controller = new financeController();
+						$orderID = $_GET['id'];
+						$orders = $controller->getOrder($orderID);
+						//$orders = json_decode($orders);
+						//print count($orders);
+						//print_r($orders);
+						
+						// function to allow each order value to be processed if null right before being displayed
+						function refineOrderVal($orderVal)
+						{
+							if ($orderVal === "0")
+								return "NO";
+							if ($orderVal === "1")
+								return "YES";
+							if (is_null($orderVal))
+								return "N/A";
+							if (empty($orderVal))
+								return "N/A";
+							else
+								return $orderVal;
+						}
+						// prints a single row with the general order info
+						echo "<tr class=\"data\">";
+						echo "<td>" . $orders[0]["OrderID"] . "</td>";
+						echo "<td>" . refineOrderVal($orders[0]["Status"]) . "</td>";
+						echo "<td>" . refineOrderVal($orders[0]["Username"]) . "</td>";
+						echo "<td>" . refineOrderVal($orders[0]["UserSubteam"]) . "</td>";
+						echo "<td>" . refineOrderVal($orders[0]["EnglishDateSubmitted"]) . "</td>";
+						echo "<td>" . refineOrderVal($orders[0]["EnglishDateApproved"]) . "</td>";
+						echo "<td>" . refineOrderVal($orders[0]["ReasonForPurchase"]) . "</td>";
+						echo "<td>" . refineOrderVal($orders[0]["ShippingAndHandling"]) . "</td>";
+						echo "<td>" . refineOrderVal($orders[0]["TaxPrice"]) . "</td>";
+						echo "<td>" . refineOrderVal($orders[0]["EstimatedTotalPrice"]) . "</td>";
+						echo "<td>" . refineOrderVal($orders[0]["PartVendorName"]) . "</td>";
+						echo "<td>" . refineOrderVal($orders[0]["PartVendorEmail"]) . "</td>";
+						echo "<td>" . refineOrderVal($orders[0]["PartVendorAddress"]) . "</td>";
+						echo "<td>" . refineOrderVal($orders[0]["PartVendorPhoneNumber"]) . "</td>";
+						echo "<td>" . refineOrderVal($orders[0]["AdminComment"]) . "</td>";
+						echo "<td>" . refineOrderVal($orders[0]["AdminApproved"]) . "</td>";
+						echo "<td>" . refineOrderVal($orders[0]["AdminUsername"]) . "</td>";
+						echo "<td>" . refineOrderVal($orders[0]["Locked"]) . "</td>";
+						echo "</tr>";
+						?>
+					</table>
+					<table>
+						<tr id="header">
+							<th class="th_alt">Part #</th>
+							<th>Part Name</th>
+							<th class="th_alt">Subsystem</th>
+							<th>$ / Unit</th>
+							<th class="th_alt" id="quantity">Quantity</th>
+							<th>Total</th>
 						</tr>
-						<tr class="data">
-							<td>Key</td>
-							<td>Value</td>
-						</tr>
-						<tr class="data">
-							<td>Key</td>
-							<td>Value</td>
-						</tr>
+						<?php
+						$controller = new financeController();
+						$orderID = $_GET['id'];
+						$orderslist = $controller->getOrdersList($orderID);
+						//$orders = json_decode($orders);
+						//print count($orders);
+						//print_r($orders);
+						//return;
+						for ($i=0; $i < count($orderslist); $i++)
+						{
+							echo "<tr class=\"data\">";
+							echo "<td>" . refineOrderVal($orderslist[$i]["PartNumber"]) . "</td>";
+							echo "<td>" . refineOrderVal($orderslist[$i]["PartName"]) . "</td>";
+							echo "<td>" . refineOrderVal($orderslist[$i]["PartSubsystem"]) . "</td>";
+							echo "<td>" . refineOrderVal($orderslist[$i]["PartIndividualPrice"]) . "</td>";
+							echo "<td>" . refineOrderVal($orderslist[$i]["PartQuantity"]) . "</td>";
+							echo "<td>" . refineOrderVal($orderslist[$i]["PartTotalPrice"]) . "</td>";
+							echo "</tr>";
+						}
+						?>
 					</table>
 				</div>
 			</div>

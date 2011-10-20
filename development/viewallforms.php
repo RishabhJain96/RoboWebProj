@@ -79,30 +79,6 @@ function __autoload($class)
 				</div>
 				<div id="formstable">
 					<table>
-						<?php
-						$columns = array( // the list of column headers
-						"OrderID",
-						"Username",
-						"UserSubteam",
-						"EnglishDateSubmitted",
-						"NumericDateSubmitted",
-						"EnglishDateApproved",
-						"NumericDateApproved",
-						"ReasonForPurchase",
-						"ShippingAndHandling",
-						"TaxPrice",
-						"EstimatedTotalPrice",
-						"PartVendorName",
-						"PartVendorEmail",
-						"PartVendorAddress",
-						"PartVendorPhoneNumber",
-						"AdminComment",
-						"AdminApproved",
-						"AdminUsername",
-						"ConfirmationOfPurchase",
-						"Locked"
-						);
-						?>
 						<tr id="header">
 							<th>OrderID</th>
 							<th>Status</th>
@@ -123,66 +99,50 @@ function __autoload($class)
 							<th>Admin Username</th>
 							<th>Locked</th>
 						</tr>
-						<tr class="data">
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-						</tr>
-						<tr class="data">
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-						</tr>
-						<tr class="data">
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-						</tr>
+						<?php
+						$controller = new financeController();
+						$orders = $controller->getAllOrders();
+						//$orders = json_decode($orders);
+						//print count($orders);
+						//print_r($orders);
+						
+						// function to allow each order value to be processed if null right before being displayed
+						function refineOrderVal($orderVal)
+						{
+							if ($orderVal === "0")
+								return "NO";
+							if ($orderVal === "1")
+								return "YES";
+							if (is_null($orderVal))
+								return "N/A";
+							else
+								return $orderVal;
+						}
+						
+						for ($i=0; $i < count($orders); $i++)
+						{
+							echo "<tr class=\"data\">";
+							echo "<td><a id=\"clickableid\" href=\"vieworder.php?id=" . $orders[$i]["OrderID"] . "\">" . $orders[$i]["OrderID"] . "</a></td>";
+							echo "<td>" . refineOrderVal($orders[$i]["Status"]) . "</td>";
+							echo "<td>" . refineOrderVal($orders[$i]["Username"]) . "</td>";
+							echo "<td>" . refineOrderVal($orders[$i]["UserSubteam"]) . "</td>";
+							echo "<td>" . refineOrderVal($orders[$i]["EnglishDateSubmitted"]) . "</td>";
+							echo "<td>" . refineOrderVal($orders[$i]["EnglishDateApproved"]) . "</td>";
+							echo "<td>" . refineOrderVal($orders[$i]["ReasonForPurchase"]) . "</td>";
+							echo "<td>" . refineOrderVal($orders[$i]["ShippingAndHandling"]) . "</td>";
+							echo "<td>" . refineOrderVal($orders[$i]["TaxPrice"]) . "</td>";
+							echo "<td>" . refineOrderVal($orders[$i]["EstimatedTotalPrice"]) . "</td>";
+							echo "<td>" . refineOrderVal($orders[$i]["PartVendorName"]) . "</td>";
+							echo "<td>" . refineOrderVal($orders[$i]["PartVendorEmail"]) . "</td>";
+							echo "<td>" . refineOrderVal($orders[$i]["PartVendorAddress"]) . "</td>";
+							echo "<td>" . refineOrderVal($orders[$i]["PartVendorPhoneNumber"]) . "</td>";
+							echo "<td>" . refineOrderVal($orders[$i]["AdminComment"]) . "</td>";
+							echo "<td>" . refineOrderVal($orders[$i]["AdminApproved"]) . "</td>";
+							echo "<td>" . refineOrderVal($orders[$i]["AdminUsername"]) . "</td>";
+							echo "<td>" . refineOrderVal($orders[$i]["Locked"]) . "</td>";
+							echo "</tr>";
+						}
+						?>
 					</table>
 				</div>
 				</div>

@@ -330,3 +330,9 @@ html,body
 {
 	text-decoration:underline;
 }
+
+#clickableid
+{
+	text-decoration:underline;
+	color:#FFF;
+}

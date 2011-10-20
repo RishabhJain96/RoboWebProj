@@ -23,10 +23,10 @@ $orderID;
 if (isset($_POST['submit']) || isset($_POST['save'])) // input to database regardless of save or submit
 {
 	// if any values are null, it will simply write null values to db, perfectly allowable
-	$firstname = $_POST['firstname'];
-	$lastname = $_POST['lastname'];
-	$email = $_POST['email'];
-	$cellphone = $_POST['cellphone'];
+	//$firstname = $_POST['firstname'];
+	//$lastname = $_POST['lastname'];
+	//$email = $_POST['email'];
+	//$cellphone = $_POST['cellphone'];
 	$subteam = $_POST['subteam'];
 	$vendorname = $_POST['vendorname'];
 	$vendorphone = $_POST['vendorphone'];
@@ -34,7 +34,7 @@ if (isset($_POST['submit']) || isset($_POST['save'])) // input to database regar
 	$vendoraddress = $_POST['vendoraddress'];
 	$reason = $_POST['reason'];
 	$orderslist = $_POST['part'];
-	$fulltotal = 0.0;
+	$fulltotal = 0.0; // init val
 	//print_r($orderslist);
 	$fulllist = array();
 	for ($i=0; $i < 10; $i++) // iterates full partstable, puts each row into an array with proper formatting in fulllist
@@ -44,24 +44,28 @@ if (isset($_POST['submit']) || isset($_POST['save'])) // input to database regar
 		$partsubsystem = $orderslist[$i]["partsubsystem"];
 		$partprice = $orderslist[$i]["partprice"];
 		$partquantity = $orderslist[$i]["partquantity"];
-		$parttotal = $orderslist[$i]["parttotal"];
-		$fulltotal = $fulltotal + floatval($parttotal);
-		$fulllist[] = array("PartNumber" => $partnum, "PartName" => $partname, "PartSubsystem" => $partsubsystem, "PartIndividualPrice" => $partprice, "PartQuantity" => $partquantity, "PartTotalPrice" => $parttotal);
+		// $parttotal = $orderslist[$i]["parttotal"];
+		$parttotal = floatval($partquantity) * floatval($partprice);
+		$fulltotal = $fulltotal + $parttotal;
+		if (!empty($partnum) || !empty($partname) || !empty($partsubsystem) || !empty($partprice) || !empty($partquantity) ) // if any element is not empty, will input
+		{
+			$fulllist[] = array("PartNumber" => $partnum, "PartName" => $partname, "PartSubsystem" => $partsubsystem, "PartIndividualPrice" => $partprice, "PartQuantity" => $partquantity, "PartTotalPrice" => $parttotal);
+		}
 	}
 	$shippinghandling = $_POST['shippinghandling'];
 	$tax = 0.925 * $fulltotal;
 	$etotal = $fulltotal + $tax + $shippinghandling;
 	$orders = array(
-	"Username" => $username,
-	"UserSubteam" => $subteam,
-	"ReasonForPurchase" => $reason,
-	"ShippingAndHandling" => $shippinghandling,
-	"TaxPrice" => $tax,
-	"EstimatedTotalPrice" => $etotal,
-	"PartVendorName" => $vendorname,
-	"PartVendorEmail" => $vendoremail,
-	"PartVendorAddress" => $vendoraddress,
-	"PartVendorPhoneNumber" => $vendorphone
+		"Username" => $username,
+		"UserSubteam" => $subteam,
+		"ReasonForPurchase" => $reason,
+		"ShippingAndHandling" => $shippinghandling,
+		"TaxPrice" => $tax,
+		"EstimatedTotalPrice" => $etotal,
+		"PartVendorName" => $vendorname,
+		"PartVendorEmail" => $vendoremail,
+		"PartVendorAddress" => $vendoraddress,
+		"PartVendorPhoneNumber" => $vendorphone
 	);
 //	print_r($orders);
 //	print_r($fulllist);
@@ -70,11 +74,12 @@ if (isset($_POST['submit']) || isset($_POST['save'])) // input to database regar
 }
 if (isset($_POST['submit'])) // only if submitting
 {
-	//header("Location: vieworder.php?id=$orderID");
+	$controller->submitForAdminApproval($orderID);
+	header("Location: vieworder.php?id=$orderID");
 }
 if (isset($_POST['save'])) // only if saving
 {
-	//header("Location: editform.php?id=$orderID");
+	header("Location: editform.php?id=$orderID");
 }
 
 ?>
@@ -152,7 +157,7 @@ if (isset($_POST['save'])) // only if saving
 				<div id="forms-submit">
 					<form id="orderform" method="post" action="">
 							<!-- Temp block - only needed until profile section is complete -->
-							<fieldset>
+							<!-- <fieldset>
 								<label for="name">First Name</label>
 								<input type="text" name="firstname" id="fname" class="field" value=""/>
 							</fieldset>
@@ -171,7 +176,7 @@ if (isset($_POST['save'])) // only if saving
 								<label for="cellphone">Cell Phone Number</label>
 								<input type="text" name="cellphone" id="cellphone" class="field" value=""/>
 							</fieldset>
-							
+							 -->
 							<fieldset id="subteam_select">
 								<label for="subteam">Subteam</label>
 								<fieldset>
@@ -212,7 +217,7 @@ if (isset($_POST['save'])) // only if saving
 										<th class="th_alt">Subsystem</th>
 										<th>$ / Unit</th>
 										<th class="th_alt" id="quantity">Quantity</th>
-										<th>Total</th>
+										<!-- <th>Total</th> -->
 									</tr>
 									<?php
 									for ($i=0; $i < 10; $i++)
@@ -232,7 +237,7 @@ if (isset($_POST['save'])) // only if saving
 										echo "<td><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partsubsystem]\" /></fieldset></td>\n";
 										echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partprice]\" /></fieldset></td>\n";
 										echo "<td class=\"quantity\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partquantity]\" /></fieldset></td>\n";
-										echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[parttotal]\" /></fieldset></td>\n";
+										//echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[parttotal]\" /></fieldset></td>\n";
 										echo "</tr>\n";
 									}
 									?>

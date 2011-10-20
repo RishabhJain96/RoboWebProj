@@ -64,7 +64,7 @@ if ($api->getUserType($username) != "Admin")
 			
 			<div id="dashboard-checkin" class="clearfix">
 				<div id="forms" class="clearfix">
-					<h2>Purchase Order Forms - View Your Forms</h2>
+					<h2>Purchase Order Forms - View Pending Forms</h2>
 					<ul>
 						<li><a href="submitform.php">Submit a Form</a></li>
 						<li><a href="viewmyforms.php">View My Forms</a></li>
@@ -74,32 +74,9 @@ if ($api->getUserType($username) != "Admin")
 				</div>
 				<div id="formstable">
 					<table>
-						<?php
-						$columns = array( // the list of column headers
-						"OrderID",
-						"Username",
-						"UserSubteam",
-						"EnglishDateSubmitted",
-						"NumericDateSubmitted",
-						"EnglishDateApproved",
-						"NumericDateApproved",
-						"ReasonForPurchase",
-						"ShippingAndHandling",
-						"TaxPrice",
-						"EstimatedTotalPrice",
-						"PartVendorName",
-						"PartVendorEmail",
-						"PartVendorAddress",
-						"PartVendorPhoneNumber",
-						"AdminComment",
-						"AdminApproved",
-						"AdminUsername",
-						"ConfirmationOfPurchase",
-						"Locked"
-						);
-						?>
 						<tr id="header">
 							<th>OrderID</th>
+							<!-- <th>Status</th> -->
 							<th>Submitting User</th>
 							<th>Subteam</th>
 							<th>Date Submitted</th>
@@ -117,66 +94,50 @@ if ($api->getUserType($username) != "Admin")
 							<th>Admin Username</th>
 							<th>Locked</th>
 						</tr>
-						<tr class="data">
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-						</tr>
-						<tr class="data">
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-						</tr>
-						<tr class="data">
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-							<td>Key</td>
-						</tr>
+						<?php
+						$controller = new financeController();
+						$orders = $controller->getPendingOrders();
+						//$orders = json_decode($orders);
+						//print count($orders);
+						//print_r($orders);
+						
+						// function to allow each order value to be processed if null right before being displayed
+						function refineOrderVal($orderVal)
+						{
+							if ($orderVal === "0")
+								return "NO";
+							if ($orderVal === "1")
+								return "YES";
+							if (is_null($orderVal))
+								return "N/A";
+							else
+								return $orderVal;
+						}
+						
+						for ($i=0; $i < count($orders); $i++)
+						{
+							echo "<tr class=\"data\">\n";
+							echo "<td><a id=\"clickableid\" href=\"adminvieworder.php?id=" . $orders[$i]["OrderID"] . "\">" . $orders[$i]["OrderID"] . "</a></td>";
+							//echo "<td>" . refineOrderVal($orders[$i]["Status"]) . "</td>\n";
+							echo "<td>" . refineOrderVal($orders[$i]["Username"]) . "</td>\n";
+							echo "<td>" . refineOrderVal($orders[$i]["UserSubteam"]) . "</td>\n";
+							echo "<td>" . refineOrderVal($orders[$i]["EnglishDateSubmitted"]) . "</td>\n";
+							echo "<td>" . refineOrderVal($orders[$i]["EnglishDateApproved"]) . "</td>\n";
+							echo "<td>" . refineOrderVal($orders[$i]["ReasonForPurchase"]) . "</td>\n";
+							echo "<td>" . refineOrderVal($orders[$i]["ShippingAndHandling"]) . "</td>\n";
+							echo "<td>" . refineOrderVal($orders[$i]["TaxPrice"]) . "</td>\n";
+							echo "<td>" . refineOrderVal($orders[$i]["EstimatedTotalPrice"]) . "</td>\n";
+							echo "<td>" . refineOrderVal($orders[$i]["PartVendorName"]) . "</td>\n";
+							echo "<td>" . refineOrderVal($orders[$i]["PartVendorEmail"]) . "</td>\n";
+							echo "<td>" . refineOrderVal($orders[$i]["PartVendorAddress"]) . "</td>\n";
+							echo "<td>" . refineOrderVal($orders[$i]["PartVendorPhoneNumber"]) . "</td>\n";
+							echo "<td>" . refineOrderVal($orders[$i]["AdminComment"]) . "</td>\n";
+							echo "<td>" . refineOrderVal($orders[$i]["AdminApproved"]) . "</td>\n";
+							echo "<td>" . refineOrderVal($orders[$i]["AdminUsername"]) . "</td>\n";
+							echo "<td>" . refineOrderVal($orders[$i]["Locked"]) . "</td>\n";
+							echo "</tr>\n";
+						}
+						?>
 					</table>
 				</div>
 				</div>

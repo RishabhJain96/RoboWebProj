@@ -73,6 +73,8 @@ class financeController extends roboSISAPI
 	{
 		//$id = parent::getUserID($username);
 		if($this->isLocked($orderID)) return false; // prevents updating a locked order
+		$orders["EnglishDateSubmitted"] = date("l, F j \a\\t g:i a"); // format: Sunday, January 31 at 3:66 pm
+		$orders["NumericDateSubmitted"] = date("YmdHi"); // format: YYYYMMDDhhmm i.e. 201109232355
 		// updates the order with given orderID
 		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $orders, "OrderID = $orderID");
 		// iterates through orderslist and inserts the list of parts and associated info into the orderslist table
@@ -82,9 +84,23 @@ class financeController extends roboSISAPI
 		{
 			$list = $orderslist[$i];
 			//print_r($list);
-			$condition = "UniqueEntryID = " . $list["UniqueEntryID"];
-			//print_r($condition);
-			$this->_dbConnection->updateTable("OrdersListTable", "OrdersListTable", "UniqueEntryID", $list["UniqueEntryID"], "OrderID", $list, $condition);
+			
+			// allows new entries to be added, in addition to updates
+			if (is_null($list["UniqueEntryID"]) || empty($list["UniqueEntryID"]))
+			{
+				$list["UniqueEntryID"] = uniqid("UEID");
+				$this->_dbConnection->insertIntoTable("OrdersListTable", "OrdersTable", "OrderID", $orderID, "OrderID", $list);
+				//print $list["PartName"];
+				//print '1';
+			}
+			else
+			{
+				//print $list["PartName"];
+				//print '2';
+				$condition = "UniqueEntryID = '" . $list["UniqueEntryID"] . "'";
+				//print_r($condition);
+				$this->_dbConnection->updateTable("OrdersListTable", "OrdersListTable", "UniqueEntryID", $list["UniqueEntryID"], "OrderID", $list, $condition);
+			}
 		}
 		//echo "success";
 		return true;
@@ -121,12 +137,13 @@ class financeController extends roboSISAPI
 		$orders = $this->getOrder($orderID);
 		$orderslist = $this->getOrdersList($orderID);
 		$fullorder = array($orders, $orderslist);
-		return json_encode($fullorder);
+		//return json_encode($fullorder);
+		return $fullorder;
 	}
 	
 	/**
 	 * Returns a 2D array in JSON format of all the past orders the given user has placed, with most recent order on top. First array is orders, second array is orderslists, with sub-arrays being individual orders or lists(arrays) of parts per order.
-	 * UPDATED: Returns an array of the users orders only, no lists. Keys are DB column names.
+	 * UPDATED: Returns a PHP array of the users orders only, no lists. Keys are DB column names. Note: Encoding to JSON causes problems, therefore array is returned as a simple PHP array.
 	 */
 	public function getUsersOrders($username)
 	{
@@ -145,9 +162,9 @@ class financeController extends roboSISAPI
 		//}
 		//$users_orders = array($orders, $lists); // puts into a 2D array
 		//$users_orders[] = $this->getOrder($arr[2]); // gets a single order
-		//return $orders;
+		return $orders;
 		//return json_encode($users_orders);
-		return json_encode($orders);
+		//return json_encode($orders);
 	}
 	
 	/**
@@ -157,7 +174,8 @@ class financeController extends roboSISAPI
 	{
 		$resourceid = $this->_dbConnection->selectFromTable("OrdersTable");
 		$orders = $this->_dbConnection->formatQuery($resourceid);
-		return json_encode($orders);
+		//return json_encode($orders);
+		return $orders;
 	}
 	
 	/**
@@ -170,7 +188,7 @@ class financeController extends roboSISAPI
 		$eds = date("l, F j \a\\t g:i a");
 		$nds = date("YmdHi");
 		$arr_vals = array("Locked" => $locked, "Status" => $status, "EnglishDateSubmitted" => $eds, "NumericDateSubmitted" => $nds);
-		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $orders, "OrderID = $orderID");
+		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $arr_vals, "OrderID = $orderID");
 	}
 	
 	// ADMIN FUNCTIONS
@@ -182,7 +200,8 @@ class financeController extends roboSISAPI
 	{
 		$resourceid = $this->_dbConnection->selectFromTable("OrdersTable", "Status", "Pending");
 		$orders = $this->_dbConnection->formatQuery($resourceid);
-		return json_encode($orders);
+		//return json_encode($orders);
+		return $orders;
 	}
 	
 	/**
