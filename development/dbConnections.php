@@ -182,6 +182,8 @@ class dbConnections
 			}
 			try{
 				$result = mysql_query("UPDATE $tableName SET $array_values WHERE $condition");
+				//if($result) print '4';
+				//print "UPDATE $tableName SET $array_values WHERE $condition";
 				//Test code below
 				//$result = "UPDATE $tableName SET $array_values WHERE $condition";
 				return $result;
