@@ -43,8 +43,8 @@ class relationalDbConnections extends dbConnections
 		{
 			$formatted = $this->formatQueryResults($result, $primaryKey);
 			$arrayOfValues[$primaryKey] = $formatted[0];
-			parent::insertIntoTable($tableName1, $arrayOfValues);
-			return true;
+			return parent::insertIntoTable($tableName1, $arrayOfValues); // return true if insertIntoTable returns true, false otherwise
+			// return true;
 		}
 		else
 		{
@@ -58,7 +58,7 @@ class relationalDbConnections extends dbConnections
 	 * 			same value.
 	 * @param: $tableName1: the table you wish to update
 	 * @param: $keyTable: the table containing the cross-table Key
-	 * @param: $foreignkey: the foreignKey your using to check;
+	 * @param: $foreignkey: the foreignKey you're using to check;
 	 * @param: $valueForKey: the value for the foreignKey;
 	 * @param: $primaryKey: the primaryKey of the database (the cross-table Key);
 	 * @param: $arrayOfValues: the values being updated;
@@ -80,6 +80,33 @@ class relationalDbConnections extends dbConnections
 			return true;
 		}
 	}
+	
+	/**
+	 * duplicates formatQueryResults with tweaked functionality; returns associative array if field is null
+	 */
+	public function formatQuery($value, $field = null)
+	{
+		$array = array();
+		$i = 0;
+		if(!is_null($field)) {
+			while($rows = mysql_fetch_array($value)) {
+				$array[$i] = $rows[$field];
+				$i++;
+			}
+			return $array;
+		} else {
+			$arr = array();
+			//$rows = mysql_fetch_array($value, MYSQL_ASSOC);
+			while($rows = mysql_fetch_array($value, MYSQL_ASSOC))
+			{
+				$arr[] = $rows;
+			}
+			if(empty($arr)) return $arr;
+			if(count($arr)>0) return $arr;
+			else return $arr[0];
+		}
+	}
+
 	
 	/**
 	 * 

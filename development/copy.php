@@ -12,7 +12,7 @@
 
 
 // Add any files/folders in the development directory that should NOT be copied to the production directory to this array, including file ending (like .php or .txt).
-$blacklist = array(".", "..", ".DS_Store", "apiTester.php", "dbParameters.txt", "copy.php", "finals_site_code", "previous_versions", "financeTester.php", "registerTester.php", "relationalDBTester.php");
+$blacklist = array(".", "..", ".DS_Store", "apiTester.php", "dbParameters.txt", "copy.php", "finals_site_code", "fpdf", "previous_versions", "financeTester.php", "registerTester.php", "relationalDBTester.php");
 
 
 $production_path = '../production/'; // assumes that the production folder is within the parent directory

@@ -140,16 +140,18 @@ class dbConnections
 					$count = $count + 1;
 				} else {
 					$array_values = trim("$array_values '$value'");
-					$array = trim("$array $key");
+					$array = trim("$array `$key`");
 				}
 			}
 			//return $array_values;
+			//print_r($array);
 			try {
 				//testing code below
 				//return "INSERT INTO $tableName ($array) VALUES ($array_values)";
 				//testing block end
 				$result = mysql_query("INSERT INTO $tableName ($array) VALUES ($array_values)");
 				//change made
+				//print_r("INSERT INTO $tableName ($array) VALUES ($array_values)");
 				return $result;
 			} catch(Exception $err) {
 				throw new Exception("Error occurred while inserting $array_values into $array in $tableName");
@@ -180,6 +182,8 @@ class dbConnections
 			}
 			try{
 				$result = mysql_query("UPDATE $tableName SET $array_values WHERE $condition");
+				//if($result) print '4';
+				//print "UPDATE $tableName SET $array_values WHERE $condition";
 				//Test code below
 				//$result = "UPDATE $tableName SET $array_values WHERE $condition";
 				return $result;
