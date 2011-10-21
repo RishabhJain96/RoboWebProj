@@ -129,9 +129,9 @@ function __autoload($class)
 							echo "<td>" . refineOrderVal($orders[$i]["EnglishDateSubmitted"]) . "</td>";
 							echo "<td>" . refineOrderVal($orders[$i]["EnglishDateApproved"]) . "</td>";
 							echo "<td>" . refineOrderVal($orders[$i]["ReasonForPurchase"]) . "</td>";
-							echo "<td>" . $orders[0]["ShippingAndHandling"] . "</td>";
-							echo "<td>" . $orders[0]["TaxPrice"] . "</td>";
-							echo "<td>" . $orders[0]["EstimatedTotalPrice"] . "</td>";
+							echo "<td>" . $orders[$i]["ShippingAndHandling"] . "</td>";
+							echo "<td>" . $orders[$i]["TaxPrice"] . "</td>";
+							echo "<td>" . $orders[$i]["EstimatedTotalPrice"] . "</td>";
 							echo "<td>" . refineOrderVal($orders[$i]["PartVendorName"]) . "</td>";
 							echo "<td>" . refineOrderVal($orders[$i]["PartVendorEmail"]) . "</td>";
 							echo "<td>" . refineOrderVal($orders[$i]["PartVendorAddress"]) . "</td>";

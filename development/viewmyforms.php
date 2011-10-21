@@ -115,6 +115,8 @@ function __autoload($class)
 								return "YES";
 							if (is_null($orderVal))
 								return "N/A";
+							if (empty($orderVal))
+								return "N/A";
 							else
 								return $orderVal;
 						}
