@@ -336,3 +336,48 @@ html,body
 	text-decoration:underline;
 	color:#FFF;
 }
+
+.forms_display
+{
+	width: 785px;
+	background-color: #444;
+	padding: 15px;
+}
+.forms_display span.forms_display_head
+{
+	float: right;
+}
+.forms_display span.forms_display_head p
+{
+	font-size: 1.1em;
+}
+.forms_display h3 a
+{
+	padding: 0.5em 1em 1em 0;
+	color: #FFF;
+	font-size: 2.2em;
+}
+.forms_display h3 a:hover {
+	text-decoration: underline;
+}
+.forms_display ul li {
+	padding-top: 0.4em;
+}
+.forms_display span.forms_display_price
+{
+	font-size: 2.5em;
+	float: right;
+}
+.forms_display span.forms_display_viewmore a
+{
+	color: #FFF;
+	font-size: 1.1em;
+	float: left;
+	margin-top: 1em;
+	background-color: #333;
+	padding: 0.5em 1em;
+}
+.forms_display span.forms_display_viewmore a:hover
+{
+	font-weight: bold;
+}
