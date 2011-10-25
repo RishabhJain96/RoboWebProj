@@ -25,7 +25,6 @@ function __autoload($class)
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Harker Robotics 1072</title>
-	
 	<link rel="stylesheet" href="form.css" type="text/css" />
 </head>
 <body>
@@ -104,10 +103,10 @@ function __autoload($class)
 							for ($i=0; $i < count($orders); $i++)
 							{
 								
-								echo '<div id="forms_displayWrapper"><span class="forms_display_head"><p><strong>';
+								echo '<div class="forms_display"><span class="forms_display_head"><p><strong>';
 								echo refineOrderVal($orders[$i]["UserSubteam"]);
-								echo '</strong> - <em>Locked</em></p></span><h3><a href="';
-								echo "vieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
+								echo '</strong> - <em>Locked</em></p></span><h3>';
+								echo "<a href=\"vieworder.php?id=" . $orders[$i][0]["OrderID"] . "\">"."</a>";
 								echo refineOrderVal($orders[$i]["PartVendorName"]);
 								echo '</a></h3><ul><li><strong>Order ID: </strong>';
 								echo $orders[$i]["OrderID"];
