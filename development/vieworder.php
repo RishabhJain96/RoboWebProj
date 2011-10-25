@@ -88,6 +88,7 @@ function __autoload($class)
 				$controller = new financeController();
 				$orderID = $_GET['id'];
 				$orders = $controller->getOrder($orderID);
+				$orderslist = $controller->getOrdersList($orderID);
 				//$orders = json_decode($orders);
 				//print count($orders);
 				//print_r($orders);
@@ -115,8 +116,11 @@ function __autoload($class)
 				echo '<li>Status: ' .refineOrderVal($orders[0]["Status"]). '</li>';
 				echo '<li>Submitted by: '. refineOrderVal($orders[0]["Username"]) .'</li>';
 				echo '<li>Submitted on: '. refineOrderVal($orders[0]["EnglishDateSubmitted"]) .'</li>';
-				echo '<li>Approved on: '. refineOrderVal($orders[0]["EnglishDateApproved"]) . ' by ' .refineOrderVal($orders[0]["AdminUsername"]). '</li>';
 				echo '<li>Admin Approved: ' .refineOrderVal($orders[0]["AdminApproved"]). '</li>';
+				if ($orders[0]["AdminApproved"] === "1")
+				{
+					echo '<li>Approved on: '. refineOrderVal($orders[0]["EnglishDateApproved"]) . ' by ' .refineOrderVal($orders[0]["AdminUsername"]). '</li>';
+				}
 				echo '<li>Locked: '.refineOrderVal($orders[0]["Locked"]).'</li>';
 				echo '</ul><div class="viewform_para">';
 				echo '<h4>Reason for Purchase</h4>';
@@ -156,16 +160,19 @@ function __autoload($class)
 							<th class="th_alt">$ / Unit</th>
 							<th id="quantity">Quantity</th>
 							<th class="th_alt">Total</th>
-						</tr>
-						<tr class="data">';
-							echo '<td>'.refineOrderVal($orderslist[$i]["PartNumber"]).'</td>';
-							echo '<td class="td_alt">'.refineOrderVal($orderslist[$i]["PartName"]).'</td>';
-							echo '<td>'.refineOrderVal($orderslist[$i]["PartSubsystem"]).'</td>';
-							echo '<td class="td_alt">'.$orderslist[$i]["PartIndividualPrice"].'</td>';
-							echo '<td>'.$orderslist[$i]["PartQuantity"].'</td>';
-							echo '<td class="td_alt">'.$orderslist[$i]["PartTotalPrice"].'</td>
-							</tr>
-					</table>
+						</tr>';
+						for ($i=0; $i < count($orderslist); $i++)
+						{
+							echo "<tr class=\"data\">";
+							echo "<td>" . refineOrderVal($orderslist[$i]["PartNumber"]) . "</td>";
+							echo "<td>" . refineOrderVal($orderslist[$i]["PartName"]) . "</td>";
+							echo "<td>" . refineOrderVal($orderslist[$i]["PartSubsystem"]) . "</td>";
+							echo "<td>" . $orderslist[$i]["PartIndividualPrice"] . "</td>";
+							echo "<td>" . $orderslist[$i]["PartQuantity"] . "</td>";
+							echo "<td>" . $orderslist[$i]["PartTotalPrice"] . "</td>";
+							echo "</tr>";
+						}
+					echo '</table>
 				</div>';
 						?>
 			</div>

@@ -45,7 +45,7 @@ if (isset($_POST['submit']) || isset($_POST['update'])) // update database regar
 	$vendoraddress = $_POST['vendoraddress'];
 	$reason = $_POST['reason'];
 	$neworderslist = $_POST['part']; // does not overwrite orderslist array
-	$fulltotal = 0.0; // init val
+	$fulltotal = 0.0; // init val to floating point zero
 	//print_r($orderslist);
 	$fulllist = array();
 	for ($i=0; $i < 10; $i++) // iterates full partstable, puts each row into an array with proper formatting in fulllist
@@ -54,19 +54,33 @@ if (isset($_POST['submit']) || isset($_POST['update'])) // update database regar
 		$partname = $neworderslist[$i]["partname"];
 		$partsubsystem = $neworderslist[$i]["partsubsystem"];
 		$partprice = $neworderslist[$i]["partprice"];
+		$partprice = sprintf("%01.2f", $partprice); // makes sure partprice only has 2 decimals
+		$partprice = floatval($partprice); // turns string into float
 		$partquantity = $neworderslist[$i]["partquantity"];
+		$partquantity = intval($partquantity); // makes sure part quantity is an int
 		// $parttotal = $neworderslist[$i]["parttotal"];
-		$parttotal = floatval($partquantity) * floatval($partprice);
+		$parttotal = floatval($partquantity) * $partprice; // parttotal will be a float
+		$parttotal = sprintf("%01.2f", $parttotal); // makes sure parttotal only has 2 decimals
+		$parttotal = floatval($parttotal); // turns string into float
 		$fulltotal = $fulltotal + $parttotal;
-		$uid = $orderslist[$i]["UniqueEntryID"]; // will cause undefined offset errors, hard to workaround
+		$fulltotal = sprintf("%01.2f", $fulltotal); // makes sure fulltotal only has 2 decimals
+		$fulltotal = floatval($fulltotal); // turns string into float
+		if ($i < count($orderslist)) // prevents undefined offset errors
+			$uid = $orderslist[$i]["UniqueEntryID"]; 
 		if (!empty($partnum) || !empty($partname) || !empty($partsubsystem) || !empty($partprice) || !empty($partquantity) ) // if any element is not empty, will input
 		{
 			$fulllist[] = array("PartNumber" => $partnum, "PartName" => $partname, "PartSubsystem" => $partsubsystem, "PartIndividualPrice" => $partprice, "PartQuantity" => $partquantity, "PartTotalPrice" => $parttotal, "UniqueEntryID" => $uid);
 		}
 	}
 	$shippinghandling = $_POST['shippinghandling'];
+	if (is_null($shippinghandling) || empty($shippinghandling)) $shippinghandling = 0.0;
+	$shippinghandling = floatval($shippinghandling); // ensures floating point number
 	$tax = 0.0925 * $fulltotal;
+	$tax = sprintf("%01.2f", $tax); // makes sure tax price only has 2 decimals
+	$tax = floatval($tax); // turns string into float
 	$etotal = $fulltotal + $tax + $shippinghandling;
+	$etotal = sprintf("%01.2f", $etotal); // makes sure etotal only has 2 decimals
+	$etotal = floatval($etotal); // turns string into float
 	$neworders = array(
 		"Username" => $username,
 		"UserSubteam" => $subteam,
@@ -203,6 +217,13 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 							echo "<fieldset id=\"subteam_select\">\n";
 							echo "<label for=\"subteam\">Subteam</label>\n";
 							echo "<fieldset>\n";
+							if (is_null($subteam) || empty($subteam))
+							{
+								echo "<input type=\"radio\" name=\"subteam\" value=\"Mechanical\" /> M\n";
+								echo "<input type=\"radio\" name=\"subteam\" value=\"Electronics\" /> E\n";
+								echo "<input type=\"radio\" name=\"subteam\" value=\"Programming\" /> P\n";
+								echo "<input type=\"radio\" name=\"subteam\" value=\"Operational\" /> O\n";
+							}
 							if ($subteam == "Mechanical")
 							{
 								echo "<input type=\"radio\" name=\"subteam\" value=\"Mechanical\" checked=\"checked\" /> M\n";

@@ -25,7 +25,6 @@ function __autoload($class)
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Harker Robotics 1072</title>
-	
 	<link rel="stylesheet" href="form.css" type="text/css" />
 </head>
 <body>
@@ -77,74 +76,58 @@ function __autoload($class)
 						?>
 					</ul>
 				</div>
-				<div id="formstable">
-					<table>
-						<tr id="header">
-							<th>OrderID</th>
-							<th>Status</th>
-							<th>Submitting User</th>
-							<th>Subteam</th>
-							<th>Date Submitted</th>
-							<th>Date Approved</th>
-							<th>Reason For Purchase</th>
-							<th>Shipping &amp; Handling</th>
-							<th>Tax</th>
-							<th>Estimated Total Price</th>
-							<th>Vendor Name</th>
-							<th>Vendor Email</th>
-							<th>Vendor Address</th>
-							<th>Vendor Phone Number</th>
-							<th>Admin Comment</th>
-							<th>Admin Approved</th>
-							<th>Admin Username</th>
-							<th>Locked</th>
-						</tr>
-						<?php
-						$controller = new financeController();
-						$orders = $controller->getAllOrders();
-						//$orders = json_decode($orders);
-						//print count($orders);
-						//print_r($orders);
-						
-						// function to allow each order value to be processed if null right before being displayed
-						function refineOrderVal($orderVal)
-						{
-							if ($orderVal === "0")
-								return "NO";
-							if ($orderVal === "1")
-								return "YES";
-							if (is_null($orderVal))
-								return "N/A";
-							else
-								return $orderVal;
-						}
-						
-						for ($i=0; $i < count($orders); $i++)
-						{
-							echo "<tr class=\"data\">";
-							echo "<td><a id=\"clickableid\" href=\"vieworder.php?id=" . $orders[$i]["OrderID"] . "\">" . $orders[$i]["OrderID"] . "</a></td>";
-							echo "<td>" . refineOrderVal($orders[$i]["Status"]) . "</td>";
-							echo "<td>" . refineOrderVal($orders[$i]["Username"]) . "</td>";
-							echo "<td>" . refineOrderVal($orders[$i]["UserSubteam"]) . "</td>";
-							echo "<td>" . refineOrderVal($orders[$i]["EnglishDateSubmitted"]) . "</td>";
-							echo "<td>" . refineOrderVal($orders[$i]["EnglishDateApproved"]) . "</td>";
-							echo "<td>" . refineOrderVal($orders[$i]["ReasonForPurchase"]) . "</td>";
-							echo "<td>" . $orders[$i]["ShippingAndHandling"] . "</td>";
-							echo "<td>" . $orders[$i]["TaxPrice"] . "</td>";
-							echo "<td>" . $orders[$i]["EstimatedTotalPrice"] . "</td>";
-							echo "<td>" . refineOrderVal($orders[$i]["PartVendorName"]) . "</td>";
-							echo "<td>" . refineOrderVal($orders[$i]["PartVendorEmail"]) . "</td>";
-							echo "<td>" . refineOrderVal($orders[$i]["PartVendorAddress"]) . "</td>";
-							echo "<td>" . refineOrderVal($orders[$i]["PartVendorPhoneNumber"]) . "</td>";
-							echo "<td>" . refineOrderVal($orders[$i]["AdminComment"]) . "</td>";
-							echo "<td>" . refineOrderVal($orders[$i]["AdminApproved"]) . "</td>";
-							echo "<td>" . refineOrderVal($orders[$i]["AdminUsername"]) . "</td>";
-							echo "<td>" . refineOrderVal($orders[$i]["Locked"]) . "</td>";
-							echo "</tr>";
-						}
-						?>
-					</table>
-				</div>
+
+				<div id="forms_displayWrapper">
+					<?php
+							$controller = new financeController();
+							$orders = $controller->getAllOrders();
+							//$orders = json_decode($orders);
+							//print count($orders);
+							//print_r($orders);
+
+							// function to allow each order value to be processed if null right before being displayed
+							function refineOrderVal($orderVal)
+							{
+								if ($orderVal === "0")
+									return "NO";
+								if ($orderVal === "1")
+									return "YES";
+								if (is_null($orderVal))
+									return "N/A";
+								if (empty($orderVal))
+									return "N/A";
+								else
+									return $orderVal;
+							}
+							
+							if (count($orders) == 0)
+							{
+								echo "<br />";
+								echo '<p>There are currently no orders in the database.</p>';
+							}
+
+							for ($i=0; $i < count($orders); $i++)
+							{
+								
+								echo '<div class="forms_display clearfix"><span class="forms_display_head"><p><strong>';
+								echo refineOrderVal($orders[$i]["UserSubteam"]);
+								echo '</strong> - <em>Locked</em></p></span><h3>';
+								echo "<a href=\"vieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
+								echo refineOrderVal($orders[$i]["PartVendorName"]);
+								echo '</a></h3><ul><li><strong>Order ID: </strong>';
+								echo $orders[$i]["OrderID"];
+								echo '</li><li><strong>Current Status: </strong>';
+								echo refineOrderVal($orders[$i]["Status"]);
+								echo '</li><li><strong>Submitted by: </strong>';
+								echo refineOrderVal($orders[$i]["Username"]);
+								echo '</li></ul><span class="forms_display_price">$';
+								echo $orders[$i]["EstimatedTotalPrice"];
+								echo '</span><span class="forms_display_viewmore"><a href="';
+								echo "vieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
+								echo 'View More &raquo;</a></span></div>';
+							}
+							?>
+					</div>
 				</div>
 			</div>
 			

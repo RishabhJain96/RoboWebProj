@@ -101,6 +101,12 @@ function __autoload($class)
 								return $orderVal;
 						}
 						
+						if (count($orders) == 0)
+						{
+							echo "<br />";
+							echo '<p>You have not submitted any orders yet.</p>';
+						}
+						
 						for ($i=0; $i < count($orders); $i++)
 						{
 							//echo "<a href=\"vieworder.php?id=" . $orders[$i][0]["OrderID"] . "\">";
@@ -127,20 +133,30 @@ function __autoload($class)
 							
 							echo '<div class="forms_display clearfix"><span class="forms_display_head"><p><strong>';
 							echo refineOrderVal($orders[$i]["UserSubteam"]);
-							echo '</strong> - <em>Locked</em></p></span><h3>';
+							echo "</strong> - <em>" . $orders[$i]["Status"] . "</em></p></span><h3>";
 							echo "<a href=\"vieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
 							echo refineOrderVal($orders[$i]["PartVendorName"]);
 							echo '</a></h3><ul><li><strong>Order ID: </strong>';
 							echo $orders[$i]["OrderID"];
 							echo '</li><li><strong>Current Status: </strong>';
 							echo refineOrderVal($orders[$i]["Status"]);
-							echo '</li><li><strong>Submitted by: </strong>';
-							echo refineOrderVal($orders[$i]["Username"]);
-							echo '</li></ul><span class="forms_display_price">$';
+							echo '</li>';
+							//all orders in viewmyforms have submittinguser as the current user, unnecessary code
+							//echo '<li><strong>Submitted by: </strong>';
+							//echo refineOrderVal($orders[$i]["Username"]);
+							//echo '</li>';
+							echo '</ul><span class="forms_display_price">$';
 							echo $orders[$i]["EstimatedTotalPrice"];
 							echo '</span><span class="forms_display_viewmore"><a href="';
 							echo "vieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
-							echo 'View More »</a></span></div>';
+							echo 'View More &raquo;</a></span>';
+							if ($orders[$i]["Locked"] === "0") // if order is unlocked, shows edit button
+							{
+								echo '<span class="forms_display_viewmore"><a href="';
+								echo "editform.php?id=" . $orders[$i]["OrderID"] . "\">";
+								echo 'Edit Order &raquo;</a></span>';
+							}
+							echo '</div>';
 						}
 						?>
 					</div>

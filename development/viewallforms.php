@@ -99,6 +99,12 @@ function __autoload($class)
 								else
 									return $orderVal;
 							}
+							
+							if (count($orders) == 0)
+							{
+								echo "<br />";
+								echo '<p>There are currently no orders in the database.</p>';
+							}
 
 							for ($i=0; $i < count($orders); $i++)
 							{

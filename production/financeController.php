@@ -123,7 +123,7 @@ class financeController extends roboSISAPI
 	 */
 	public function getOrdersList($orderID)
 	{
-		$resourceid = $this->_dbConnection->selectFromTable("OrdersListTable", "OrderID", $orderID); // bug: only gives first row with given orderID
+		$resourceid = $this->_dbConnection->selectFromTable("OrdersListTable", "OrderID", $orderID);
 		$arr = $this->_dbConnection->formatQuery($resourceid); // custom method built for this purpose
 		return $arr;
 	}
@@ -154,6 +154,7 @@ class financeController extends roboSISAPI
 		for ($i=0; $i < count($arr); $i++)
 		{
 			$orders[$i] = $this->getOrder($arr[$i]); // gets a single order and adds it to orders array
+			$orders[$i] = $orders[$i][0];
 		}
 		//$lists = array();
 		//for ($i=0; $i < count($orders); $i++)
@@ -172,7 +173,7 @@ class financeController extends roboSISAPI
 	 */
 	public function getAllOrders()
 	{
-		$resourceid = $this->_dbConnection->selectFromTable("OrdersTable");
+		$resourceid = $this->_dbConnection->selectFromTableAsc("OrdersTable", null, null, "NumericDateSubmitted"); // this does not order properly, needs to be fixed
 		$orders = $this->_dbConnection->formatQuery($resourceid);
 		//return json_encode($orders);
 		return $orders;
@@ -198,7 +199,7 @@ class financeController extends roboSISAPI
 	 */
 	public function getPendingOrders()
 	{
-		$resourceid = $this->_dbConnection->selectFromTable("OrdersTable", "Status", "Pending");
+		$resourceid = $this->_dbConnection->selectFromTableDesc("OrdersTable", "Status", "Pending", "NumericDateSubmitted");
 		$orders = $this->_dbConnection->formatQuery($resourceid);
 		//return json_encode($orders);
 		return $orders;

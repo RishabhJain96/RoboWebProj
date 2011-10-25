@@ -77,27 +77,7 @@ function __autoload($class)
 						?>
 					</ul>
 				</div>
-				<div id="formstable">
-					<table>
-						<tr id="header">
-							<th>OrderID</th>
-							<th>Status</th>
-							<th>Subteam</th>
-							<th>Date Submitted</th>
-							<th>Date Approved</th>
-							<th>Reason For Purchase</th>
-							<th>Shipping &amp; Handling</th>
-							<th>Tax</th>
-							<th>Estimated Total Price</th>
-							<th>Vendor Name</th>
-							<th>Vendor Email</th>
-							<th>Vendor Address</th>
-							<th>Vendor Phone Number</th>
-							<th>Admin Comment</th>
-							<th>Admin Approved</th>
-							<th>Admin Username</th>
-							<th>Locked</th>
-						</tr>
+				<div id="forms_displayWrapper">
 						<?php
 						$controller = new financeController();
 						$username = $_SESSION['robo'];
@@ -115,14 +95,22 @@ function __autoload($class)
 								return "YES";
 							if (is_null($orderVal))
 								return "N/A";
+							if (empty($orderVal))
+								return "N/A";
 							else
 								return $orderVal;
+						}
+						
+						if (count($orders) == 0)
+						{
+							echo "<br />";
+							echo '<p>You have not submitted any orders yet.</p>';
 						}
 						
 						for ($i=0; $i < count($orders); $i++)
 						{
 							//echo "<a href=\"vieworder.php?id=" . $orders[$i][0]["OrderID"] . "\">";
-							echo "<tr class=\"data\">";
+							/* OLD CODE echo "<tr class=\"data\">";
 							echo "<td><a id=\"clickableid\" href=\"vieworder.php?id=" . $orders[$i][0]["OrderID"] . "\">" . $orders[$i][0]["OrderID"] . "</a></td>";
 							echo "<td><a id=\"clickableid\" href=\"editform.php?id=" . $orders[$i][0]["OrderID"] . "\">" . refineOrderVal($orders[$i][0]["Status"]) . "</td>";
 							echo "<td>" . refineOrderVal($orders[$i][0]["UserSubteam"]) . "</td>";
@@ -140,11 +128,38 @@ function __autoload($class)
 							echo "<td>" . refineOrderVal($orders[$i][0]["AdminApproved"]) . "</td>";
 							echo "<td>" . refineOrderVal($orders[$i][0]["AdminUsername"]) . "</td>";
 							echo "<td>" . refineOrderVal($orders[$i][0]["Locked"]) . "</td>";
-							echo "</tr>";
+							echo "</tr>"; */
 							//echo "</a>";
+							
+							echo '<div class="forms_display clearfix"><span class="forms_display_head"><p><strong>';
+							echo refineOrderVal($orders[$i]["UserSubteam"]);
+							echo "</strong> - <em>" . $orders[$i]["Status"] . "</em></p></span><h3>";
+							echo "<a href=\"vieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
+							echo refineOrderVal($orders[$i]["PartVendorName"]);
+							echo '</a></h3><ul><li><strong>Order ID: </strong>';
+							echo $orders[$i]["OrderID"];
+							echo '</li><li><strong>Current Status: </strong>';
+							echo refineOrderVal($orders[$i]["Status"]);
+							echo '</li>';
+							//all orders in viewmyforms have submittinguser as the current user, unnecessary code
+							//echo '<li><strong>Submitted by: </strong>';
+							//echo refineOrderVal($orders[$i]["Username"]);
+							//echo '</li>';
+							echo '</ul><span class="forms_display_price">$';
+							echo $orders[$i]["EstimatedTotalPrice"];
+							echo '</span><span class="forms_display_viewmore"><a href="';
+							echo "vieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
+							echo 'View More &raquo;</a></span>';
+							if ($orders[$i]["Locked"] === "0") // if order is unlocked, shows edit button
+							{
+								echo '<span class="forms_display_viewmore"><a href="';
+								echo "editform.php?id=" . $orders[$i]["OrderID"] . "\">";
+								echo 'Edit Order &raquo;</a></span>';
+							}
+							echo '</div>';
 						}
 						?>
-					</table>
+					</div>
 				</div>
 				</div>
 			</div>

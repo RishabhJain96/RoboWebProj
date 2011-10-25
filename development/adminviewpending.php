@@ -72,29 +72,8 @@ if ($api->getUserType($username) != "Admin")
 						<li class="form-selected">View Pending</li>
 					</ul>
 				</div>
-				<div id="formstable">
-					<table>
-						<tr id="header">
-							<th>OrderID</th>
-							<!-- <th>Status</th> -->
-							<th>Submitting User</th>
-							<th>Subteam</th>
-							<th>Date Submitted</th>
-							<th>Date Approved</th>
-							<th>Reason For Purchase</th>
-							<th>Shipping &amp; Handling</th>
-							<th>Tax</th>
-							<th>Estimated Total Price</th>
-							<th>Vendor Name</th>
-							<th>Vendor Email</th>
-							<th>Vendor Address</th>
-							<th>Vendor Phone Number</th>
-							<th>Admin Comment</th>
-							<th>Admin Approved</th>
-							<th>Admin Username</th>
-							<th>Locked</th>
-						</tr>
-						<?php
+				<div id="forms_displayWrapper">
+					<?php
 						$controller = new financeController();
 						$orders = $controller->getPendingOrders();
 						//$orders = json_decode($orders);
@@ -116,28 +95,33 @@ if ($api->getUserType($username) != "Admin")
 								return $orderVal;
 						}
 						
+						if (count($orders) == 0)
+						{
+							echo "<br />";
+							echo '<p>There are currently no pending orders.</p>';
+						}
+						
 						for ($i=0; $i < count($orders); $i++)
 						{
-							echo "<tr class=\"data\">\n";
-							echo "<td><a id=\"clickableid\" href=\"adminvieworder.php?id=" . $orders[$i]["OrderID"] . "\">" . $orders[$i]["OrderID"] . "</a></td>";
-							//echo "<td>" . refineOrderVal($orders[$i]["Status"]) . "</td>\n";
-							echo "<td>" . refineOrderVal($orders[$i]["Username"]) . "</td>\n";
-							echo "<td>" . refineOrderVal($orders[$i]["UserSubteam"]) . "</td>\n";
-							echo "<td>" . refineOrderVal($orders[$i]["EnglishDateSubmitted"]) . "</td>\n";
-							echo "<td>" . refineOrderVal($orders[$i]["EnglishDateApproved"]) . "</td>\n";
-							echo "<td>" . refineOrderVal($orders[$i]["ReasonForPurchase"]) . "</td>\n";
-							echo "<td>" . $orders[0]["ShippingAndHandling"] . "</td>";
-							echo "<td>" . $orders[0]["TaxPrice"] . "</td>";
-							echo "<td>" . $orders[0]["EstimatedTotalPrice"] . "</td>";
-							echo "<td>" . refineOrderVal($orders[$i]["PartVendorName"]) . "</td>\n";
-							echo "<td>" . refineOrderVal($orders[$i]["PartVendorEmail"]) . "</td>\n";
-							echo "<td>" . refineOrderVal($orders[$i]["PartVendorAddress"]) . "</td>\n";
-							echo "<td>" . refineOrderVal($orders[$i]["PartVendorPhoneNumber"]) . "</td>\n";
-							echo "<td>" . refineOrderVal($orders[$i]["AdminComment"]) . "</td>\n";
-							echo "<td>" . refineOrderVal($orders[$i]["AdminApproved"]) . "</td>\n";
-							echo "<td>" . refineOrderVal($orders[$i]["AdminUsername"]) . "</td>\n";
-							echo "<td>" . refineOrderVal($orders[$i]["Locked"]) . "</td>\n";
-							echo "</tr>\n";
+							echo '<div class="forms_display clearfix"><span class="forms_display_head"><p><strong>';
+							echo refineOrderVal($orders[$i]["UserSubteam"]);
+							echo '</strong> - <em>Locked</em></p></span><h3>';
+							echo "<a href=\"adminvieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
+							echo refineOrderVal($orders[$i]["PartVendorName"]);
+							echo '</a></h3><ul><li><strong>Order ID: </strong>';
+							echo $orders[$i]["OrderID"];
+							echo '</li>';
+							//status is unnecessary, as all orders in adminviewpending have status "Pending".
+							//echo '<li><strong>Current Status: </strong>';
+							//echo refineOrderVal($orders[$i]["Status"]);
+							//echo '</li>'
+							echo '<li><strong>Submitted by: </strong>';
+							echo refineOrderVal($orders[$i]["Username"]);
+							echo '</li></ul><span class="forms_display_price">$';
+							echo $orders[$i]["EstimatedTotalPrice"];
+							echo '</span><span class="forms_display_viewmore"><a href="';
+							echo "adminvieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
+							echo 'View More &raquo;</a></span></div>';
 						}
 						?>
 					</table>
