@@ -82,7 +82,7 @@ if(isset($_POST['reject']))
 			
 			<div id="dashboard-checkin" class="clearfix">
 				<div id="forms" class="clearfix">
-					<h2>Purchase Order Forms</h2>
+					<h2>Purchase Order Forms - Admin View Order #<?php echo $_GET['id'];// displays the shown orderID number ?></h2>
 					<ul>
 						<li><a href="submitform.php">Submit a Form</a></li>
 						<li><a href="viewmyforms.php">View My Forms</a></li>

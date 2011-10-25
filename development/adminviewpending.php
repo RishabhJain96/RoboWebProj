@@ -105,7 +105,9 @@ if ($api->getUserType($username) != "Admin")
 						{
 							echo '<div class="forms_display clearfix"><span class="forms_display_head"><p><strong>';
 							echo refineOrderVal($orders[$i]["UserSubteam"]);
-							echo '</strong> - <em>Locked</em></p></span><h3>';
+							//status not needed for this page, all are "Pending".
+							//echo "</strong> - <em>" . $orders[$i]["Status"] . "</em></p></span><h3>";
+							echo "</strong></p></span><h3>";
 							echo "<a href=\"adminvieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
 							echo refineOrderVal($orders[$i]["PartVendorName"]);
 							echo '</a></h3><ul><li><strong>Order ID: </strong>';

@@ -111,7 +111,7 @@ function __autoload($class)
 								
 								echo '<div class="forms_display clearfix"><span class="forms_display_head"><p><strong>';
 								echo refineOrderVal($orders[$i]["UserSubteam"]);
-								echo '</strong> - <em>Locked</em></p></span><h3>';
+								echo "</strong> - <em>" . $orders[$i]["Status"] . "</em></p></span><h3>";
 								echo "<a href=\"vieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
 								echo refineOrderVal($orders[$i]["PartVendorName"]);
 								echo '</a></h3><ul><li><strong>Order ID: </strong>';
