@@ -103,10 +103,10 @@ function __autoload($class)
 							for ($i=0; $i < count($orders); $i++)
 							{
 								
-								echo '<div class="forms_display"><span class="forms_display_head"><p><strong>';
+								echo '<div class="forms_display clearfix"><span class="forms_display_head"><p><strong>';
 								echo refineOrderVal($orders[$i]["UserSubteam"]);
 								echo '</strong> - <em>Locked</em></p></span><h3>';
-								echo "<a href=\"vieworder.php?id=" . $orders[$i][0]["OrderID"] . "\">"."</a>";
+								echo "<a href=\"vieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
 								echo refineOrderVal($orders[$i]["PartVendorName"]);
 								echo '</a></h3><ul><li><strong>Order ID: </strong>';
 								echo $orders[$i]["OrderID"];

@@ -154,6 +154,7 @@ class financeController extends roboSISAPI
 		for ($i=0; $i < count($arr); $i++)
 		{
 			$orders[$i] = $this->getOrder($arr[$i]); // gets a single order and adds it to orders array
+			$orders[$i] = $orders[$i][0];
 		}
 		//$lists = array();
 		//for ($i=0; $i < count($orders); $i++)

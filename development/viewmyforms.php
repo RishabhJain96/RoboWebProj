@@ -125,19 +125,19 @@ function __autoload($class)
 							echo "</tr>"; */
 							//echo "</a>";
 							
-							echo '<div class="forms_display"><span class="forms_display_head"><p><strong>';
+							echo '<div class="forms_display clearfix"><span class="forms_display_head"><p><strong>';
 							echo refineOrderVal($orders[$i]["UserSubteam"]);
 							echo '</strong> - <em>Locked</em></p></span><h3>';
-							echo "<a href=\"vieworder.php?id=" . $orders[$i][0]["OrderID"] . "\">"."</a>";
+							echo "<a href=\"vieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
 							echo refineOrderVal($orders[$i]["PartVendorName"]);
 							echo '</a></h3><ul><li><strong>Order ID: </strong>';
-							echo "$orders[$i]["OrderID"]";
+							echo $orders[$i]["OrderID"];
 							echo '</li><li><strong>Current Status: </strong>';
 							echo refineOrderVal($orders[$i]["Status"]);
 							echo '</li><li><strong>Submitted by: </strong>';
 							echo refineOrderVal($orders[$i]["Username"]);
 							echo '</li></ul><span class="forms_display_price">$';
-							echo $orders[0]["EstimatedTotalPrice"];
+							echo $orders[$i]["EstimatedTotalPrice"];
 							echo '</span><span class="forms_display_viewmore"><a href="';
 							echo "vieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
 							echo 'View More »</a></span></div>';
