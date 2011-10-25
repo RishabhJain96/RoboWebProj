@@ -303,16 +303,29 @@ html,body
 	width:250px;
 	padding:0.5em 2em;
 }
+#formstable tr#header th.th_alt
+{
+	background-color: #666;
+}
 
 #formstable tr.data td
 {
 	background-color:#444;
 	padding:0.5em;
 }
-
-#formstable tr.data :hover
+#formstable tr.data td.td_alt
 {
-	background-color:#354;
+	background-color: #555;
+}
+
+#formstable table 
+{
+	margin-top: 1.5em;
+	font-size: 1.1em;
+}
+#formstable table td:hover
+{
+	background-color: #666;
 }
 
 #login_status form input.logout:active,#checkin-header form input.checkin:active
@@ -380,4 +393,38 @@ html,body
 .forms_display span.forms_display_viewmore a:hover
 {
 	font-weight: bold;
+}
+
+#form_viewform h2#vendorName
+{
+	font-size: 2em;
+}
+#form_viewform h3
+{
+	font-size: 1.1em;
+	padding: 0.25em 0;
+}
+#form_viewform ul#form_viewform_info
+{
+	margin: 0.5em 0;
+}
+#form_viewform ul#form_viewform_info li
+{
+	margin: 2px 0;
+}
+#form_viewform div.viewform_para h4
+{
+	font-size: 1.5em;
+	margin: 0 0 5px 0;
+}
+#form_viewform div.viewform_para p
+{
+	width: 640px;
+	line-height: 1.5;
+	font-size: 1.1em;
+}
+#form_viewform #form_viewform_contact ul li
+{
+	font-size: 1.1em;
+	padding: 5px 0;
 }
