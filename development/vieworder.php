@@ -121,6 +121,10 @@ function __autoload($class)
 				{
 					echo '<li>Approved on: '. refineOrderVal($orders[0]["EnglishDateApproved"]) . ' by ' .refineOrderVal($orders[0]["AdminUsername"]). '</li>';
 				}
+				else if ($orders[0]["AdminApproved"] === "0")
+				{
+					echo '<li>Rejected on: '. refineOrderVal($orders[0]["EnglishDateApproved"]) . ' by ' .refineOrderVal($orders[0]["AdminUsername"]). '</li>';
+				}
 				echo '<li>Locked: '.refineOrderVal($orders[0]["Locked"]).'</li>';
 				echo '</ul><div class="viewform_para">';
 				echo '<h4>Reason for Purchase</h4>';
