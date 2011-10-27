@@ -1,0 +1,407 @@
+.clearfix:before,.clearfix:after
+{
+	content:"";
+	display:table;
+}
+
+.clearfix:after
+{
+	clear:both;
+}
+
+.clearfix
+{
+	zoom:1px;
+}
+
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td
+{
+	font-size:100%;
+	vertical-align:baseline;
+	border:0;
+	outline:0;
+	background:transparent;
+	margin:0;
+	padding:0;
+}
+
+a
+{
+	text-decoration:none;
+}
+
+ol,ul
+{
+	list-style:none;
+}
+
+blockquote,q
+{
+	quotes:none;
+}
+
+:focus
+{
+	outline:0;
+}
+
+input
+{
+	border:none;
+}
+
+table
+{
+	border-collapse:collapse;
+	border-spacing:0;
+}
+
+/* main */
+html,body
+{
+	font-family:Helvetica, Arial, "MS Trebuchet", sans-serif;
+	height:100%;
+}
+
+#floater
+{
+	position:relative;
+	float:left;
+	height:50%;
+	margin-bottom:-260px;
+	width:1px;
+}
+
+#dashboardWindow
+{
+	width:750px;
+	position:relative;
+	clear:left;
+	margin:1.5em auto;
+	padding:2em;
+}
+
+#dashboardWindow div
+{
+	margin-bottom:1.5em;
+}
+
+#dashboardWindow h2
+{
+	font-size:1.5em;
+}
+
+#login_status
+{
+	float:right;
+	margin-bottom:1em;
+}
+
+#login_status form input.logout
+{
+	font-size:0.9em;
+	float:right;
+	padding:5px 15px;
+}
+
+#dashboardWindow h1
+{
+	font-size:2em;
+	font-weight:700;
+	clear:both;
+}
+
+#dashboard-checkin
+{
+	margin-top:2.5em;
+}
+
+#checkin-header form
+{
+	float:right;
+}
+
+#checkin-header form input.checkin
+{
+	font-size:1.25em;
+	font-weight:700;
+	padding:0.5em 1.5em;
+}
+
+#navbar ul li
+{
+	display:inline;
+}
+
+#navbar ul li a
+{
+	padding:0.75em 1.25em;
+}
+
+#forms h2
+{
+	font-size:1.75em;
+}
+
+#forms ul
+{
+	margin-top:1.5em;
+}
+
+#forms ul li
+{
+	display:inline;
+	margin-right:3em;
+}
+
+#forms ul li a
+{
+	font-size:1em;
+	padding:0.6em 1em;
+}
+
+#forms ul li.form-selected
+{
+	font-size:1.1em;
+	font-weight:700;
+	padding:0.6em 1em;
+}
+
+#forms-submit form
+{
+	margin-top:40px;
+}
+
+#forms-submit fieldset
+{
+	margin-bottom:1em;
+	font-size:1.25em;
+}
+
+#forms-submit fieldset label
+{
+	padding-right:1em;
+}
+
+#forms-submit fieldset input.field
+{
+	font-size:1em;
+	width:350px;
+	padding:0.5em;
+	float: right;
+	margin-right: 400px;
+}
+
+#forms-submit fieldset#subteam_select fieldset
+{
+	float: right;
+	margin-right: 400px;
+}
+#forms-submit fieldset#subteam_select label
+{
+	float: left;
+}
+#forms-submit fieldset#subteam_select input
+{
+	margin-left: 60px;
+}
+
+#forms-submit fieldset input.save,input.submit
+{
+	font-size:1em;
+	padding:0.5em;
+}
+
+#forms-submit fieldset select.options
+{
+	font-size:1em;
+	width:150px;
+}
+
+#forms-submit fieldset textarea.form_textarea
+{
+	width:360px;
+	min-height:150px;
+}
+
+#forms-submit fieldset#reason p 
+{
+	float: left;
+}
+#forms-submit fieldset#reason textarea {
+	float: right;
+	margin-right: 400px;
+}
+
+#form-submitbuttons fieldset
+{
+	display:inline;
+	margin-right:1.5em;
+}
+
+#order_table tr th
+{
+	width: 130px;
+	padding: 0.5em 0;
+}
+#order_table tr th.th_alt
+{
+}
+#order_table tr.data td
+{
+	width: 130px;
+}
+#order_table tr.data td.td_alt
+{
+}
+#order_table tr.data_alt td
+{
+	width: 130px;
+}
+#order_table table td.quantity fieldset input {
+	width: 60px;
+}
+#order_table table th#quantity {
+	width: 60px;
+}
+
+#order_table table tr fieldset
+{
+	margin: 0;
+	padding: 5px;
+}
+#order_table table tr fieldset input
+{
+	font-size: 0.75em;
+	padding: 2px;
+}
+
+#formstable
+{
+}
+
+#formstable tr#header th
+{
+	width:250px;
+	padding:0.5em 2em;
+}
+#formstable tr#header th.th_alt
+{
+}
+
+#formstable tr.data td
+{
+	padding:0.5em;
+}
+#formstable tr.data td.td_alt
+{
+}
+
+#formstable table 
+{
+	margin-top: 1.5em;
+	font-size: 1.1em;
+}
+#formstable table td:hover
+{
+}
+
+#login_status form input.logout:active,#checkin-header form input.checkin:active
+{
+}
+
+#checkin-header h2,#navbar
+{
+	float:left;
+}
+
+#navbar ul li a:hover,#forms ul li a:hover
+{
+	text-decoration:underline;
+}
+
+#clickableid
+{
+	text-decoration:underline;
+}
+
+.forms_display
+{
+	width: 785px;
+	padding: 15px;
+}
+.forms_display span.forms_display_head
+{
+	float: right;
+}
+.forms_display span.forms_display_head p
+{
+	font-size: 1.1em;
+}
+.forms_display h3 a
+{
+	/*padding: 0.5em 1em 1em 0;
+	font-size: 2.2em;*/
+}
+.forms_display h3 a:hover {
+	text-decoration: underline;
+}
+.forms_display ul li {
+	padding-top: 0.4em;
+}
+.forms_display span.forms_display_price
+{
+	font-size: 2.5em;
+	float: right;
+}
+.forms_display span.forms_display_viewmore a
+{
+	font-size: 1.1em;
+	float: left;
+	margin-top: 1em;
+	padding: 0.5em 1em;
+}
+.forms_display span.forms_display_viewmore a:hover
+{
+	font-weight: bold;
+}
+
+#form_viewform h2#vendorName
+{
+	font-size: 2em;
+}
+#form_viewform h3
+{
+	font-size: 1.1em;
+	padding: 0.25em 0;
+}
+#form_viewform ul#form_viewform_info
+{
+	margin: 0.5em 0;
+}
+#form_viewform ul#form_viewform_info li
+{
+	margin: 2px 0;
+}
+#form_viewform div.viewform_para h4
+{
+	font-size: 1.5em;
+	margin: 0 0 5px 0;
+}
+#form_viewform div.viewform_para p
+{
+	width: 640px;
+	line-height: 1.5;
+	font-size: 1.1em;
+}
+#form_viewform #form_viewform_contact ul li
+{
+	font-size: 1.1em;
+	padding: 5px 0;
+}
+.right {
+	float: right;
+}
+.left {
+	float: left;
+}
