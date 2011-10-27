@@ -208,7 +208,9 @@ if(isset($_POST['logout']))
 					$result = $api->getCheckIns($username);
 					//echo $result;
 					$table = json_decode($result);
-					for($i = 0; $i < count($table); $i++)
+					// show only past 10 check-ins
+					$numcheckins = min(10,count($table));
+					for($i = 0; $i < $numcheckins; $i++)
 					{
 						echo "<li>".$table[$i]."</li>";
 						//echo "<br />";

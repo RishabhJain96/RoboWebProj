@@ -156,6 +156,12 @@ function __autoload($class)
 								echo "editform.php?id=" . $orders[$i]["OrderID"] . "\">";
 								echo 'Edit Order &raquo;</a></span>';
 							}
+							if ($orders[$i]["AdminApproved"] === "1")
+							{
+								echo '<span class="forms_display_viewmore"><a href="';
+								echo "printorder.php?id=" . $orders[$i]["OrderID"] . "\">";
+								echo 'Print Order &raquo;</a></span></div>';
+							}
 							echo '</div>';
 						}
 						?>

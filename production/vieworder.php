@@ -151,9 +151,9 @@ function __autoload($class)
 							<th>Estimated Total Price</th>
 						</tr>
 						<tr class="data">';
-							echo '<td>'.$orders[0]["ShippingAndHandling"] .'</td>';
-							echo '<td class="td_alt">'.$orders[0]["TaxPrice"].'</td>';
-							echo '<td>'.$orders[0]["EstimatedTotalPrice"].'</td>
+							echo '<td>$'.$orders[0]["ShippingAndHandling"] .'</td>';
+							echo '<td class="td_alt">$'.$orders[0]["TaxPrice"].'</td>';
+							echo '<td>$'.$orders[0]["EstimatedTotalPrice"].'</td>
 							</tr>
 					</table>
 					<table>
@@ -171,13 +171,20 @@ function __autoload($class)
 							echo "<td>" . refineOrderVal($orderslist[$i]["PartNumber"]) . "</td>";
 							echo "<td>" . refineOrderVal($orderslist[$i]["PartName"]) . "</td>";
 							echo "<td>" . refineOrderVal($orderslist[$i]["PartSubsystem"]) . "</td>";
-							echo "<td>" . $orderslist[$i]["PartIndividualPrice"] . "</td>";
+							echo "<td>$" . $orderslist[$i]["PartIndividualPrice"] . "</td>";
 							echo "<td>" . $orderslist[$i]["PartQuantity"] . "</td>";
-							echo "<td>" . $orderslist[$i]["PartTotalPrice"] . "</td>";
+							echo "<td>$" . $orderslist[$i]["PartTotalPrice"] . "</td>";
 							echo "</tr>";
 						}
 					echo '</table>
 				</div>';
+				if ($orders[0]["AdminApproved"] === "1")
+				{
+					echo '<div class="forms_display clearfix">';
+					echo '<span class="forms_display_viewmore"><a href="';
+					echo "printorder.php?id=" . $orders[0]["OrderID"] . "\">";
+					echo 'Print Order &raquo;</a></span></div>';
+				}
 						?>
 			</div>
 			
