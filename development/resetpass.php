@@ -37,17 +37,18 @@
 				if (isset($_POST['register']))
 				{
 					$username = $_POST['username'];
-					$password = $_POST['pwd'];
+					$oldpassword = $_POST['oldpwd'];
+					$newpassword = $_POST['newpwd'];
 
 					if($username =="")
 					{
-						exit("Please complete both fields and try again.");
+						exit("Please complete all fields and try again.");
 					}
 					
 					$register = new register();
 					if ($register->register($username, $password))
 					{
-						echo '<p>Congratulations! Your account has been set up and you may now login.</p>';
+						echo '<p>Congratulations! Your password has been changed and you may now login.</p>';
 					}
 				}
 				?>
