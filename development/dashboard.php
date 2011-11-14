@@ -169,13 +169,14 @@ if(isset($_POST['logout']))
 						{
 							echo '<li><a href="admin_dashboard.php">Admin</a></li>';
 						}
-						?>					</ul>
+						?>
+					</ul>
 				</div>
 				<div id="login_status">
 					<p>Logged in as: <?php echo $_SESSION['robo']; // echos the username?></p>
 					<form method="post" name="form" action="">
 					<fieldset>
-					<input name="logout" type="submit" class="logout" value="Logout" />
+						<input name="logout" type="submit" class="logout" value="Logout" />
 					</fieldset>
 					</form>
 				</div>

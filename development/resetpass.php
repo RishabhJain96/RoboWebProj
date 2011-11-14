@@ -37,7 +37,9 @@
 				if (isset($_POST['register']))
 				{
 					$username = $_POST['username'];
-					$oldpassword = $_POST['oldpwd'];
+					// old password is md5'd to allow checking with db
+					$oldpassword = md5($_POST['oldpwd']);
+					// new password will be md5'd in back-end code
 					$newpassword = $_POST['newpwd'];
 
 					if($username =="")
@@ -45,11 +47,15 @@
 						exit("Please complete all fields and try again.");
 					}
 					
-					$register = new register();
-					if ($register->register($username, $password))
+					$controller = new register();
+					if ($controller->getPassword($username) != $oldpassword)
 					{
-						echo '<p>Congratulations! Your password has been changed and you may now login.</p>';
+						exit("Your old password is incorrect.");
 					}
+					//if ($register->register($username, $password))
+					//{
+					//	echo '<p>Congratulations! Your password has been changed and you may now login.</p>';
+					//}
 				}
 				?>
 			</form>

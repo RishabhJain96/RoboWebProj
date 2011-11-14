@@ -3,6 +3,7 @@
  * Robotics SIS Register class
  * @author: Rohit Sanbhadti
  * Inputs the username and password in the database, along with a randomly generated activation number. Emails the user with a link containing the activation number, which when clicked, sets the Activated field in the db to a nonzero value, indicating the user has registered.
+ * This class also handles changing a user's password.
  */
 
 class register
@@ -100,6 +101,18 @@ class register
 		//mail($to, $subject, $message, $header);
 	}
 	
+	/**
+	 * description: Returns the given user's current password.
+	 * 
+	 * @param username: The user who's password to get
+	 * @return string: The password, straight from the database (still in md5 form)
+	 */
+	public function getPassword($username)
+	{
+		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers", "Username", $username);
+		$array = $this->_dbConnection->formatQueryResults($resourceid, "UserPassword");
+		return $array[0];
+	}
 }
 
 ?>
