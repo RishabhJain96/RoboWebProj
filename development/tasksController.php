@@ -1,12 +1,11 @@
 <?php
 /**
- * Robotics SIS Class
- *  Class
+ * tasksController Class
  * 
- * @author Rohit Sanbhadti
+ * This class holds all the server-side functions related to the tasks system.
  */
 
-class 
+class tasksController
 {
 	// instance variables
 	protected $_dbConnection;
@@ -14,17 +13,15 @@ class
 	public function __construct()
 	{
 		$this->_dbConnection = dbUtils::getConnection();
-		$this->_connection = $this->_dbConnection->open_db_connection();
 	}
 	
 	/**
-	 * Class description
-	 * $assigninguser: 
-	 * $receivinguser: 
+	 * Assigns the given task to the given user
+	 * $parameter: 
 	 */
 	public function assignTaskToUser($assigninguser, $receivinguser)
 	{
-		
+
 	}
 	
 }

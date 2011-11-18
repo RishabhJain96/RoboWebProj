@@ -179,6 +179,8 @@ class financeController extends roboSISAPI
 		return $orders;
 	}
 	
+	// ADMIN FUNCTIONS
+	
 	/**
 	 * Locks the order and sets status to pending
 	 */
@@ -191,8 +193,6 @@ class financeController extends roboSISAPI
 		$arr_vals = array("Locked" => $locked, "Status" => $status, "EnglishDateSubmitted" => $eds, "NumericDateSubmitted" => $nds);
 		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $arr_vals, "OrderID = $orderID");
 	}
-	
-	// ADMIN FUNCTIONS
 	
 	/**
 	 * Gets the list of pending orders in JSON

@@ -16,18 +16,8 @@ function __autoload($class)
 {
 	require_once $class . '.php';
 }
-if (is_null($_GET['id']))
-{
-	header('Location: submitform.php'); // if there is no order to edit, redirects to new form page
-	exit;
-}
-$orderID = $_GET['id'];
 $username = $_SESSION['robo'];
 $controller = new financeController();
-if ($controller->isLocked($orderID))
-{
-	header("Location: vieworder.php?id=$orderID");
-}
 $orders = $controller->getOrder($orderID);
 $orderslist = $controller->getOrdersList($orderID);
 //print_r($orderslist);
@@ -165,44 +155,10 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 			
 			<div id="dashboard-checkin" class="clearfix">
 				<div id="forms" class="clearfix">
-					<h2>Purchase Order Forms - Edit Order #<?php echo $_GET['id'];// displays the shown orderID number ?></h2>
-					<ul>
-						<li><a href="submitform.php">Submit a Form</a></li>
-						<li><a href="viewmyforms.php">View My Forms</a></li>
-						<li><a href="viewallforms.php">View All Forms</a></li>
-						<?php
-						$username = $_SESSION['robo'];
-						$api = new roboSISAPI();
-						if ($api->getUserType($username) == "Admin")
-						{
-							echo '<li><a href="adminviewpending.php">View Pending</a></li>';
-						}
-						?>
-					</ul>
+					<h2><?php echo $_SESSION['robo']; ?>&#x27;s Profile</h2>
 				</div>
 				<div id="forms-submit">
 					<form id="orderform" method="post" action="">
-							<!-- Temp block - only needed until profile section is complete -->
-							<!-- <fieldset>
-								<label for="name">First Name</label>
-								<input type="text" name="firstname" id="fname" class="field" value=""/>
-							</fieldset>
-							
-							<fieldset>
-								<label for="name">Last Name</label>
-								<input type="text" name="lastname" id="lname" class="field" value=""/>
-							</fieldset>
-							
-							<fieldset>
-								<label for="email">Email</label>
-								<input type="text" name="email" id="email" class="field" value=""/>
-							</fieldset>
-							
-							<fieldset>
-								<label for="cellphone">Cell Phone Number</label>
-								<input type="text" name="cellphone" id="cellphone" class="field" value=""/>
-							</fieldset>
-							 -->
 							<?php
 							// getting all variables
 							$subteam = $orders[0]["UserSubteam"];
@@ -252,7 +208,7 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 								echo "<input type=\"radio\" name=\"subteam\" value=\"Programming\" checked=\"checked\" /> P\n";
 								echo "<input type=\"radio\" name=\"subteam\" value=\"Operational\" /> O\n";
 							}
-							echo "</fieldset>\n";
+								echo "</fieldset>\n";
 							echo "</fieldset>\n";
 							
 							//<!-- End temp block -->

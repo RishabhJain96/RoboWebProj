@@ -63,7 +63,7 @@ if(isset($_POST['reject']))
 				<div id="navbar">
 					<ul>
 						<li><a href="dashboard.php">Home</a></li>
-						<!-- <li><a href="">My Profile</a></li> -->
+						<li><a href="profilepage.php">My Profile</a></li>
 						<li><a href="viewmyforms.php">Purchase Orders</a></li>
 						<li><a href="admin_dashboard.php">Admin</a></li>				
 					</ul>

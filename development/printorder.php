@@ -126,8 +126,10 @@ function __autoload($class)
 							echo "<td>$" . $orderslist[$i]["PartTotalPrice"] . "</td>";
 							echo "</tr>";
 						}
-					echo '</table>
-				</div>';
+					echo '</table>';
+				echo '</div>';
+				echo "<br />";
+				echo 'Signature___________________________________________';
 						?>
 			</div>
 			
