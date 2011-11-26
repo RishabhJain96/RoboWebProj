@@ -139,6 +139,7 @@ if($i == 4)
 	$arr[] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
 	$arr[] = array("AdminUsername", "TINYTEXT"); // NOT DB LINKED
 	$arr[] = array("Status", "TINYTEXT"); // vals: Unfinished, Pending, Approved, Completed, Rejected
+	$arr[] = array("PrintCounter", "INT");
 	$arr[] = array("ConfirmationOfPurchase", "INT"); // int acts as bool, 0 and 1
 	$arr[] = array("Locked", "INT"); // int acts as bool, 0 and 1
 	$arr[] = array("UniqueID", "TINYTEXT"); // acts as a way to get a specific OrderID after inserting
