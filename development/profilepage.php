@@ -168,7 +168,11 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 							$vendoraddress = $orders[0]["PartVendorAddress"];
 							$reason = $orders[0]["ReasonForPurchase"];
 							$shippinghandling = $orders[0]["ShippingAndHandling"];
+							$usertype = $user['UserType'];
 							
+							echo "<h2>Type $usertype</h2>";
+							
+							echo "<br />";
 							
 							echo "<fieldset id=\"subteam_select\">\n";
 							echo "<label for=\"subteam\">Subteam</label>\n";
@@ -214,109 +218,30 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 							//<!-- End temp block -->
 							
 							echo "<fieldset>\n
-							 	<label id=\"vendorname\">Vendor Name</label>\n
-							 	<input type=\"text\" name=\"vendorname\" id=\"vendorname\" class=\"field\" value=\"$vendorname\" />\n
+							 	<label id=\"name\">Full Name</label>\n
+							 	<input type=\"text\" name=\"name\" id=\"name\" class=\"field\" value=\"$name\" />\n
 							 </fieldset>\n
 							 <fieldset>\n
-							 	<label id=\"vendorphone\" >Vendor Phone Number</label>\n
-							 	<input type=\"text\" name=\"vendorphone\" id=\"vendorphone\" class=\"field\" value=\"$vendorphone\" />\n
+							 	<label id=\"phone\" >Phone Number</label>\n
+							 	<input type=\"text\" name=\"phone\" id=\"phone\" class=\"field\" value=\"$phone\" />\n
 							 </fieldset>\n
 							 <fieldset>\n
-							 	<label for=\"vendoremail\">Vendor Email</label>\n
-							 	<input type=\"text\" name=\"vendoremail\" id=\"vendoremail\" class=\"field\" value=\"$vendoremail\"/>\n
+							 	<label for=\"email\">Email</label>\n
+							 	<input type=\"text\" name=\"email\" id=\"email\" class=\"field\" value=\"$email\"/>\n
 							 </fieldset>\n
 							 <fieldset>\n
-							 	<label id=\"vendoraddress\" >Vendor Address</label>\n
-							 	<input type=\"text\" name=\"vendoraddress\" id=\"vendoraddress\" class=\"field\" value=\"$vendoraddress\" />\n
+							 	<label id=\"pemail\" >Parent's Email</label>\n
+							 	<input type=\"text\" name=\"pemail\" id=\"pemail\" class=\"field\" value=\"$pemail\" />\n
 							 </fieldset>\n
-							 <fieldset id=\"reason\">\n
-							 	<p>Reason For Purchase</p>\n
-							 	<textarea class=\"form_textarea\" name=\"reason\">$reason</textarea>\n
-							 </fieldset>\n
+							 <fieldset>\n
+							 	<label id=\"gradyear\" >Graduation Year</label>\n
+							 	<input type=\"text\" name=\"gradyear\" id=\"gradyear\" class=\"field\" value=\"$gradyear\" />\n
+							 </fieldset>\n";
 							
-							 <div id=\"order_table\">\n
-							 	<table>\n
-							 		<tr id=\"partnumber\">\n
-							 			<th class=\"th_alt\">Part #</th>\n
-							 			<th>Part Name</th>\n
-							 			<th class=\"th_alt\">Subsystem</th>\n
-							 			<th>$ / Unit</th>\n
-							 			<th class=\"th_alt\" id=\"quantity\">Quantity</th>\n
-							 		</tr>";
-									
-									
-									for ($i=0; $i < count($orderslist); $i++)
-									{
-										$id = "order"."$i";
-										$name = "part["."$i"."]";
-										$class = "";
-										if ($i % 2 == 1) // allows row style to alternate
-											$class = "data_alt";
-										else
-											$class = "data";
-										// each row has id="order0" in numerical order
-										// input names are in format "part[0][partnum]", with 0 and partnum varying for each row and for each column
-										$partnum = $orderslist[$i]["PartNumber"];
-										$partname = $orderslist[$i]["PartName"];
-										$subsystem = $orderslist[$i]["PartSubsystem"];
-										$partprice = $orderslist[$i]["PartIndividualPrice"];
-										$quantity = $orderslist[$i]["PartQuantity"];
-										echo "<tr id=\"$id\" class=\"$class\">\n";
-										echo "<td><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partnum]\" value=\"$partnum\" /></fieldset></td>\n";
-										echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partname]\" value=\"$partname\" /></fieldset></td>\n";
-										echo "<td><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partsubsystem]\" value=\"$subsystem\" /></fieldset></td>\n";
-										echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partprice]\" value=\"$partprice\" /></fieldset></td>\n";
-										echo "<td class=\"quantity\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partquantity]\" value=\"$quantity\" /></fieldset></td>\n";
-										//echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[parttotal]\" /></fieldset></td>\n";
-										echo "</tr>\n";
-									}
-							 		// orderslist table generation
-							 		for ($i=count($orderslist); $i < 10; $i++)
-									{
-										$id = "order"."$i";
-										$name = "part["."$i"."]";
-										$class = "";
-										if ($i % 2 == 1) // allows row style to alternate
-											$class = "data_alt";
-										else
-											$class = "data";
-										// each row has id="order0" in numerical order
-										// input names are in format "part[0][partnum]", with 0 and partnum varying for each row and for each column
-										echo "<tr id=\"$id\" class=\"$class\">\n";
-										echo "<td><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partnum]\" /></fieldset></td>\n";
-										echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partname]\" /></fieldset></td>\n";
-										echo "<td><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partsubsystem]\" /></fieldset></td>\n";
-										echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partprice]\" /></fieldset></td>\n";
-										echo "<td class=\"quantity\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partquantity]\" /></fieldset></td>\n";
-										//echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[parttotal]\" /></fieldset></td>\n";
-										echo "</tr>\n";
-									}
-									
-							echo "</table>\n
-							</div>\n";
-							
-							
-							/*<!--
-							<fieldset>
-								<input type="radio" name="subteam" value="M" /> YES
-								<input type="radio" name="subteam" value="E" /> NO
-							</fieldset>
-							
-							<fieldset>
-								<input type="checkbox" name="verify" value="agree" /> I have agreed to the Terms and Conditions 
-							</fieldset>
-							-->*/
-							echo "<fieldset>\n
-								<label for=\"shippinghandling\">Shipping and Handling</label>\n
-								<input type=\"text\" name=\"shippinghandling\" id=\"shippinghandling\" class=\"field\" value=\"$shippinghandling\"/>\n
-							</fieldset>\n";
 							
 							?>
 							
 							<div id="form-submitbuttons">
-							<fieldset>
-								<input name="submit" type="submit" class="submit" value="submit" />
-							</fieldset>
 							<fieldset>
 								<input name="update" type="submit" class="save" value="update" />
 							</fieldset>
