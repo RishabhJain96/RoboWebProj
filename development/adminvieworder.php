@@ -30,6 +30,10 @@ if ($api->getUserType($username) != "Admin")
 }
 $controller = new financeController();
 $orderID = $_GET['id'];
+if ($controller->isApproved($orderID))
+{
+	header("Location: adminviewpending.php");
+}
 if(isset($_POST['approve']))
 {
 	$comment = $_POST['comment'];
@@ -42,7 +46,7 @@ if(isset($_POST['reject']))
 	$controller->setApproval($orderID, false, $username, $comment);
 	header("Location: adminviewpending.php");
 }
-// Will accept url parameter id=123 to get orderID
+// Will accept url parameter (id=number) to get orderID
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
