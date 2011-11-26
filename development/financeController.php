@@ -232,6 +232,26 @@ class financeController extends roboSISAPI
 		$arr_vals = array("Status" => $status, "AdminApproved" => $approved, "AdminComment" => $comment, "AdminUsername" => $adminusername, "Locked" => $locked, "EnglishDateApproved" => $englishdateapproved, "NumericDateApproved" => $numericdateapproved);
 		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $arr_vals, "OrderID = $orderID");
 	}
+	
+	/**
+	 * description: Returns true if given order has been approved
+	 * 
+	 * @param orderID: 
+	 * @return bool: 
+	 */
+	public function isApproved($orderID)
+	{
+		$order = $this->getOrder($orderID);
+		//print_r($order);
+		if ($order[0]["Status"] == "Approved")
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
 
 ?>
