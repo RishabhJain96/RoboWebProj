@@ -6,7 +6,7 @@ class dbUtils
 {
 	public static function getConnection()
 	{
-		$dbArr = file("dbParameters.txt");
+		/*$dbArr = file('dbParameters.txt');
 		$dbArr[0] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[0]);
 		$dbArr[1] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[1]);
 		$dbArr[2] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[2]);
@@ -19,6 +19,13 @@ class dbUtils
 			$dbArr[3] = ""; // null string if array index 3 does not exist, means password is empty field
 		}
 		$dbArr[3] = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[3]);
+		*/
+		$dbArr = array();
+		// hardcoded values to get around dbParameters problem
+		$dbArr[0] = "RoboticsSIS";
+		$dbArr[1] = "localhost:8889";
+		$dbArr[2] = "root";
+		$dbArr[3] = "root";
 		$dbConnection = new relationalDbConnections($dbArr[0], $dbArr[1], $dbArr[2], $dbArr[3]);
 		return $dbConnection;
 	}

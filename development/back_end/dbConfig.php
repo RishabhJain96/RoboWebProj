@@ -1,9 +1,21 @@
 <?PHP
-// The function __autoload is the method for loading all the classes being used in the script. Use it at the beginning of every php main page.
-function __autoload($class)
-{
-	require_once $class . '.php';
-}
+// autoloader code
+// loads classes as needed, eliminates the need for a long list of includes at the top
+spl_autoload_register(function ($className) { 
+    $possibilities = array( 
+        '../controllers'.DIRECTORY_SEPARATOR.$className.'.php', 
+        '../back_end'.DIRECTORY_SEPARATOR.$className.'.php', 
+        '../views'.DIRECTORY_SEPARATOR.$className.'.php', 
+        $className.'.php' 
+    ); 
+    foreach ($possibilities as $file) { 
+        if (file_exists($file)) { 
+            require_once($file); 
+            return true; 
+        } 
+    } 
+    return false; 
+});
 
 /**
  * PLEASE MAKE SURE THAT THE DATABASE WITH THE APPROPRIATE dbName FROM dbParameters.txt
@@ -42,15 +54,15 @@ if($i == 1) {
 	$array1[] = array("UserID", "int", "NOT NULL", "AUTO_INCREMENT");
 	$array1[] = array("PRIMARY KEY(UserID)", "");
 	$array1[] = array("Username", "TEXT");
-	$array1[] = array("UserFullName", "TEXT");
-	$array1[] = array("UserDescription", "TEXT"); // needed?
-	$array1[] = array("UserPhoneNumber", "TEXT");
+	$array1[] = array("UserFullName", "TINYTEXT");
+//	$array1[] = array("UserDescription", "TEXT"); // needed?
+	$array1[] = array("UserPhoneNumber", "TINYTEXT");
 	$array1[] = array("UserYear", "INT");
-	$array1[] = array("UserMomEmail", "TINYTEXT"); // split into mom/dad email?
-	$array1[] = array("UserDadEmail", "TINYTEXT"); // split into mom/dad email?
+//	$array1[] = array("UserMomEmail", "TINYTEXT"); // split into mom/dad email?
+	$array1[] = array("UserParentsEmail", "TINYTEXT"); // split into mom/dad email?
 	$array1[] = array("UserEmail", "TINYTEXT");
-	$array1[] = array("UserTitle", "TINYTEXT"); // needed?
-	$array1[] = array("UserPicture", "TINYTEXT"); // needed?
+//	$array1[] = array("UserTitle", "TINYTEXT"); // needed?
+//	$array1[] = array("UserPicture", "TINYTEXT"); // needed?
 	$array1[] = array("UserPassword", "TINYTEXT");
 	$array1[] = array("ActivationCode", "TINYTEXT");
 	$array1[] = array("Activated", "INT"); // nonzero val is true

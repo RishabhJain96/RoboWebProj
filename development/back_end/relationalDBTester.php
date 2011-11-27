@@ -1,10 +1,21 @@
 <?PHP
-// The function __autoload is the method for loading all the classes being used in the script. Use it at the beginning of every php main
-// page.
-function __autoload($class)
-{
-	require_once $class . '.php';
-}
+// autoloader code
+// loads classes as needed, eliminates the need for a long list of includes at the top
+spl_autoload_register(function ($className) { 
+    $possibilities = array( 
+        '../controllers'.DIRECTORY_SEPARATOR.$className.'.php', 
+        '../back_end'.DIRECTORY_SEPARATOR.$className.'.php', 
+        '../views'.DIRECTORY_SEPARATOR.$className.'.php', 
+        $className.'.php' 
+    ); 
+    foreach ($possibilities as $file) { 
+        if (file_exists($file)) { 
+            require_once($file); 
+            return true; 
+        } 
+    } 
+    return false; 
+});
 
 $relation = new relationalDbConnections('lala', 'localhost:3306', 'root', 'root');
 

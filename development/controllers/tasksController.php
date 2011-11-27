@@ -12,7 +12,7 @@ class tasksController
 	
 	public function __construct()
 	{
-		$this->_dbConnection = dbUtils::getConnection();
+		parent::__construct();
 	}
 	
 	/**

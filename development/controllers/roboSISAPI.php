@@ -63,14 +63,7 @@ class roboSISAPI
 	public function isAdmin($username)
 	{
 		$type = $this->getUserType($username);
-		if ($type == "Admin" || $type == "Nelson")
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return ($type == "Admin" || $type == "Nelson");
 	}
 	
 	/**
