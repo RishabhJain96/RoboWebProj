@@ -61,7 +61,7 @@ if (is_null($_GET['id']))
 						<?php
 						$username = $_SESSION['robo'];
 						$api = new roboSISAPI();
-						if ($api->getUserType($username) == "Admin")
+						if ($api->isAdmin($username))
 						{
 							echo '<li><a href="admin_dashboard.php">Admin</a></li>';
 						}
@@ -90,9 +90,13 @@ if (is_null($_GET['id']))
 						<?php
 						$username = $_SESSION['robo'];
 						$api = new roboSISAPI();
-						if ($api->getUserType($username) == "Admin")
+						if ($api->isAdmin($username))
 						{
-							echo '<li><a href="adminviewpending.php">View Pending</a></li>';
+							echo '<li><a href="adminviewpending.php">Admin Pending</a></li>';
+						}
+						if ($api->isMentor($username))
+						{
+							echo '<li><a href="mentorviewpending.php">Mentor Pending</a></li>';
 						}
 						?>
 					</ul>
@@ -122,31 +126,61 @@ if (is_null($_GET['id']))
 						return $orderVal;
 				}
 				
+				function refineStatus($status)
+				{
+					// Unfinished, AdminPending, AdminApproved, MentorPending, MentorApproved, AdminRejected, MentorRejected
+					if ($status == "AdminPending")
+						return "Pending Admin Approval";
+					else if ($status == "MentorPending")
+						return "Pending Mentor Approval";
+					else if ($status == "AdminApproved")
+						return "Admin Approved";
+					else if ($status == "MentorApproved")
+						return "Mentor Approved";
+					else if ($status == "AdminRejected")
+						return "Admin Rejected";
+					else if ($status == "MentorRejected")
+						return "Mentor Rejected";
+					else
+						return $status;
+				}
+				
 				echo '<div id="form_viewform">';
 				echo '<h2 id="vendorName">' .refineOrderVal($orders[0]["PartVendorName"]). '</h2>';
 				echo '<h3>Order ID: '.$orders[0]["OrderID"] .'</h3>';
 				echo "<h3>Subteam: ".refineOrderVal($orders[0]["UserSubteam"]).'</h3>';
 				echo '<ul id="form_viewform_info">';
-				echo '<li>Status: ' .refineOrderVal($orders[0]["Status"]). '</li>';
+				echo '<li>Status: ' .refineStatus($orders[0]["Status"]). '</li>';
 				echo '<li>Submitted by: '. refineOrderVal($orders[0]["Username"]) .'</li>';
 				echo '<li>Submitted on: '. refineOrderVal($orders[0]["EnglishDateSubmitted"]) .'</li>';
 				echo '<li>Admin Approved: ' .refineOrderVal($orders[0]["AdminApproved"]). '</li>';
 				if ($orders[0]["AdminApproved"] === "1")
 				{
-					echo '<li>Approved on: '. refineOrderVal($orders[0]["EnglishDateApproved"]) . ' by ' .refineOrderVal($orders[0]["AdminUsername"]). '</li>';
+					echo '<li>Admin Approved on: '. refineOrderVal($orders[0]["EnglishDateApproved"]) . ' by ' .refineOrderVal($orders[0]["AdminUsername"]). '</li>';
 				}
 				else if ($orders[0]["AdminApproved"] === "0")
 				{
-					echo '<li>Rejected on: '. refineOrderVal($orders[0]["EnglishDateApproved"]) . ' by ' .refineOrderVal($orders[0]["AdminUsername"]). '</li>';
+					echo '<li>Admin Rejected on: '. refineOrderVal($orders[0]["EnglishDateApproved"]) . ' by ' .refineOrderVal($orders[0]["AdminUsername"]). '</li>';
+				}
+				echo '<li>Mentor Approved: ' .refineOrderVal($orders[0]["MentorApproved"]). '</li>';
+				if ($orders[0]["MentorApproved"] === "1")
+				{
+					echo '<li>Mentor Approved on: '. refineOrderVal($orders[0]["EnglishDateMentorApproved"]) . '</li>';
+				}
+				else if ($orders[0]["MentorApproved"] === "0")
+				{
+					echo '<li>Mentor Rejected on: '. refineOrderVal($orders[0]["EnglishDateMentorApproved"]) . '</li>';
 				}
 				echo '<li>Locked: '.refineOrderVal($orders[0]["Locked"]).'</li>';
 				echo '</ul><div class="viewform_para">';
 				echo '<h4>Reason for Purchase</h4>';
 				echo '<p>' .refineOrderVal($orders[0]["ReasonForPurchase"]). '</p></div>';
 				echo '<div class="viewform_para">
-						<h4>Comments</h4>';
-				echo '<p>'.refineOrderVal($orders[0]["AdminComment"]).'</p>
-					</div>
+						<h4>Admin Comments</h4>';
+				echo '<p>'.refineOrderVal($orders[0]["AdminComment"]).'</p>';
+				echo '  <h4>Mentor Comments</h4>';
+				echo '<p>'.refineOrderVal($orders[0]["MentorComment"]).'</p>';
+				echo '</div>
 					
 					<div id="form_viewform_contact">
 						<ul>';
@@ -192,12 +226,19 @@ if (is_null($_GET['id']))
 						}
 					echo '</table>
 				</div>';
-				if ($orders[0]["AdminApproved"] === "1")
+				if ($orders[0]["MentorApproved"] === "1")
 				{
+					$count = $controller->getPrintCount($orders[0]["OrderID"]);
 					echo '<div class="forms_display clearfix">';
-					echo '<span class="forms_display_viewmore"><a href="';
+					echo '<span class="forms_display_viewmore">';
+					$plural = "";
+					if ($count != 1)
+						$plural = "s";
+					echo "<p>This order has been printed $count time$plural</p>";
+					echo '<a href="';
 					echo "printorder.php?id=" . $orders[0]["OrderID"] . "\">";
-					echo 'Print Order &raquo;</a></span></div>';
+					echo "Print Order &raquo;</a>";
+					echo "</span></div>";
 				}
 						?>
 			</div>

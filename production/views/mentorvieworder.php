@@ -37,29 +37,28 @@ if (is_null($_GET['id']))
 }
 $username = $_SESSION['robo'];
 $api = new roboSISAPI();
-if (!$api->isAdmin($username))
+if (!$api->isMentor($username))
 {
 	header('Location: index.php');
 	exit;
 }
 $controller = new financeController();
 $orderID = $_GET['id'];
-if ($controller->isAdminApproved($orderID))
+if ($controller->isMentorApproved($orderID))
 {
-	header("Location: adminviewpending.php");
+	header("Location: mentorviewpending.php");
 }
 if(isset($_POST['approve']))
 {
 	$comment = $_POST['comment'];
-	$controller->setAdminApproval($orderID, true, $username, $comment);
-	$controller->submitForMentorApproval($orderID);
-	header("Location: adminviewpending.php");
+	$controller->setMentorApproval($orderID, true, $comment);
+	header("Location: mentorviewpending.php");
 }
 if(isset($_POST['reject']))
 {
 	$comment = $_POST['comment'];
-	$controller->setAdminApproval($orderID, false, $username, $comment);
-	header("Location: adminviewpending.php");
+	$controller->setMentorApproval($orderID, false, $comment);
+	header("Location: mentorviewpending.php");
 }
 // Will accept url parameter (id=number) to get orderID
 ?>
@@ -101,20 +100,13 @@ if(isset($_POST['reject']))
 			
 			<div id="dashboard-checkin" class="clearfix">
 				<div id="forms" class="clearfix">
-					<h2>Purchase Order Forms - Admin View Order #<?php echo $_GET['id'];// displays the shown orderID number ?></h2>
+					<h2>Purchase Order Forms - Mentor View Order #<?php echo $_GET['id'];// displays the shown orderID number ?></h2>
 					<ul>
 						<li><a href="submitform.php">Submit a Form</a></li>
 						<li><a href="viewmyforms.php">View My Forms</a></li>
 						<li><a href="viewallforms.php">View All Forms</a></li>
 						<li><a href="adminviewpending.php">Admin Pending</a></li>
-						<?php
-						$username = $_SESSION['robo'];
-						$api = new roboSISAPI();
-						if ($api->isMentor($username))
-						{
-							echo '<li><a href="mentorviewpending.php">Mentor Pending</a></li>';
-						}
-						?>
+						<li><a href="mentorviewpending.php">Mentor Pending</a></li>
 					</ul>
 				</div>
 				<?php
@@ -247,7 +239,7 @@ if(isset($_POST['reject']))
 						<fieldset id="comment">
 							<p>Comment</p>
 							<?php
-							$comment = $orders[0]["AdminComment"];
+							$comment = $orders[0]["MentorComment"];
 							echo "<textarea class=\"form_textarea\" name=\"comment\">$comment</textarea>";
 							?>
 						</fieldset>

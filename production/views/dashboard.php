@@ -183,7 +183,7 @@ if(isset($_POST['logout']))
 						<?php
 						$username = $_SESSION['robo'];
 						$api = new roboSISAPI();
-						if ($api->getUserType($username) == "Admin")
+						if ($api->isAdmin($username))
 						{
 							echo '<li><a href="admin_dashboard.php">Admin</a></li>';
 						}

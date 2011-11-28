@@ -187,9 +187,13 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 						<?php
 						$username = $_SESSION['robo'];
 						$api = new roboSISAPI();
-						if ($api->getUserType($username) == "Admin")
+						if ($api->isAdmin($username))
 						{
-							echo '<li><a href="adminviewpending.php">View Pending</a></li>';
+							echo '<li><a href="adminviewpending.php">Admin Pending</a></li>';
+						}
+						if ($api->isMentor($username))
+						{
+							echo '<li><a href="mentorviewpending.php">Mentor Pending</a></li>';
 						}
 						?>
 					</ul>

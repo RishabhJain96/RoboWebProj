@@ -35,6 +35,13 @@ if (is_null($_GET['id']))
 	header('Location: viewmyforms.php'); // if there is no order to view, redirects to viewmyforms page
 	exit;
 }
+$controller = new financeController();
+$orderID = $_GET['id'];
+if (!$controller->isMentorApproved($orderID))
+{
+	header("Location: vieworder.php?id=$orderID");
+}
+$controller->incrementPrintCounter($orderID);
 // Will accept url parameter id=123 to get orderID
 ?>
 
@@ -80,6 +87,25 @@ if (is_null($_GET['id']))
 						return $orderVal;
 				}
 				
+				function refineStatus($status)
+				{
+					// Unfinished, AdminPending, AdminApproved, MentorPending, MentorApproved, AdminRejected, MentorRejected
+					if ($status == "AdminPending")
+						return "Pending Admin Approval";
+					else if ($status == "MentorPending")
+						return "Pending Mentor Approval";
+					else if ($status == "AdminApproved")
+						return "Admin Approved";
+					else if ($status == "MentorApproved")
+						return "Mentor Approved";
+					else if ($status == "AdminRejected")
+						return "Admin Rejected";
+					else if ($status == "MentorRejected")
+						return "Mentor Rejected";
+					else
+						return $status;
+				}
+				
 				echo '<div id="form_viewform">';
 				echo '<h2>Order ID: '.$orders[0]["OrderID"] .'</h2>';
 				echo '<h3>Submitted by: '. refineOrderVal($orders[0]["Username"]) .'</h3>';
@@ -89,6 +115,8 @@ if (is_null($_GET['id']))
 				echo '<br />';
 				echo '<h3>Admin Comments</h3>';
 				echo '<p>'.refineOrderVal($orders[0]["AdminComment"]).'</p>';
+				echo '  <h4>Mentor Comments</h4>';
+				echo '<p>'.refineOrderVal($orders[0]["MentorComment"]).'</p>';
 				echo '</div>';
 				//echo '<h3 id="vendorName">' .refineOrderVal($orders[0]["PartVendorName"]). '</h3>';
 				echo "<p>Subteam: ".refineOrderVal($orders[0]["UserSubteam"]).'</p>';
@@ -96,7 +124,8 @@ if (is_null($_GET['id']))
 				//echo '<p>Status: ' .refineOrderVal($orders[0]["Status"]). '</p>';
 				echo '<p>Submitted on: '. refineOrderVal($orders[0]["EnglishDateSubmitted"]) .'</p>';
 				//echo '<p>Admin Approved: ' .refineOrderVal($orders[0]["AdminApproved"]). '</p>';
-				echo '<p>Approved on: '. refineOrderVal($orders[0]["EnglishDateApproved"]) . ' by ' .refineOrderVal($orders[0]["AdminUsername"]). '</p>';
+				echo '<p>Admin Approved on: '. refineOrderVal($orders[0]["EnglishDateApproved"]) . ' by ' .refineOrderVal($orders[0]["AdminUsername"]). '</p>';
+				echo '<p>Mentor Approved on: '. refineOrderVal($orders[0]["EnglishDateMentorApproved"]) . '</p>';
 				//else if ($orders[0]["AdminApproved"] === "0")
 				//{
 				//	echo '<p>Rejected on: '. refineOrderVal($orders[0]["EnglishDateApproved"]) . ' by ' .refineOrderVal($orders[0]["AdminUsername"]). '</p>';
@@ -143,7 +172,7 @@ if (is_null($_GET['id']))
 					echo '</table>';
 				echo '</div>';
 				echo "<br />";
-				echo 'Signature___________________________________________';
+				echo 'Approval Signature___________________________________________';
 						?>
 			</div>
 			

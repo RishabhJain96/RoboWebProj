@@ -67,7 +67,7 @@ if($i == 1) {
 	$array1[] = array("ActivationCode", "TINYTEXT");
 	$array1[] = array("Activated", "INT"); // nonzero val is true
 	$array1[] = array("UserSubteam", "TINYTEXT"); // vals: Mechanical, Electronics, Programming, Operational
-	$array1[] = array("UserType", "TINYTEXT"); // vals: Regular, VP, Admin, Root
+	$array1[] = array("UserType", "TINYTEXT"); // vals: Regular, VP, Admin, Mentor
 
 	if($dbConfig->createINNODBTable("RoboUsers", $array1)) echo "Success! Your RoboUsers Table is now set up! <br />";
 //print_r($dbConfig->createINNODBTable("CollegeSummary", $array1));
@@ -139,8 +139,8 @@ if($i == 4)
 	$arr[] = array("NumericDateSubmitted", "TINYTEXT");
 	$arr[] = array("EnglishDateApproved", "TINYTEXT");
 	$arr[] = array("NumericDateApproved", "TINYTEXT");
-	$arr[] = array("EnglishDateRootApproved", "TINYTEXT");
-	$arr[] = array("NumericDateRootApproved", "TINYTEXT");
+	$arr[] = array("EnglishDateMentorApproved", "TINYTEXT");
+	$arr[] = array("NumericDateMentorApproved", "TINYTEXT");
 	$arr[] = array("ReasonForPurchase", "TEXT");
 	$arr[] = array("ShippingAndHandling", "DOUBLE");
 	$arr[] = array("TaxPrice", "DOUBLE");
@@ -152,9 +152,9 @@ if($i == 4)
 	$arr[] = array("AdminComment", "TEXT");
 	$arr[] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
 	$arr[] = array("AdminUsername", "TINYTEXT"); // NOT DB LINKED
-	$arr[] = array("RootComment", "TEXT");
-	$arr[] = array("RootApproved", "INT"); // int acts as bool, 0 and 1
-	$arr[] = array("Status", "TINYTEXT"); // vals: Unfinished, Pending, Approved, Completed, Rejected
+	$arr[] = array("MentorComment", "TEXT");
+	$arr[] = array("MentorApproved", "INT"); // int acts as bool, 0 and 1
+	$arr[] = array("Status", "TINYTEXT"); // vals: Unfinished, AdminPending, AdminApproved, MentorPending, MentorApproved, AdminRejected, MentorRejected
 	$arr[] = array("PrintCounter", "INT");
 	$arr[] = array("ConfirmationOfPurchase", "INT"); // int acts as bool, 0 and 1
 	$arr[] = array("Locked", "INT"); // int acts as bool, 0 and 1

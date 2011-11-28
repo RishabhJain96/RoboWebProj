@@ -174,9 +174,13 @@ if (isset($_POST['save'])) // only if saving
 						<?php
 						$username = $_SESSION['robo'];
 						$api = new roboSISAPI();
-						if ($api->getUserType($username) == "Admin")
+						if ($api->isAdmin($username))
 						{
-							echo '<li><a href="adminviewpending.php">View Pending</a></li>';
+							echo '<li><a href="adminviewpending.php">Admin Pending</a></li>';
+						}
+						if ($api->isMentor($username))
+						{
+							echo '<li><a href="mentorviewpending.php">Mentor Pending</a></li>';
 						}
 						?>
 					</ul>
@@ -205,7 +209,7 @@ if (isset($_POST['save'])) // only if saving
 							</fieldset>
 							 -->
 							<fieldset id="subteam_select">
-								<label for="subteam">Subteam</label>
+								<label id="subteam" for="subteam">Subteam</label>
 								<fieldset>
 								<input type="radio" name="subteam" value="Mechanical" /> M
 								<input type="radio" name="subteam" value="Electronics" /> E
