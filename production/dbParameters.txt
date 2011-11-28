@@ -1,3 +1,0 @@
-roboticssis
-localhost
-root

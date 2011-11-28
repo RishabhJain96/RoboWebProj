@@ -4,7 +4,7 @@
 	<title>Robotics 1072 Registration</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
 </head>
 <body>
 	<div id="floater"></div>
@@ -28,10 +28,24 @@
 				<input name="register" type="submit" class="register" value="register" />
 				</fieldset>
 				<?php
-				function __autoload($class)
-				{
-					require_once $class . '.php';
-				}
+				// autoloader code
+				// loads classes as needed, eliminates the need for a long list of includes at the top
+				spl_autoload_register(function ($className) { 
+				    $possibilities = array( 
+				        '../controllers'.DIRECTORY_SEPARATOR.$className.'.php', 
+				        '../back_end'.DIRECTORY_SEPARATOR.$className.'.php', 
+				        '../views'.DIRECTORY_SEPARATOR.$className.'.php', 
+				        $className.'.php' 
+				    ); 
+				    foreach ($possibilities as $file) { 
+				        if (file_exists($file)) { 
+				            require_once($file); 
+				            return true; 
+				        } 
+				    } 
+				    return false; 
+				});
+				
 				if (isset($_POST['register']))
 				{
 					$username = $_POST['username'];

@@ -1,5 +1,23 @@
 <?php
 session_start();
+// autoloader code
+// loads classes as needed, eliminates the need for a long list of includes at the top
+spl_autoload_register(function ($className) { 
+    $possibilities = array( 
+        '../controllers'.DIRECTORY_SEPARATOR.$className.'.php', 
+        '../back_end'.DIRECTORY_SEPARATOR.$className.'.php', 
+        '../views'.DIRECTORY_SEPARATOR.$className.'.php', 
+        $className.'.php' 
+    ); 
+    foreach ($possibilities as $file) { 
+        if (file_exists($file)) { 
+            require_once($file); 
+            return true; 
+        } 
+    } 
+    return false; 
+});
+
 if (!(isset($_SESSION['robo'])))
 {
 	header('Location: index.php');
@@ -12,35 +30,10 @@ if(isset($_POST['logout']))
 	header('Location: index.php');
 	exit;
 }
-function __autoload($class)
-{
-	require_once $class . '.php';
-}
 if (is_null($_GET['id']))
 {
 	header('Location: viewmyforms.php'); // if there is no order to view, redirects to viewmyforms page
 	exit;
-}
-$username = $_SESSION['robo'];
-$api = new roboSISAPI();
-if ($api->getUserType($username) != "Admin")
-{
-	header('Location: index.php');
-	exit;
-}
-$controller = new financeController();
-$orderID = $_GET['id'];
-if(isset($_POST['approve']))
-{
-	$comment = $_POST['comment'];
-	$controller->setApproval($orderID, true, $username, $comment);
-	header("Location: adminviewpending.php");
-}
-if(isset($_POST['reject']))
-{
-	$comment = $_POST['comment'];
-	$controller->setApproval($orderID, false, $username, $comment);
-	header("Location: adminviewpending.php");
 }
 // Will accept url parameter id=123 to get orderID
 ?>
@@ -53,7 +46,7 @@ if(isset($_POST['reject']))
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Harker Robotics 1072</title>
 	
-	<link rel="stylesheet" href="form.css" type="text/css" />
+	<link rel="stylesheet" href="stylesheets/form.css" type="text/css" />
 </head>
 <body>
 	<div id="mainWrapper">
@@ -63,33 +56,48 @@ if(isset($_POST['reject']))
 				<div id="navbar">
 					<ul>
 						<li><a href="dashboard.php">Home</a></li>
-						<!-- <li><a href="">My Profile</a></li> -->
+						<li><a href="profilepage.php">My Profile</a></li>
 						<li><a href="viewmyforms.php">Purchase Orders</a></li>
-						<li><a href="admin_dashboard.php">Admin</a></li>				
+						<?php
+						$username = $_SESSION['robo'];
+						$api = new roboSISAPI();
+						if ($api->getUserType($username) == "Admin")
+						{
+							echo '<li><a href="admin_dashboard.php">Admin</a></li>';
+						}
+						?>					
 					</ul>
 				</div>
 				<div id="login_status">
+					<p>Logged in as: <?php echo $_SESSION['robo']; // echos the username?></p>
 					<form method="post" name="form" action="">
 					<fieldset>
-					<input name="logout" type="submit" class="logout" value="Logout" />
+						<input name="logout" type="submit" class="logout" value="Logout" />
 					</fieldset>
 					</form>
-					<p>Logged in as: <?php echo $_SESSION['robo']; // echos the username?></p>
-				</div>
+				</div> <!-- end of login_status -->
 			</div>
 			
 			<h1>The Harker School - Robotics Team 1072</h1>
 			
 			<div id="dashboard-checkin" class="clearfix">
 				<div id="forms" class="clearfix">
-					<h2>Purchase Order Forms - Admin View Order #<?php echo $_GET['id'];// displays the shown orderID number ?></h2>
+					<h2>Purchase Order Forms - View Order #<?php echo $_GET['id'];// displays the shown orderID number ?></h2>
 					<ul>
 						<li><a href="submitform.php">Submit a Form</a></li>
 						<li><a href="viewmyforms.php">View My Forms</a></li>
 						<li><a href="viewallforms.php">View All Forms</a></li>
-						<li><a href="adminviewpending.php">View Pending</a></li>
+						<?php
+						$username = $_SESSION['robo'];
+						$api = new roboSISAPI();
+						if ($api->getUserType($username) == "Admin")
+						{
+							echo '<li><a href="adminviewpending.php">View Pending</a></li>';
+						}
+						?>
 					</ul>
 				</div>
+				
 				<?php
 				$controller = new financeController();
 				$orderID = $_GET['id'];
@@ -157,9 +165,9 @@ if(isset($_POST['reject']))
 							<th>Estimated Total Price</th>
 						</tr>
 						<tr class="data">';
-							echo '<td>'.$orders[0]["ShippingAndHandling"] .'</td>';
-							echo '<td class="td_alt">'.$orders[0]["TaxPrice"].'</td>';
-							echo '<td>'.$orders[0]["EstimatedTotalPrice"].'</td>
+							echo '<td>$'.$orders[0]["ShippingAndHandling"] .'</td>';
+							echo '<td class="td_alt">$'.$orders[0]["TaxPrice"].'</td>';
+							echo '<td>$'.$orders[0]["EstimatedTotalPrice"].'</td>
 							</tr>
 					</table>
 					<table>
@@ -177,32 +185,21 @@ if(isset($_POST['reject']))
 							echo "<td>" . refineOrderVal($orderslist[$i]["PartNumber"]) . "</td>";
 							echo "<td>" . refineOrderVal($orderslist[$i]["PartName"]) . "</td>";
 							echo "<td>" . refineOrderVal($orderslist[$i]["PartSubsystem"]) . "</td>";
-							echo "<td>" . $orderslist[$i]["PartIndividualPrice"] . "</td>";
+							echo "<td>$" . $orderslist[$i]["PartIndividualPrice"] . "</td>";
 							echo "<td>" . $orderslist[$i]["PartQuantity"] . "</td>";
-							echo "<td>" . $orderslist[$i]["PartTotalPrice"] . "</td>";
+							echo "<td>$" . $orderslist[$i]["PartTotalPrice"] . "</td>";
 							echo "</tr>";
 						}
 					echo '</table>
 				</div>';
+				if ($orders[0]["AdminApproved"] === "1")
+				{
+					echo '<div class="forms_display clearfix">';
+					echo '<span class="forms_display_viewmore"><a href="';
+					echo "printorder.php?id=" . $orders[0]["OrderID"] . "\">";
+					echo 'Print Order &raquo;</a></span></div>';
+				}
 						?>
-				<div id="form-submitbuttons">
-					<form id="approval" method="post" action="">
-						<fieldset id="comment">
-							<p>Comment</p>
-							<?php
-							$comment = $orders[0]["AdminComment"];
-							echo "<textarea class=\"form_textarea\" name=\"comment\">$comment</textarea>";
-							?>
-						</fieldset>
-						<br />
-						<fieldset>
-							<input name="approve" type="submit" class="submit" value="approve" />
-						</fieldset>
-						<fieldset>
-							<input name="reject" type="submit" class="save" value="reject" />
-						</fieldset>
-					</form>
-				</div>
 			</div>
 			
 		</div>

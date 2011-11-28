@@ -179,6 +179,8 @@ class financeController extends roboSISAPI
 		return $orders;
 	}
 	
+	// ADMIN FUNCTIONS
+	
 	/**
 	 * Locks the order and sets status to pending
 	 */
@@ -191,8 +193,6 @@ class financeController extends roboSISAPI
 		$arr_vals = array("Locked" => $locked, "Status" => $status, "EnglishDateSubmitted" => $eds, "NumericDateSubmitted" => $nds);
 		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $arr_vals, "OrderID = $orderID");
 	}
-	
-	// ADMIN FUNCTIONS
 	
 	/**
 	 * Gets the list of pending orders in JSON
@@ -231,6 +231,26 @@ class financeController extends roboSISAPI
 		$numericdateapproved = date("YmdHi"); // of format 201109232355
 		$arr_vals = array("Status" => $status, "AdminApproved" => $approved, "AdminComment" => $comment, "AdminUsername" => $adminusername, "Locked" => $locked, "EnglishDateApproved" => $englishdateapproved, "NumericDateApproved" => $numericdateapproved);
 		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $arr_vals, "OrderID = $orderID");
+	}
+	
+	/**
+	 * description: Returns true if given order has been approved
+	 * 
+	 * @param orderID: 
+	 * @return bool: 
+	 */
+	public function isApproved($orderID)
+	{
+		$order = $this->getOrder($orderID);
+		//print_r($order);
+		if ($order[0]["Status"] == "Approved")
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
 

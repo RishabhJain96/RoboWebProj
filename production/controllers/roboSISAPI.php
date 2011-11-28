@@ -55,6 +55,18 @@ class roboSISAPI
 	}
 	
 	/**
+	 * description: Returns true if given user is an admin
+	 * 
+	 * @param username: 
+	 * @return bool: 
+	 */
+	public function isAdmin($username)
+	{
+		$type = $this->getUserType($username);
+		return ($type == "Admin" || $type == "Nelson");
+	}
+	
+	/**
 	 * Returns an array of all the emails in the database
 	 */
 	public function getAllEmails()

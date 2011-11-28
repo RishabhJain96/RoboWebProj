@@ -1,5 +1,23 @@
 <?php
 session_start();
+// autoloader code
+// loads classes as needed, eliminates the need for a long list of includes at the top
+spl_autoload_register(function ($className) { 
+    $possibilities = array( 
+        '../controllers'.DIRECTORY_SEPARATOR.$className.'.php', 
+        '../back_end'.DIRECTORY_SEPARATOR.$className.'.php', 
+        '../views'.DIRECTORY_SEPARATOR.$className.'.php', 
+        $className.'.php' 
+    ); 
+    foreach ($possibilities as $file) { 
+        if (file_exists($file)) { 
+            require_once($file); 
+            return true; 
+        } 
+    } 
+    return false; 
+});
+
 if (!(isset($_SESSION['robo'])))
 {
 	header('Location: index.php');
@@ -11,10 +29,6 @@ if(isset($_POST['logout']))
 	unset($_SESSION['robo']);
 	header('Location: index.php');
 	exit;
-}
-function __autoload($class)
-{
-	require_once $class . '.php';
 }
 if (is_null($_GET['id']))
 {
@@ -118,7 +132,7 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Harker Robotics 1072</title>
 	
-	<link rel="stylesheet" href="form.css" type="text/css" />
+	<link rel="stylesheet" href="stylesheets/form.css" type="text/css" />
 	<!-- This script allows new rows to be added to the parts table as needed -->
 	<script type="text/javascript" charset="utf-8">
 		function newRow()
@@ -139,7 +153,7 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 				<div id="navbar">
 					<ul>
 						<li><a href="dashboard.php">Home</a></li>
-						<!-- <li><a href="">My Profile</a></li> -->
+						<li><a href="profilepage.php">My Profile</a></li>
 						<li><a href="viewmyforms.php">Purchase Orders</a></li>
 						<?php
 						$username = $_SESSION['robo'];
@@ -152,13 +166,13 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 					</ul>
 				</div>
 				<div id="login_status">
+					<p>Logged in as: <?php echo $_SESSION['robo']; // echos the username?></p>
 					<form method="post" name="form" action="">
 					<fieldset>
-					<input name="logout" type="submit" class="logout" value="Logout" />
+						<input name="logout" type="submit" class="logout" value="Logout" />
 					</fieldset>
 					</form>
-					<p>Logged in as: <?php echo $_SESSION['robo']; // echos the username?></p>
-				</div>
+				</div> <!-- end of login_status -->
 			</div>
 			
 			<h1>The Harker School - Robotics Team 1072</h1>

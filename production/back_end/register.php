@@ -57,7 +57,8 @@ class register
 		// username is a valid, new username at this point
 		$password = md5($password); // encodes password in md5 for security/privacy
 		//print_r($passwordCoded);
-		$array = array("ActivationCode" => $code, "Username" => $username, "UserPassword" => $password, "UserPhoneNumber" => $phonenumber);
+		$type = "Regular"; // user is regular unless changed specifically
+		$array = array("ActivationCode" => $code, "Username" => $username, "UserPassword" => $password, "UserPhoneNumber" => $phonenumber, "UserType" => $type);
 		$this->_dbConnection->insertIntoTable("RoboUsers", "RoboUsers", "Username", $username, "UserID", $array);
 		return true;
 	}
