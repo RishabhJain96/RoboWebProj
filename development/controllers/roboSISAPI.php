@@ -63,7 +63,19 @@ class roboSISAPI
 	public function isAdmin($username)
 	{
 		$type = $this->getUserType($username);
-		return ($type == "Admin" || $type == "Nelson");
+		return ($type == "VP" || $type == "Admin" || $type == "Mentor");
+	}
+	
+	/**
+	 * description: Returns true if given user has root access
+	 * 
+	 * @param username: 
+	 * @return bool: 
+	 */
+	public function isMentor($username)
+	{
+		$type = $this->getUserType($username);
+		return ($type == "Mentor");
 	}
 	
 	/**

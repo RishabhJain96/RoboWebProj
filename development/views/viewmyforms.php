@@ -55,7 +55,7 @@ if(isset($_POST['logout']))
 						<?php
 						$username = $_SESSION['robo'];
 						$api = new roboSISAPI();
-						if ($api->getUserType($username) == "Admin")
+						if ($api->isAdmin($username))
 						{
 							echo '<li><a href="admin_dashboard.php">Admin</a></li>';
 						}
@@ -84,9 +84,13 @@ if(isset($_POST['logout']))
 						<?php
 						$username = $_SESSION['robo'];
 						$api = new roboSISAPI();
-						if ($api->getUserType($username) == "Admin")
+						if ($api->isAdmin($username))
 						{
-							echo '<li><a href="adminviewpending.php">View Pending</a></li>';
+							echo '<li><a href="adminviewpending.php">Admin Pending</a></li>';
+						}
+						if ($api->isMentor($username))
+						{
+							echo '<li><a href="mentorviewpending.php">Mentor Pending</a></li>';
 						}
 						?>
 					</ul>
@@ -113,6 +117,25 @@ if(isset($_POST['logout']))
 								return "N/A";
 							else
 								return $orderVal;
+						}
+						
+						function refineStatus($status)
+						{
+							// Unfinished, AdminPending, AdminApproved, MentorPending, MentorApproved, AdminRejected, MentorRejected
+							if ($status == "AdminPending")
+								return "Pending Admin Approval";
+							else if ($status == "MentorPending")
+								return "Pending Mentor Approval";
+							else if ($status == "AdminApproved")
+								return "Admin Approved";
+							else if ($status == "MentorApproved")
+								return "Mentor Approved";
+							else if ($status == "AdminRejected")
+								return "Admin Rejected";
+							else if ($status == "MentorRejected")
+								return "Mentor Rejected";
+							else
+								return $status;
 						}
 						
 						if (count($orders) == 0)
@@ -147,14 +170,22 @@ if(isset($_POST['logout']))
 							
 							echo '<div class="forms_display clearfix"><span class="forms_display_head"><p><strong>';
 							echo refineOrderVal($orders[$i]["UserSubteam"]);
-							echo "</strong> - <em>" . $orders[$i]["Status"] . "</em></p></span><h3>";
+							echo "</strong> - <em>" . refineStatus($orders[$i]["Status"]) . "</em></p></span><h3>";
 							echo "<a href=\"vieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
 							echo refineOrderVal($orders[$i]["PartVendorName"]);
 							echo '</a></h3><ul><li><strong>Order ID: </strong>';
 							echo $orders[$i]["OrderID"];
 							echo '</li><li><strong>Current Status: </strong>';
-							echo refineOrderVal($orders[$i]["Status"]);
+							echo refineStatus($orders[$i]["Status"]);
 							echo '</li>';
+							if ($orders[$i]["MentorApproved"] === "1") // if approved by mentor, shows print button
+							{
+								$count = $controller->getPrintCount($orders[0]["OrderID"]);
+								$plural = "";
+								if ($count != 1)
+									$plural = "s";
+								echo "<li>This order has been printed $count time$plural</li>";
+							}
 							//all orders in viewmyforms have submittinguser as the current user, unnecessary code
 							//echo '<li><strong>Submitted by: </strong>';
 							//echo refineOrderVal($orders[$i]["Username"]);
@@ -170,11 +201,14 @@ if(isset($_POST['logout']))
 								echo "editform.php?id=" . $orders[$i]["OrderID"] . "\">";
 								echo 'Edit Order &raquo;</a></span>';
 							}
-							if ($orders[$i]["AdminApproved"] === "1")
+							if ($orders[$i]["MentorApproved"] === "1") // if approved by mentor, shows print button
 							{
-								echo '<span class="forms_display_viewmore"><a href="';
+								echo '<span class="forms_display_viewmore">';
+								echo '<a href="';
 								echo "printorder.php?id=" . $orders[$i]["OrderID"] . "\">";
-								echo 'Print Order &raquo;</a></span></div>';
+								echo "Print Order &raquo;</a>";
+								echo "</span>";
+								echo "</div>";
 							}
 							echo '</div>';
 						}

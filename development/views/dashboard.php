@@ -183,7 +183,7 @@ if(isset($_POST['logout']))
 						<?php
 						$username = $_SESSION['robo'];
 						$api = new roboSISAPI();
-						if ($api->getUserType($username) == "Admin")
+						if ($api->isAdmin($username))
 						{
 							echo '<li><a href="admin_dashboard.php">Admin</a></li>';
 						}
@@ -234,13 +234,13 @@ if(isset($_POST['logout']))
 				</div>
 			</div>
 			
-			<div id="tasks">
+			<!-- <div id="tasks">
 				<h2>Tasks</h2>
 			</div>
 			
 			<div id="announcements">
 				<h2>Announcements</h2>
-			</div>
+			</div> -->
 		</div>
 		<footer>
 		</footer>

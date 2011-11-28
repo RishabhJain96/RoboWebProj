@@ -187,7 +187,7 @@ class financeController extends roboSISAPI
 	public function submitForAdminApproval($orderID)
 	{
 		$locked = 1; // Locks the order while under approval process
-		$status = "Pending";
+		$status = "AdminPending";
 		$eds = date("l, F j \a\\t g:i a");
 		$nds = date("YmdHi");
 		$arr_vals = array("Locked" => $locked, "Status" => $status, "EnglishDateSubmitted" => $eds, "NumericDateSubmitted" => $nds);
@@ -197,9 +197,9 @@ class financeController extends roboSISAPI
 	/**
 	 * Gets the list of pending orders in JSON
 	 */
-	public function getPendingOrders()
+	public function getAdminPendingOrders()
 	{
-		$resourceid = $this->_dbConnection->selectFromTableDesc("OrdersTable", "Status", "Pending", "NumericDateSubmitted");
+		$resourceid = $this->_dbConnection->selectFromTableDesc("OrdersTable", "Status", "AdminPending", "NumericDateSubmitted");
 		$orders = $this->_dbConnection->formatQuery($resourceid);
 		//return json_encode($orders);
 		return $orders;
@@ -212,19 +212,19 @@ class financeController extends roboSISAPI
 	 * comment: an optional text comment
 	 * $adminusername: the username of the admin who make the decision
 	 */
-	public function setApproval($orderID, $approved, $adminusername, $comment = null)
+	public function setAdminApproval($orderID, $approved, $adminusername, $comment = null)
 	{
 		// set status, AdminApproved, AdminComment, AdminUsername, Locked, English/NumericDateApproved
 		$status = "";
 		if ($approved)
 		{
 			$approved = 1; // writeable to DB, since AdminApproved is an int, 1 = true 0 = false
-			$status = "Approved";
+			$status = "AdminApproved";
 		}
 		else
 		{
 			$approved = 0;
-			$status = "Rejected";
+			$status = "AdminRejected";
 		}
 		$locked = $approved; // if order is approved, order stays locked, if not order is unlocked to allow user to edit it again
 		$englishdateapproved = date("l, F j \a\\t g:i a"); // of format Sunday, June 31 at 3:33 pm
@@ -239,11 +239,11 @@ class financeController extends roboSISAPI
 	 * @param orderID: 
 	 * @return bool: 
 	 */
-	public function isApproved($orderID)
+	public function isAdminApproved($orderID)
 	{
 		$order = $this->getOrder($orderID);
 		//print_r($order);
-		if ($order[0]["Status"] == "Approved")
+		if ($order[0]["Status"] == "AdminApproved")
 		{
 			return true;
 		}
@@ -251,6 +251,113 @@ class financeController extends roboSISAPI
 		{
 			return false;
 		}
+	}
+	
+	
+	// ROOT FUNCTIONS
+	
+	
+	/**
+	 * description: Returns true if given order has been approved by root
+	 * 
+	 * @param orderID: 
+	 * @return bool: 
+	 */
+	public function isMentorApproved($orderID)
+	{
+		$order = $this->getOrder($orderID);
+		//print_r($order);
+		if ($order[0]["Status"] == "MentorApproved")
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
+	 * Locks the order and sets status to MentorPending
+	 */
+	public function submitForMentorApproval($orderID)
+	{
+		$locked = 1; // Locks the order while under approval process
+		$status = "MentorPending";
+		$eds = date("l, F j \a\\t g:i a");
+		$nds = date("YmdHi");
+		$arr_vals = array("Locked" => $locked, "Status" => $status, "EnglishDateSubmitted" => $eds, "NumericDateSubmitted" => $nds);
+		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $arr_vals, "OrderID = $orderID");
+	}
+	
+	/**
+	 * Sets the root approval for an order, when root makes decision
+	 * orderID: the orderID of the order to update
+	 * approved: Either boolean true for approved or false for rejected
+	 * comment: an optional text comment
+	 */
+	public function setMentorApproval($orderID, $approved, $comment = null)
+	{
+		// set status, AdminApproved, AdminComment, AdminUsername, Locked, English/NumericDateApproved
+		$status = "";
+		if ($approved)
+		{
+			$approved = 1; // writeable to DB, since AdminApproved is an int, 1 = true 0 = false
+			$status = "MentorApproved";
+		}
+		else
+		{
+			$approved = 0;
+			$status = "MentorRejected";
+		}
+		$locked = $approved; // if order is approved, order stays locked, if not order is unlocked to allow user to edit it again
+		$englishdateapproved = date("l, F j \a\\t g:i a"); // of format Sunday, June 31 at 3:33 pm
+		$numericdateapproved = date("YmdHi"); // of format 201109232355
+		$arr_vals = array("Status" => $status, "MentorApproved" => $approved, "MentorComment" => $comment, "Locked" => $locked, "EnglishDateMentorApproved" => $englishdateapproved, "NumericDateMentorApproved" => $numericdateapproved);
+		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $arr_vals, "OrderID = $orderID");
+	}
+	
+	/**
+	 * Gets the list of pending orders in JSON
+	 */
+	public function getMentorPendingOrders()
+	{
+		$resourceid = $this->_dbConnection->selectFromTableDesc("OrdersTable", "Status", "MentorPending", "NumericDateSubmitted");
+		$orders = $this->_dbConnection->formatQuery($resourceid);
+		//return json_encode($orders);
+		return $orders;
+	}
+	
+	// PRINT COUNTER FUNCTIONS
+	
+	/**
+	 * description: 
+	 * 
+	 * @param orderID: 
+	 * @return void: 
+	 */
+	public function incrementPrintCounter($orderID)
+	{
+		$order = $this->getOrder($orderID);
+		$count = intval($order[0]["PrintCounter"]);
+		$count = $count + 1;
+		$arr_vals = array("PrintCounter" => $count);
+		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $arr_vals, "OrderID = $orderID");
+	}
+	
+	/**
+	 * description: 
+	 * 
+	 * @param orderID: 
+	 * @return int: The number of times this order has been printed
+	 */
+	public function getPrintCount($orderID)
+	{
+		$order = $this->getOrder($orderID);
+		$count = intval($order[0]["PrintCounter"]);
+		if (is_null($count) || empty($count))
+			$count = 0;
+		return $count;
 	}
 }
 

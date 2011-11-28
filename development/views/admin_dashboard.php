@@ -111,7 +111,7 @@ date_default_timezone_set('America/Los_Angeles'); // all times are in PST
 	#dashboardWindow {
 		background-color: #333;
 		color: #FFF;
-		width: 1000px;
+		width: 1050px;
 		margin: 1.5em auto;
 		position: relative;
 		clear: left;

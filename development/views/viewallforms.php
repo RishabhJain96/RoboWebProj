@@ -54,7 +54,7 @@ if(isset($_POST['logout']))
 						<?php
 						$username = $_SESSION['robo'];
 						$api = new roboSISAPI();
-						if ($api->getUserType($username) == "Admin")
+						if ($api->isAdmin($username))
 						{
 							echo '<li><a href="admin_dashboard.php">Admin</a></li>';
 						}
@@ -83,9 +83,13 @@ if(isset($_POST['logout']))
 						<?php
 						$username = $_SESSION['robo'];
 						$api = new roboSISAPI();
-						if ($api->getUserType($username) == "Admin")
+						if ($api->isAdmin($username))
 						{
-							echo '<li><a href="adminviewpending.php">View Pending</a></li>';
+							echo '<li><a href="adminviewpending.php">Admin Pending</a></li>';
+						}
+						if ($api->isMentor($username))
+						{
+							echo '<li><a href="mentorviewpending.php">Mentor Pending</a></li>';
 						}
 						?>
 					</ul>
@@ -114,6 +118,25 @@ if(isset($_POST['logout']))
 									return $orderVal;
 							}
 							
+							function refineStatus($status)
+							{
+								// Unfinished, AdminPending, AdminApproved, MentorPending, MentorApproved, AdminRejected, MentorRejected
+								if ($status == "AdminPending")
+									return "Pending Admin Approval";
+								else if ($status == "MentorPending")
+									return "Pending Mentor Approval";
+								else if ($status == "AdminApproved")
+									return "Admin Approved";
+								else if ($status == "MentorApproved")
+									return "Mentor Approved";
+								else if ($status == "AdminRejected")
+									return "Admin Rejected";
+								else if ($status == "MentorRejected")
+									return "Mentor Rejected";
+								else
+									return $status;
+							}
+							
 							if (count($orders) == 0)
 							{
 								echo "<br />";
@@ -125,13 +148,13 @@ if(isset($_POST['logout']))
 								
 								echo '<div class="forms_display clearfix"><span class="forms_display_head"><p><strong>';
 								echo refineOrderVal($orders[$i]["UserSubteam"]);
-								echo "</strong> - <em>" . $orders[$i]["Status"] . "</em></p></span><h3>";
+								echo "</strong> - <em>" . refineStatus($orders[$i]["Status"]) . "</em></p></span><h3>";
 								echo "<a href=\"vieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
 								echo refineOrderVal($orders[$i]["PartVendorName"]);
 								echo '</a></h3><ul><li><strong>Order ID: </strong>';
 								echo $orders[$i]["OrderID"];
 								echo '</li><li><strong>Current Status: </strong>';
-								echo refineOrderVal($orders[$i]["Status"]);
+								echo refineStatus($orders[$i]["Status"]);
 								echo '</li><li><strong>Submitted by: </strong>';
 								echo refineOrderVal($orders[$i]["Username"]);
 								echo '</li></ul><span class="forms_display_price">$';

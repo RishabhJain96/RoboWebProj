@@ -33,7 +33,7 @@ if(isset($_POST['logout']))
 
 $username = $_SESSION['robo'];
 $api = new roboSISAPI();
-if (!$api->isAdmin($username))
+if (!$api->isMentor($username))
 {
 	header('Location: index.php');
 	exit;
@@ -78,26 +78,19 @@ if (!$api->isAdmin($username))
 			
 			<div id="dashboard-checkin" class="clearfix">
 				<div id="forms" class="clearfix">
-					<h2>Purchase Order Forms - View Admin Pending Forms</h2>
+					<h2>Purchase Order Forms - View Mentor Pending Forms</h2>
 					<ul>
 						<li><a href="submitform.php">Submit a Form</a></li>
 						<li><a href="viewmyforms.php">View My Forms</a></li>
 						<li><a href="viewallforms.php">View All Forms</a></li>
-						<li class="form-selected">Admin Pending</li>
-						<?php
-						$username = $_SESSION['robo'];
-						$api = new roboSISAPI();
-						if ($api->isMentor($username))
-						{
-							echo '<li><a href="mentorviewpending.php">Mentor Pending</a></li>';
-						}
-						?>
+						<li><a href="adminviewpending.php">Admin Pending</a></li>
+						<li class="form-selected">Mentor Pending</li>
 					</ul>
 				</div>
 				<div id="forms_displayWrapper">
 					<?php
 						$controller = new financeController();
-						$orders = $controller->getAdminPendingOrders();
+						$orders = $controller->getMentorPendingOrders();
 						//$orders = json_decode($orders);
 						//print count($orders);
 						//print_r($orders);
@@ -149,7 +142,7 @@ if (!$api->isAdmin($username))
 							//status not needed for this page, all are "Pending".
 							//echo "</strong> - <em>" . $orders[$i]["Status"] . "</em></p></span><h3>";
 							echo "</strong></p></span><h3>";
-							echo "<a href=\"adminvieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
+							echo "<a href=\"mentorvieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
 							echo refineOrderVal($orders[$i]["PartVendorName"]);
 							echo '</a></h3><ul><li><strong>Order ID: </strong>';
 							echo $orders[$i]["OrderID"];
@@ -163,7 +156,7 @@ if (!$api->isAdmin($username))
 							echo '</li></ul><span class="forms_display_price">$';
 							echo $orders[$i]["EstimatedTotalPrice"];
 							echo '</span><span class="forms_display_viewmore"><a href="';
-							echo "adminvieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
+							echo "mentorvieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
 							echo 'View More &raquo;</a></span></div>';
 						}
 						?>
@@ -171,7 +164,6 @@ if (!$api->isAdmin($username))
 				</div>
 				</div>
 			</div>
-			
 		</div>
 		<footer>
 		</footer>
