@@ -115,7 +115,10 @@ if($i == 3)
 	$array1[] = array("PRIMARY KEY(TaskID)");
 	$array1[] = array("TaskName", "TEXT");
 	$array1[] = array("UserID", "INT");
-	$array1[] = array("Deadline", "TINYTEXT");
+	$array1[] = array("EnglishDeadline", "TINYTEXT");
+	$array1[] = array("NumericDeadline", "TINYTEXT");
+	$array1[] = array("EnglishAssigned", "TINYTEXT");
+	$array1[] = array("NumericAssigned", "TINYTEXT");
 	$array1[] = array("AssignedByUserID", "INT");
 	
 	if($dbConfig->createINNODBTable("UserTasks", $array1)) echo "Success! Your UserTasks Table is now set up! <br />";
@@ -134,6 +137,7 @@ if($i == 4)
 	$arr[] = array("PRIMARY KEY(OrderID)");
 	$arr[] = array("UserID", "INT"); // submitting user
 	$arr[] = array("Username", "TINYTEXT"); // submitting user
+	$arr[] = array("UserFullName", "TINYTEXT"); // submitting user
 	$arr[] = array("UserSubteam", "TINYTEXT"); // submitting user
 	$arr[] = array("EnglishDateSubmitted", "TINYTEXT");
 	$arr[] = array("NumericDateSubmitted", "TINYTEXT");
@@ -152,6 +156,7 @@ if($i == 4)
 	$arr[] = array("AdminComment", "TEXT");
 	$arr[] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
 	$arr[] = array("AdminUsername", "TINYTEXT"); // NOT DB LINKED
+	$arr[] = array("AdminUserFullName", "TINYTEXT"); // NOT DB LINKED
 	$arr[] = array("MentorComment", "TEXT");
 	$arr[] = array("MentorApproved", "INT"); // int acts as bool, 0 and 1
 	$arr[] = array("Status", "TINYTEXT"); // vals: Unfinished, AdminPending, AdminApproved, MentorPending, MentorApproved, AdminRejected, MentorRejected

@@ -203,6 +203,8 @@ class roboSISAPI
 			// fills array with usernames
 			$resourceid3 = $this->_dbConnection->selectFromTable("RoboUsers", "UserID", $array_id[$z]);
 			$arr_name = $this->_dbConnection->formatQueryResults($resourceid3, "Username");
+			// get full name
+			// check is name is null, if so get username
 			$array_usernames[$z] = $arr_name[0];
 			// fills array with HistoryTimeStamps
 			$resourceid4 = $this->_dbConnection->selectFromTable("UserHistories", "NumericTimeStamp", $array_numerictime[$z]);

@@ -8,7 +8,6 @@
 class rootController
 {
 	// instance variables
-	protected $_dbConnection;
 	
 	public function __construct()
 	{
@@ -28,6 +27,15 @@ class rootController
 		$this->_dbConnection->updateTable("RoboUsers", "RoboUsers", "UserID", $id, "UserID", $arrVals, "UserID = $id");
 	}
 	
+	/**
+	 * description: 
+	 * 
+	 * @return array: An array of the usernames/names of admins
+	 */
+	public function getAdmins()
+	{
+		
+	}
 }
 
 ?>
