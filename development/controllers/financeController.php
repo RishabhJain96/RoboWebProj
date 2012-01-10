@@ -173,7 +173,7 @@ class financeController extends roboSISAPI
 	 */
 	public function getAllOrders()
 	{
-		$resourceid = $this->_dbConnection->selectFromTableAsc("OrdersTable", null, null, "NumericDateSubmitted"); // this does not order properly, needs to be fixed
+		$resourceid = $this->_dbConnection->selectFromTableDesc("OrdersTable", null, null, "NumericDateSubmitted");
 		$orders = $this->_dbConnection->formatQuery($resourceid);
 		//return json_encode($orders);
 		return $orders;
@@ -199,7 +199,7 @@ class financeController extends roboSISAPI
 	 */
 	public function getAdminPendingOrders()
 	{
-		$resourceid = $this->_dbConnection->selectFromTableDesc("OrdersTable", "Status", "AdminPending", "NumericDateSubmitted");
+		$resourceid = $this->_dbConnection->selectFromTableAsc("OrdersTable", "Status", "AdminPending", "NumericDateSubmitted");
 		$orders = $this->_dbConnection->formatQuery($resourceid);
 		//return json_encode($orders);
 		return $orders;

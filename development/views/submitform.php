@@ -41,6 +41,7 @@ if (isset($_POST['submit']) || isset($_POST['save'])) // input to database regar
 	//$lastname = $_POST['lastname'];
 	//$email = $_POST['email'];
 	//$cellphone = $_POST['cellphone'];
+	$precision = $_POST['precision'];
 	$subteam = $_POST['subteam'];
 	$vendorname = $_POST['vendorname'];
 	$vendorphone = $_POST['vendorphone'];
@@ -57,16 +58,24 @@ if (isset($_POST['submit']) || isset($_POST['save'])) // input to database regar
 		$partname = $orderslist[$i]["partname"];
 		$partsubsystem = $orderslist[$i]["partsubsystem"];
 		$partprice = $orderslist[$i]["partprice"];
-		$partprice = sprintf("%01.2f", $partprice); // makes sure partprice only has 2 decimals
-		$partprice = floatval($partprice); // turns string into float
 		$partquantity = $orderslist[$i]["partquantity"];
+		if ($precision != "true")
+		{
+			$partprice = sprintf("%01.2f", $partprice); // makes sure partprice only has 2 decimals
+		}
+		$partprice = floatval($partprice); // turns string into float
 		$partquantity = intval($partquantity); // makes sure part quantity is an int
-		// $parttotal = $orderslist[$i]["parttotal"];
 		$parttotal = floatval($partquantity) * $partprice; // parttotal will be a float
-		$parttotal = sprintf("%01.2f", $parttotal); // makes sure parttotal only has 2 decimals
+		if ($precision != "true")
+		{
+			$parttotal = sprintf("%01.2f", $parttotal); // makes sure parttotal only has 2 decimals
+		}
 		$parttotal = floatval($parttotal); // turns string into float
 		$fulltotal = $fulltotal + $parttotal;
-		$fulltotal = sprintf("%01.2f", $fulltotal); // makes sure fulltotal only has 2 decimals
+		if ($precision != "true")
+		{
+			$fulltotal = sprintf("%01.2f", $fulltotal); // makes sure fulltotal only has 2 decimals
+		}
 		$fulltotal = floatval($fulltotal); // turns string into float
 		if (!empty($partnum) || !empty($partname) || !empty($partsubsystem) || !empty($partprice) || !empty($partquantity) ) // if any element is not empty, will input
 		{
@@ -77,10 +86,16 @@ if (isset($_POST['submit']) || isset($_POST['save'])) // input to database regar
 	if (is_null($shippinghandling) || empty($shippinghandling)) $shippinghandling = 0.0;
 	$shippinghandling = floatval($shippinghandling); // ensures floating point number
 	$tax = 0.0925 * $fulltotal;
-	$tax = sprintf("%01.2f", $tax); // makes sure tax price only has 2 decimals
+	if ($precision != "true")
+	{
+		$tax = sprintf("%01.2f", $tax); // makes sure tax price only has 2 decimals
+	}
 	$tax = floatval($tax); // turns string into float
 	$etotal = $fulltotal + $tax + $shippinghandling;
-	$etotal = sprintf("%01.2f", $etotal); // makes sure etotal only has 2 decimals
+	if ($precision != "true")
+	{
+		$etotal = sprintf("%01.2f", $etotal); // makes sure etotal only has 2 decimals
+	}
 	$etotal = floatval($etotal); // turns string into float
 	$orders = array(
 		"Username" => $username,
@@ -238,6 +253,11 @@ if (isset($_POST['save'])) // only if saving
 							<fieldset id="reason">
 								<p>Reason For Purchase</p>
 								<textarea class="form_textarea" name="reason"></textarea>
+							</fieldset>
+							
+							<!-- option to increase precision -->
+							<fieldset>
+								<input type="checkbox" name="precision" id="precision" value="true" /> Allow more digits (prevents rounding to nearest cent)
 							</fieldset>
 							
 							<div id="order_table">

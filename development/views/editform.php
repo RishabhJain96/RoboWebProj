@@ -52,6 +52,7 @@ if (isset($_POST['submit']) || isset($_POST['update'])) // update database regar
 	//$lastname = $_POST['lastname'];
 	//$email = $_POST['email'];
 	//$cellphone = $_POST['cellphone'];
+	$precision = $_POST['precision'];
 	$subteam = $_POST['subteam'];
 	$vendorname = $_POST['vendorname'];
 	$vendorphone = $_POST['vendorphone'];
@@ -68,16 +69,25 @@ if (isset($_POST['submit']) || isset($_POST['update'])) // update database regar
 		$partname = $neworderslist[$i]["partname"];
 		$partsubsystem = $neworderslist[$i]["partsubsystem"];
 		$partprice = $neworderslist[$i]["partprice"];
-		$partprice = sprintf("%01.2f", $partprice); // makes sure partprice only has 2 decimals
+		if ($precision != "true")
+		{
+			$partprice = sprintf("%01.2f", $partprice); // makes sure partprice only has 2 decimals
+		}
 		$partprice = floatval($partprice); // turns string into float
 		$partquantity = $neworderslist[$i]["partquantity"];
 		$partquantity = intval($partquantity); // makes sure part quantity is an int
 		// $parttotal = $neworderslist[$i]["parttotal"];
 		$parttotal = floatval($partquantity) * $partprice; // parttotal will be a float
-		$parttotal = sprintf("%01.2f", $parttotal); // makes sure parttotal only has 2 decimals
+		if ($precision != "true")
+		{
+			$parttotal = sprintf("%01.2f", $parttotal); // makes sure parttotal only has 2 decimals
+		}
 		$parttotal = floatval($parttotal); // turns string into float
 		$fulltotal = $fulltotal + $parttotal;
-		$fulltotal = sprintf("%01.2f", $fulltotal); // makes sure fulltotal only has 2 decimals
+		if ($precision != "true")
+		{
+			$fulltotal = sprintf("%01.2f", $fulltotal); // makes sure fulltotal only has 2 decimals
+		}
 		$fulltotal = floatval($fulltotal); // turns string into float
 		if ($i < count($orderslist)) // prevents undefined offset errors
 			$uid = $orderslist[$i]["UniqueEntryID"]; 
@@ -90,10 +100,16 @@ if (isset($_POST['submit']) || isset($_POST['update'])) // update database regar
 	if (is_null($shippinghandling) || empty($shippinghandling)) $shippinghandling = 0.0;
 	$shippinghandling = floatval($shippinghandling); // ensures floating point number
 	$tax = 0.0925 * $fulltotal;
-	$tax = sprintf("%01.2f", $tax); // makes sure tax price only has 2 decimals
+	if ($precision != "true")
+	{
+		$tax = sprintf("%01.2f", $tax); // makes sure tax price only has 2 decimals
+	}
 	$tax = floatval($tax); // turns string into float
 	$etotal = $fulltotal + $tax + $shippinghandling;
-	$etotal = sprintf("%01.2f", $etotal); // makes sure etotal only has 2 decimals
+	if ($precision != "true")
+	{
+		$etotal = sprintf("%01.2f", $etotal); // makes sure etotal only has 2 decimals
+	}
 	$etotal = floatval($etotal); // turns string into float
 	$neworders = array(
 		"Username" => $username,
@@ -294,7 +310,21 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 							 <fieldset id=\"reason\">\n
 							 	<p>Reason For Purchase</p>\n
 							 	<textarea class=\"form_textarea\" name=\"reason\">$reason</textarea>\n
-							 </fieldset>\n
+							 </fieldset>\n";
+							
+							$checked = "";
+							$totalpricestring = (string)($orders[0]["EstimatedTotalPrice"]);
+							$totalpricestring = substr($totalpricestring, strpos($totalpricestring, "."));
+							
+							if (strlen($totalpricestring) > 3)
+							{
+								$checked = "checked"; // determines is user has previously checked the "greater precision" box
+							}
+							
+							echo "<!-- option to increase precision -->\n
+							<fieldset>\n
+								<input type=\"checkbox\" name=\"precision\" id=\"precision\" value=\"true\" $checked/> Allow more digits (prevents rounding to nearest cent)
+							</fieldset>
 							
 							 <div id=\"order_table\">\n
 							 	<table>\n

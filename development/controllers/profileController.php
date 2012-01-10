@@ -61,9 +61,9 @@ class profileController extends roboSISAPI
 	{
 		$info = $this->getUserInfo($username);
 		$fullName = $info["UserFullName"];
-		if (is_null($fullname))
+		if (is_null($fullName) || empty($fullName))
 		{
-			return $username;
+			return $username; // returns username if fullname is null
 		}
 		return $fullName;
 	}

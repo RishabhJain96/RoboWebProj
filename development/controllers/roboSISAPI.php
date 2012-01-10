@@ -204,7 +204,6 @@ class roboSISAPI
 			$resourceid3 = $this->_dbConnection->selectFromTable("RoboUsers", "UserID", $array_id[$z]);
 			$arr_name = $this->_dbConnection->formatQueryResults($resourceid3, "Username");
 			// get full name
-			// check is name is null, if so get username
 			$array_usernames[$z] = $arr_name[0];
 			// fills array with HistoryTimeStamps
 			$resourceid4 = $this->_dbConnection->selectFromTable("UserHistories", "NumericTimeStamp", $array_numerictime[$z]);
@@ -220,6 +219,12 @@ class roboSISAPI
 		$array_fulltimes = array_values($array_fulltimes);
 		$array_output = array($array_usernames,$array_fulltimes);
 		$output = json_encode($array_output);
+		// iterate array usernames, get full names if applicable
+		$profileController = new profileController();
+		for ($k=0; $k < count($array_usernames); $k++)
+		{
+			$array_usernames[$k] = $profileController->getUserFullName($array_usernames[$k]);
+		}
 		//$test = json_decode($output);
 		//print_r($test);
 		return $output;
