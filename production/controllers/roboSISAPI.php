@@ -7,7 +7,7 @@
 class roboSISAPI
 {
 	// constants
-	const MAX_CHECKINS_PER_DAY = 1; // changed this to change the max number of checkins allowed per day
+	const MAX_CHECKINS_PER_DAY = 2; // changed this to change the max number of checkins allowed per day
 	
 	// instance variables
 	protected $_dbConnection;
@@ -203,6 +203,7 @@ class roboSISAPI
 			// fills array with usernames
 			$resourceid3 = $this->_dbConnection->selectFromTable("RoboUsers", "UserID", $array_id[$z]);
 			$arr_name = $this->_dbConnection->formatQueryResults($resourceid3, "Username");
+			// get full name
 			$array_usernames[$z] = $arr_name[0];
 			// fills array with HistoryTimeStamps
 			$resourceid4 = $this->_dbConnection->selectFromTable("UserHistories", "NumericTimeStamp", $array_numerictime[$z]);
@@ -218,6 +219,12 @@ class roboSISAPI
 		$array_fulltimes = array_values($array_fulltimes);
 		$array_output = array($array_usernames,$array_fulltimes);
 		$output = json_encode($array_output);
+		// iterate array usernames, get full names if applicable
+		$profileController = new profileController();
+		for ($k=0; $k < count($array_usernames); $k++)
+		{
+			$array_usernames[$k] = $profileController->getUserFullName($array_usernames[$k]);
+		}
 		//$test = json_decode($output);
 		//print_r($test);
 		return $output;

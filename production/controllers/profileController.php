@@ -32,6 +32,10 @@ class profileController extends roboSISAPI
 		$this->_dbConnection->updateTable("RoboUsers", "RoboUsers", "UserID", $id, "UserID", $arrUserInfo, "UserID = $id");
 	}
 	
+	
+	// GETTER METHODS
+	
+	
 	/**
 	 * description: Returns an array with the given user's info, except for the password
 	 * 
@@ -45,6 +49,23 @@ class profileController extends roboSISAPI
 		$arrInfo = $this->_dbConnection->formatQuery($resourceid);
 		unset($arrInfo[0]["UserPassword"]); // removes the user's password from the array of info for security, because it will not be needed when calling this method
 		return $arrInfo[0];
+	}
+	
+	/**
+	 * description: Returns the given user's full name
+	 * 
+	 * @param username: The given user
+	 * @return string: The user's full name
+	 */
+	public function getUserFullName($username)
+	{
+		$info = $this->getUserInfo($username);
+		$fullName = $info["UserFullName"];
+		if (is_null($fullName) || empty($fullName))
+		{
+			return $username; // returns username if fullname is null
+		}
+		return $fullName;
 	}
 }
 

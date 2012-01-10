@@ -83,7 +83,7 @@ class dbConnections
 			}
 			else
 			{
-				$result = mysql_query("SELECT * FROM $tableName");
+				$result = mysql_query("SELECT * FROM `$tableName` ORDER BY `$orderColumn` DESC");
 				return $result;
 			}
 		}
@@ -109,7 +109,7 @@ class dbConnections
 			}
 			else
 			{
-				$result = mysql_query("SELECT * FROM $tableName");
+				$result = mysql_query("SELECT * FROM `$tableName` ORDER BY `$orderColumn` ASC");
 				return $result;
 			}
 		}

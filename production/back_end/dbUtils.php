@@ -22,10 +22,10 @@ class dbUtils
 		*/
 		$dbArr = array();
 		// hardcoded values to get around dbParameters problem
-		$dbArr[0] = "roboticssis";
+		$dbArr[0] = "RoboticsSIS";
 		$dbArr[1] = "localhost";
 		$dbArr[2] = "root";
-		$dbArr[3] = "";
+		$dbArr[3] = "team1072";
 		$dbConnection = new relationalDbConnections($dbArr[0], $dbArr[1], $dbArr[2], $dbArr[3]);
 		return $dbConnection;
 	}
