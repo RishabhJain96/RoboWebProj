@@ -65,6 +65,7 @@ if (isset($_POST['submit']) || isset($_POST['update'])) // update database regar
 	$fulllist = array();
 	for ($i=0; $i < 10; $i++) // iterates full partstable, puts each row into an array with proper formatting in fulllist
 	{
+		$parturl = $neworderslist[$i]["parturl"];
 		$partnum = $neworderslist[$i]["partnum"];
 		$partname = $neworderslist[$i]["partname"];
 		$partsubsystem = $neworderslist[$i]["partsubsystem"];
@@ -91,9 +92,9 @@ if (isset($_POST['submit']) || isset($_POST['update'])) // update database regar
 		$fulltotal = floatval($fulltotal); // turns string into float
 		if ($i < count($orderslist)) // prevents undefined offset errors
 			$uid = $orderslist[$i]["UniqueEntryID"]; 
-		if (!empty($partnum) || !empty($partname) || !empty($partsubsystem) || !empty($partprice) || !empty($partquantity) ) // if any element is not empty, will input
+		if (!empty($partnum) || !empty($partname) || !empty($partsubsystem) || !empty($partprice) || !empty($partquantity) || !empty($parturl) ) // if any element is not empty, will input
 		{
-			$fulllist[] = array("PartNumber" => $partnum, "PartName" => $partname, "PartSubsystem" => $partsubsystem, "PartIndividualPrice" => $partprice, "PartQuantity" => $partquantity, "PartTotalPrice" => $parttotal, "UniqueEntryID" => $uid);
+			$fulllist[] = array("PartNumber" => $partnum, "PartName" => $partname, "PartSubsystem" => $partsubsystem, "PartIndividualPrice" => $partprice, "PartQuantity" => $partquantity, "PartTotalPrice" => $parttotal, "PartURL" => $parturl, "UniqueEntryID" => $uid);
 		}
 	}
 	$shippinghandling = $_POST['shippinghandling'];
@@ -318,7 +319,7 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 							
 							if (strlen($totalpricestring) > 3)
 							{
-								$checked = "checked"; // determines is user has previously checked the "greater precision" box
+								$checked = "checked"; // determines if user has previously checked the "greater precision" box
 							}
 							
 							echo "<!-- option to increase precision -->\n
@@ -329,7 +330,8 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 							 <div id=\"order_table\">\n
 							 	<table>\n
 							 		<tr id=\"partnumber\">\n
-							 			<th class=\"th_alt\">Part #</th>\n
+							 			<th>Part URL</th>\n
+										<th class=\"th_alt\">Part #</th>\n
 							 			<th>Part Name</th>\n
 							 			<th class=\"th_alt\">Subsystem</th>\n
 							 			<th>$ / Unit</th>\n
@@ -348,12 +350,14 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 											$class = "data";
 										// each row has id="order0" in numerical order
 										// input names are in format "part[0][partnum]", with 0 and partnum varying for each row and for each column
+										$parturl = $orderslist[$i]["PartURL"];
 										$partnum = $orderslist[$i]["PartNumber"];
 										$partname = $orderslist[$i]["PartName"];
 										$subsystem = $orderslist[$i]["PartSubsystem"];
 										$partprice = $orderslist[$i]["PartIndividualPrice"];
 										$quantity = $orderslist[$i]["PartQuantity"];
 										echo "<tr id=\"$id\" class=\"$class\">\n";
+										echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[parturl]\" value=\"$parturl\" /></fieldset></td>\n";
 										echo "<td><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partnum]\" value=\"$partnum\" /></fieldset></td>\n";
 										echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partname]\" value=\"$partname\" /></fieldset></td>\n";
 										echo "<td><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partsubsystem]\" value=\"$subsystem\" /></fieldset></td>\n";
@@ -375,6 +379,7 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 										// each row has id="order0" in numerical order
 										// input names are in format "part[0][partnum]", with 0 and partnum varying for each row and for each column
 										echo "<tr id=\"$id\" class=\"$class\">\n";
+										echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[parturl]\" /></fieldset></td>\n";
 										echo "<td><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partnum]\" /></fieldset></td>\n";
 										echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partname]\" /></fieldset></td>\n";
 										echo "<td><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partsubsystem]\" /></fieldset></td>\n";

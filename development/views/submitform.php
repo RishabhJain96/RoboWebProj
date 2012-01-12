@@ -55,6 +55,7 @@ if (isset($_POST['submit']) || isset($_POST['save'])) // input to database regar
 	for ($i=0; $i < 10; $i++) // iterates full partstable, puts each row into an array with proper formatting in fulllist
 	{
 		$partnum = $orderslist[$i]["partnum"];
+		$parturl = $orderslist[$i]["parturl"];
 		$partname = $orderslist[$i]["partname"];
 		$partsubsystem = $orderslist[$i]["partsubsystem"];
 		$partprice = $orderslist[$i]["partprice"];
@@ -77,9 +78,9 @@ if (isset($_POST['submit']) || isset($_POST['save'])) // input to database regar
 			$fulltotal = sprintf("%01.2f", $fulltotal); // makes sure fulltotal only has 2 decimals
 		}
 		$fulltotal = floatval($fulltotal); // turns string into float
-		if (!empty($partnum) || !empty($partname) || !empty($partsubsystem) || !empty($partprice) || !empty($partquantity) ) // if any element is not empty, will input
+		if (!empty($partnum) || !empty($partname) || !empty($partsubsystem) || !empty($partprice) || !empty($partquantity) || !empty($parturl)) // if any element is not empty, will input
 		{
-			$fulllist[] = array("PartNumber" => $partnum, "PartName" => $partname, "PartSubsystem" => $partsubsystem, "PartIndividualPrice" => $partprice, "PartQuantity" => $partquantity, "PartTotalPrice" => $parttotal);
+			$fulllist[] = array("PartNumber" => $partnum, "PartName" => $partname, "PartSubsystem" => $partsubsystem, "PartIndividualPrice" => $partprice, "PartQuantity" => $partquantity, "PartTotalPrice" => $parttotal, "PartURL" => $parturl);
 		}
 	}
 	$shippinghandling = $_POST['shippinghandling'];
@@ -263,6 +264,7 @@ if (isset($_POST['save'])) // only if saving
 							<div id="order_table">
 								<table>
 									<tr id="partnumber">
+										<th>Part URL</th>
 										<th class="th_alt">Part #</th>
 										<th>Part Name</th>
 										<th class="th_alt">Subsystem</th>
@@ -283,6 +285,7 @@ if (isset($_POST['save'])) // only if saving
 										// each row has id="order0" in numerical order
 										// input names are in format "part[0][partnum]", with 0 and partnum varying for each row and for each column
 										echo "<tr id=\"$id\" class=\"$class\">\n";
+										echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[parturl]\" /></fieldset></td>\n";
 										echo "<td><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partnum]\" /></fieldset></td>\n";
 										echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partname]\" /></fieldset></td>\n";
 										echo "<td><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partsubsystem]\" /></fieldset></td>\n";

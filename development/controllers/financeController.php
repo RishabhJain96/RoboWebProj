@@ -234,6 +234,31 @@ class financeController extends roboSISAPI
 	}
 	
 	/**
+	 * description: 
+	 * 
+	 * @param order: 
+	 * @return int: 
+	 */
+	public function setPartAdminApproval($uniqueID, $approved)
+	{
+		// set status, AdminApproved, AdminComment, AdminUsername, Locked, English/NumericDateApproved
+		$status = "";
+		if ($approved)
+		{
+			$approved = 1; // writeable to DB, since AdminApproved is an int, 1 = true 0 = false
+			$status = "AdminApproved";
+		}
+		else
+		{
+			$approved = 0;
+			$status = "AdminRejected";
+		}
+		$arr_vals = array("Status" => $status, "AdminApproved" => $approved);
+		$condition = "UniqueEntryID = '" . $uniqueID . "'";
+		$this->_dbConnection->updateTable("OrdersListTable", "OrdersListTable", "UniqueEntryID", $uniqueID, "OrderID", $arr_vals, $condition);
+	}
+	
+	/**
 	 * description: Returns true if given order has been approved
 	 * 
 	 * @param orderID: 

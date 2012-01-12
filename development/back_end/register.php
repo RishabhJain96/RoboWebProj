@@ -8,13 +8,16 @@
 
 class register
 {
+	// constants
+	const DEFAULT_PASS = "qwerty";
+	
 	// instance variables
 	protected $_dbConnection;
 	protected $_serverurl;
 	
 	public function __construct()
 	{
-		$this->_serverurl = "http://cytopic.net/robotics";
+		$this->_serverurl = "http://robo.harker.org/";
 		$this->_dbConnection = dbUtils::getConnection();
 		$this->_connection = $this->_dbConnection->open_db_connection();
 	}
@@ -113,6 +116,31 @@ class register
 		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers", "Username", $username);
 		$array = $this->_dbConnection->formatQueryResults($resourceid, "UserPassword");
 		return $array[0];
+	}
+	
+	/**
+	 * description: Reset the password to a hardcoded constant
+	 * 
+	 * @param username: 
+	 * @return int: 
+	 */
+	public function resetPassword($username)
+	{
+		$password = md5(self::DEFAULT_PASS);
+		$this->setPassword($username, $password);
+	}
+	
+	/**
+	 * description: 
+	 * 
+	 * @param password: 
+	 * @param username: 
+	 * @return int: 
+	 */
+	public function setPassword($username, $password)
+	{
+		$array = array("UserPassword" => $password);
+		$this->_dbConnection->insertIntoTable("RoboUsers", "RoboUsers", "Username", $username, "UserID", $array);
 	}
 }
 
