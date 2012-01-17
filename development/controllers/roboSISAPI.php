@@ -219,12 +219,12 @@ class roboSISAPI
 		$array_fulltimes = array_values($array_fulltimes);
 		$array_output = array($array_usernames,$array_fulltimes);
 		$output = json_encode($array_output);
-		// iterate array usernames, get full names if applicable
+		/* // iterate array usernames, get full names if applicable
 		$profileController = new profileController();
 		for ($k=0; $k < count($array_usernames); $k++)
 		{
 			$array_usernames[$k] = $profileController->getUserFullName($array_usernames[$k]);
-		}
+		} */
 		//$test = json_decode($output);
 		//print_r($test);
 		return $output;

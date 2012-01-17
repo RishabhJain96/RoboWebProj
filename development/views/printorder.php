@@ -172,7 +172,7 @@ $controller->incrementPrintCounter($orderID);
 					echo '</table>';
 				echo '</div>';
 				echo "<br />";
-				echo 'Approval Signature___________________________________________';
+				echo 'Electronically Approved by Dr. Nelson.';
 						?>
 			</div>
 			

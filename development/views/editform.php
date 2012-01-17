@@ -18,6 +18,7 @@ spl_autoload_register(function ($className) {
     return false; 
 });
 
+
 if (!(isset($_SESSION['robo'])))
 {
 	header('Location: index.php');
@@ -70,6 +71,8 @@ if (isset($_POST['submit']) || isset($_POST['update'])) // update database regar
 		$partname = $neworderslist[$i]["partname"];
 		$partsubsystem = $neworderslist[$i]["partsubsystem"];
 		$partprice = $neworderslist[$i]["partprice"];
+		//print_r($parturl);
+		//echo "\n";
 		if ($precision != "true")
 		{
 			$partprice = sprintf("%01.2f", $partprice); // makes sure partprice only has 2 decimals
@@ -91,10 +94,10 @@ if (isset($_POST['submit']) || isset($_POST['update'])) // update database regar
 		}
 		$fulltotal = floatval($fulltotal); // turns string into float
 		if ($i < count($orderslist)) // prevents undefined offset errors
-			$uid = $orderslist[$i]["UniqueEntryID"]; 
+			$uid = $orderslist[$i]["UniqueEntryID"];
 		if (!empty($partnum) || !empty($partname) || !empty($partsubsystem) || !empty($partprice) || !empty($partquantity) || !empty($parturl) ) // if any element is not empty, will input
 		{
-			$fulllist[] = array("PartNumber" => $partnum, "PartName" => $partname, "PartSubsystem" => $partsubsystem, "PartIndividualPrice" => $partprice, "PartQuantity" => $partquantity, "PartTotalPrice" => $parttotal, "PartURL" => $parturl, "UniqueEntryID" => $uid);
+			$fulllist[] = array("PartURL" => $parturl, "PartNumber" => $partnum, "PartName" => $partname, "PartSubsystem" => $partsubsystem, "PartIndividualPrice" => $partprice, "PartQuantity" => $partquantity, "PartTotalPrice" => $parttotal, "UniqueEntryID" => $uid);
 		}
 	}
 	$shippinghandling = $_POST['shippinghandling'];
@@ -139,6 +142,7 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 	header("Location: editform.php?id=$orderID");
 }
 // Will accept url parameter id=123 to get orderID
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -350,6 +354,7 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 											$class = "data";
 										// each row has id="order0" in numerical order
 										// input names are in format "part[0][partnum]", with 0 and partnum varying for each row and for each column
+										
 										$parturl = $orderslist[$i]["PartURL"];
 										$partnum = $orderslist[$i]["PartNumber"];
 										$partname = $orderslist[$i]["PartName"];

@@ -206,6 +206,7 @@ if (is_null($_GET['id']))
 					</table>
 					<table>
 						<tr id="header">
+							<th class="th_alt">Part URL</th>
 							<th>Part #</th>
 							<th class="th_alt">Part Name</th>
 							<th>Subsystem</th>
@@ -216,6 +217,7 @@ if (is_null($_GET['id']))
 						for ($i=0; $i < count($orderslist); $i++)
 						{
 							echo "<tr class=\"data\">";
+							echo "<td>" . refineOrderVal($orderslist[$i]["PartURL"]) . "</td>";
 							echo "<td>" . refineOrderVal($orderslist[$i]["PartNumber"]) . "</td>";
 							echo "<td>" . refineOrderVal($orderslist[$i]["PartName"]) . "</td>";
 							echo "<td>" . refineOrderVal($orderslist[$i]["PartSubsystem"]) . "</td>";
