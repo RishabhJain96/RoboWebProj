@@ -126,7 +126,7 @@ class register
 	 */
 	public function resetPassword($username)
 	{
-		$password = md5(self::DEFAULT_PASS);
+		$password = self::DEFAULT_PASS;
 		$this->setPassword($username, $password);
 	}
 	
@@ -139,8 +139,10 @@ class register
 	 */
 	public function setPassword($username, $password)
 	{
+		$password = md5($password);
+		$condition = "Username = '$username'";
 		$array = array("UserPassword" => $password);
-		$this->_dbConnection->insertIntoTable("RoboUsers", "RoboUsers", "Username", $username, "UserID", $array);
+		$this->_dbConnection->updateTable("RoboUsers", "RoboUsers", "Username", $username, "UserID", $array, $condition);
 	}
 }
 

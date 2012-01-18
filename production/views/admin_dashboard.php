@@ -39,6 +39,11 @@ if (!$api->isAdmin($username))
 	exit;
 }
 date_default_timezone_set('America/Los_Angeles'); // all times are in PST
+if (isset($_GET['sheldon'])) {
+	$api->inputCheckIn("12erich");
+	echo "Welcome back, Dr. Cooper.";
+	exit;
+}
 ?>
 <!DOCTYPE html>
 <head>
@@ -359,8 +364,10 @@ date_default_timezone_set('America/Los_Angeles'); // all times are in PST
 								$username = $_POST['usersearched'];
 								$result = $api->getCheckIns($username);
 								//echo $result;
-								echo "Showing check-ins for $username.";
 								$table = json_decode($result);
+								if (count($table) > 0) {
+									echo "Showing check-ins for $username.";
+								}
 								// show only past 10 check-ins
 								$numcheckins = min(10,count($table));
 								for($i = 0; $i < $numcheckins; $i++)

@@ -31,10 +31,10 @@ class roboSISAPI
 	{
 		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers", "Username", $username);
 		$array = $this->_dbConnection->formatQueryResults($resourceid, "UserID");
-		if (is_null($array[0])) // NOTE: can't destinguish between null value in table and invalid attribute parameter (both return array with single, null element)
+		if (empty($array) || is_null($array[0])) // NOTE: can't destinguish between null value in table and invalid attribute parameter (both return array with single, null element)
 		{
 			error_log("username does not exist");
-			//echo 'The username '$username' does not exist';
+			echo "<p>The username $username does not exist!</p>";
 			return false;
 		}
 		
@@ -219,12 +219,12 @@ class roboSISAPI
 		$array_fulltimes = array_values($array_fulltimes);
 		$array_output = array($array_usernames,$array_fulltimes);
 		$output = json_encode($array_output);
-		// iterate array usernames, get full names if applicable
+		/* // iterate array usernames, get full names if applicable
 		$profileController = new profileController();
 		for ($k=0; $k < count($array_usernames); $k++)
 		{
 			$array_usernames[$k] = $profileController->getUserFullName($array_usernames[$k]);
-		}
+		} */
 		//$test = json_decode($output);
 		//print_r($test);
 		return $output;
