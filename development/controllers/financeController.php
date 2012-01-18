@@ -2,7 +2,7 @@
 /**
  * This class contains all the function related to the finance system. It is currently a subclass of roboSISAPI so as to keep it logically separate, yet still have easy access to general functions such as getUserID.
  */
-class financeController extends roboSISAPI
+class financeController extends notificationsController
 {
 	
 	public function __construct()
@@ -215,6 +215,7 @@ class financeController extends roboSISAPI
 	public function setAdminApproval($orderID, $approved, $adminusername, $comment = null)
 	{
 		// set status, AdminApproved, AdminComment, AdminUsername, Locked, English/NumericDateApproved
+		// email the user
 		$status = "";
 		if ($approved)
 		{
@@ -324,6 +325,7 @@ class financeController extends roboSISAPI
 	public function setMentorApproval($orderID, $approved, $comment = null)
 	{
 		// set status, AdminApproved, AdminComment, AdminUsername, Locked, English/NumericDateApproved
+		// email the submitter
 		$status = "";
 		if ($approved)
 		{

@@ -31,10 +31,10 @@ class roboSISAPI
 	{
 		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers", "Username", $username);
 		$array = $this->_dbConnection->formatQueryResults($resourceid, "UserID");
-		if (is_null($array[0])) // NOTE: can't destinguish between null value in table and invalid attribute parameter (both return array with single, null element)
+		if (empty($array) || is_null($array[0])) // NOTE: can't destinguish between null value in table and invalid attribute parameter (both return array with single, null element)
 		{
 			error_log("username does not exist");
-			//echo 'The username '$username' does not exist';
+			echo "<p>The username $username does not exist!</p>";
 			return false;
 		}
 		

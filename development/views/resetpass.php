@@ -1,56 +1,3 @@
-<?php
-// autoloader code
-// loads classes as needed, eliminates the need for a long list of includes at the top
-spl_autoload_register(function ($className) { 
-    $possibilities = array( 
-        '../controllers'.DIRECTORY_SEPARATOR.$className.'.php', 
-        '../back_end'.DIRECTORY_SEPARATOR.$className.'.php', 
-        '../views'.DIRECTORY_SEPARATOR.$className.'.php', 
-        $className.'.php' 
-    ); 
-    foreach ($possibilities as $file) { 
-        if (file_exists($file)) { 
-            require_once($file); 
-            return true; 
-        } 
-    } 
-    return false; 
-});
-
-$controller = new register();
-if (!is_null($_GET['adminreset']))
-{
-	$username = $_GET['username'];
-	$controller->resetPassword($username);
-}
-
-if (isset($_POST['register']))
-{
-	$username = $_POST['username'];
-	// old password is md5'd to allow checking with db
-	$oldpassword = md5($_POST['oldpwd']);
-	// new password will be md5'd in back-end code
-	$newpassword = $_POST['newpwd'];
-
-	if($username == "")
-	{
-		echo "<p>Please complete all fields and try again.</p>";
-		//exit("Please complete all fields and try again.");
-	}
-	
-	if ($controller->getPassword($username) != $oldpassword)
-	{
-		echo "<p>Your old password is incorrect.</p>";
-		//exit("Your old password is incorrect.");
-	}
-	else
-	{
-		$controller->setPassword($username, $newpassword);
-		echo "<p>Successfully changed password</p>";
-	}
-}
-
-?>
 <!doctype html>
 <head>
 	<meta charset="utf-8">
@@ -65,6 +12,7 @@ if (isset($_POST['register']))
 	<div id="loginWindowWrap" class="clearfix">
 		<div id="loginWindow">
 			<h1>Reset Password</h1>
+			<p>If you forgot your password, please talk to an admin.</p>
 			<form id="loginForm" method="post" name="loginForm" action="">
 				<fieldset>
 					<label for="username">Username</label>
@@ -81,6 +29,62 @@ if (isset($_POST['register']))
 				<fieldset>
 				<input name="reset" type="submit" class="register" value="reset" />
 				</fieldset>
+				<?php
+				/**
+				 * syntax for admin reset: resetpass.php?adminreset=true&username=12rohits
+				 */
+				// autoloader code
+				// loads classes as needed, eliminates the need for a long list of includes at the top
+				spl_autoload_register(function ($className) { 
+				    $possibilities = array( 
+				        '../controllers'.DIRECTORY_SEPARATOR.$className.'.php', 
+				        '../back_end'.DIRECTORY_SEPARATOR.$className.'.php', 
+				        '../views'.DIRECTORY_SEPARATOR.$className.'.php', 
+				        $className.'.php' 
+				    ); 
+				    foreach ($possibilities as $file) { 
+				        if (file_exists($file)) { 
+				            require_once($file); 
+				            return true; 
+				        } 
+				    } 
+				    return false; 
+				});
+
+				$controller = new register();
+				if (!is_null($_GET['adminreset']))
+				{
+					$username = $_GET['username'];
+					$controller->resetPassword($username);
+				}
+				
+				if (isset($_POST['reset']))
+				{
+					$username = $_POST['username'];
+					// old password is md5'd to allow checking with db
+					$oldpassword = md5($_POST['oldpwd']);
+					// new password will be md5'd in back-end code
+					$newpassword = $_POST['newpwd'];
+					
+					if($username == "")
+					{
+						echo "<p>Please complete all fields and try again.</p>";
+						//exit("Please complete all fields and try again.");
+					}
+	
+					if ($controller->getPassword($username) != $oldpassword)
+					{
+						echo "<p>Your old password is incorrect.</p>";
+						//exit("Your old password is incorrect.");
+					}
+					else
+					{
+						$controller->setPassword($username, $newpassword);
+						echo "<p>Successfully changed password</p>";
+					}
+				}
+
+				?>
 			</form>
 		</div>
 	</div>
