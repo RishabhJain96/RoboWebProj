@@ -219,15 +219,70 @@ class roboSISAPI
 		$array_fulltimes = array_values($array_fulltimes);
 		$array_output = array($array_usernames,$array_fulltimes);
 		$output = json_encode($array_output);
-		/* // iterate array usernames, get full names if applicable
-		$profileController = new profileController();
+		// iterate array usernames, get full names if applicable
 		for ($k=0; $k < count($array_usernames); $k++)
 		{
-			$array_usernames[$k] = $profileController->getUserFullName($array_usernames[$k]);
-		} */
+			$array_usernames[$k] = $this->getUserFullName($array_usernames[$k]);
+		}
 		//$test = json_decode($output);
 		//print_r($test);
 		return $output;
 	}
+	
+	// PROFILE FUNCTIONS
+	
+	
+	// SETTER METHODS
+	
+	
+	/**
+	 * description: Updates the given user's profile info
+	 * 
+	 * @param username: the account to update
+	 * @param arrUserInfo: the array of the user's info in the format specified by the tester class (profileTester)
+	 * @return void
+	 */
+	public function updateUserInfo($username, $arrUserInfo)
+	{
+		$id = $this->getUserID($username);
+		$this->_dbConnection->updateTable("RoboUsers", "RoboUsers", "UserID", $id, "UserID", $arrUserInfo, "UserID = $id");
+	}
+	
+	
+	// GETTER METHODS
+	
+	
+	/**
+	 * description: Returns an array with the given user's info, except for the password
+	 * 
+	 * @param username: The user to retrieve the info of
+	 * @return array: The user's info in an array
+	 */
+	public function getUserInfo($username)
+	{
+		$id = $this->getUserID($username);
+		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers", "UserID", $id);
+		$arrInfo = $this->_dbConnection->formatQuery($resourceid);
+		unset($arrInfo[0]["UserPassword"]); // removes the user's password from the array of info for security, because it will not be needed when calling this method
+		return $arrInfo[0];
+	}
+	
+	/**
+	 * description: Returns the given user's full name
+	 * 
+	 * @param username: The given user
+	 * @return string: The user's full name
+	 */
+	public function getUserFullName($username)
+	{
+		$info = $this->getUserInfo($username);
+		$fullName = $info["UserFullName"];
+		if (is_null($fullName) || empty($fullName))
+		{
+			return $username; // returns username if fullname is null
+		}
+		return $fullName;
+	}
+	
 }
 ?>

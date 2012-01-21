@@ -103,7 +103,7 @@ if (isset($_POST['submit']) || isset($_POST['update'])) // update database regar
 	$shippinghandling = $_POST['shippinghandling'];
 	if (is_null($shippinghandling) || empty($shippinghandling)) $shippinghandling = 0.0;
 	$shippinghandling = floatval($shippinghandling); // ensures floating point number
-	$tax = 0.0925 * $fulltotal;
+	$tax = 0.0825 * $fulltotal;
 	if ($precision != "true")
 	{
 		$tax = sprintf("%01.2f", $tax); // makes sure tax price only has 2 decimals
