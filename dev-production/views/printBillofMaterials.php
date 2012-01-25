@@ -1,6 +1,6 @@
 <?php
 include "autoloader.php";
-
+// this page doesn't work
 if (!(isset($_SESSION['robo'])))
 {
 	header('Location: index.php');

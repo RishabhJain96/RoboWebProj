@@ -86,7 +86,7 @@ if(isset($_POST['logout']))
 	#dashboardWindow {
 		background-color: #333;
 		color: #FFF;
-		width: 640px;
+		width: 750px;
 		margin: 1.5em auto;
 		position: relative;
 		clear: left;

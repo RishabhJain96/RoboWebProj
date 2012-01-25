@@ -14,11 +14,6 @@ if(isset($_POST['logout']))
 	exit;
 }
 
-if (is_null($_GET['id']))
-{
-	header('Location: viewmyforms.php'); // if there is no order to view, redirects to viewmyforms page
-	exit;
-}
 $username = $_SESSION['robo'];
 $api = new roboSISAPI();
 if (!$api->isAdmin($username))
@@ -26,8 +21,9 @@ if (!$api->isAdmin($username))
 	header('Location: index.php');
 	exit;
 }
+
+/*
 $controller = new financeController();
-$orderID = $_GET['id'];
 if ($controller->isAdminApproved($orderID))
 {
 	header("Location: adminviewpending.php");
@@ -45,7 +41,7 @@ if(isset($_POST['reject']))
 	$controller->setAdminApproval($orderID, false, $username, $comment);
 	header("Location: adminviewpending.php");
 }
-
+*/
 if(isset($_POST["billOfMaterials"]))
 {
 	$itemsPartOfBill = $_POST["materials"];
@@ -75,11 +71,16 @@ if(isset($_POST["billOfMaterials"]))
 			
 			<form method="POST" name="form" action"">
 				<table>
-			<?PHP
+			<?php
+				$controller = new financeController();
 				$allOrders = $controller->getAllorders();
 				for($i = 0; $i < count($allOrders); $i++)
 				{
-					echo "<tr><td><input type=\"checkbox\" name=\"materials\"value=\"$allOrders[i]['OrderID']\" /></td><td>$allOrders[i]['VendorName']</td><td>Number of Items: <input type=\"text\" name=\"materials\" /></td></tr>";
+					$id = $allOrders[$i]['OrderID'];
+					$vname = $allOrders[$i]['PartVendorName'];
+					echo "<tr><td><input type=\"checkbox\" name=\"materials\" value=\"$id\" /></td>
+					<td>$vname</td>
+					<td>Number of Items: <input type=\"text\" name=\"materials\" /></td></tr>";
 					
 				//	echo "<div><div style=\"float: left;\"><input type=\"checkbox\" name=\"materials\"value=\"$allOrders[i]['OrderID']\" /></div><div style=\"float: right;\">$allOrders[i]['VendorName']</div></div>";
 				}
@@ -87,7 +88,7 @@ if(isset($_POST["billOfMaterials"]))
 			?>
 			
 				</table>
-			<input type="submit" name="billofMaterials" value="Submit" />
+			<input type="submit" name="billOfMaterials" value="submit" />
 			</form>
 		</div>
 		<footer>

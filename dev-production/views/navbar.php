@@ -4,7 +4,8 @@ echo "<div id=\"nav\">
 					<ul>
 						<li><a href=\"dashboard.php\">Home</a></li>
 						<li><a href=\"profilepage.php\">My Profile</a></li>
-						<li><a href=\"viewmyforms.php\">Purchase Orders</a></li>";
+						<li><a href=\"viewmyforms.php\">Purchase Orders</a></li>
+						<li><a href=\"billOfMaterials.php\">Bill Of Materials</a></li>";
 						$username = $_SESSION['robo'];
 						$api = new roboSISAPI();
 						if ($api->isAdmin($username))
