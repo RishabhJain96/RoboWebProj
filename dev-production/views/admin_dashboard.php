@@ -197,26 +197,8 @@ if (isset($_GET['sheldon'])) {
 	<div id="mainWrapper">
 		<div id="floater"></div>
 		<div id="dashboardWindow" class="clearfix">
-			<div id="nav">
-				<div id="navbar">
-					<ul>
-						<li><a href="dashboard.php">Home</a></li>
-						<li><a href="profilepage.php">My Profile</a></li>
-						<li><a href="viewmyforms.php">Purchase Orders</a></li>
-						<li><a href="admin_dashboard.php">Admin</a></li>
-					</ul>
-				</div> <!-- end of navbar -->
-				<div id="login_status">
-					<p>Logged in as: <?php echo $_SESSION['robo']; // echos the username?></p>
-					<form method="post" name="form" action="">
-					<fieldset>
-						<input name="logout" type="submit" class="logout" value="Logout" />
-					</fieldset>
-					</form>
-				</div> <!-- end of login_status -->
-			</div> <!-- end of nav section -->
 			
-			<h1>The Harker School - Robotics Team 1072</h1>
+			<?php include "navbar.php"; ?>
 			
 			<br />
 			

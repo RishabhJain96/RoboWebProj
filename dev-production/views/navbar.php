@@ -14,12 +14,15 @@ echo "<div id=\"nav\">
 					echo "</ul>
 				</div>
 				<div id=\"login_status\">
-					<p>Logged in as: <?php echo $_SESSION['robo']; // echos the username?></p>
+					<p>Logged in as: ";
+					echo $_SESSION['robo']; // echos the username
+					echo "</p>
 					<form method=\"post\" name=\"form\" action=\"\">
 					<fieldset>
 						<input name=\"logout\" type=\"submit\" class=\"logout\" value=\"Logout\" />
 					</fieldset>
 					</form>
 				</div> <!-- end of login_status -->
-			</div>";
+			</div>
+			<h1>The Harker School - Robotics Team 1072</h1>";
 ?>

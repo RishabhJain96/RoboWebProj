@@ -232,13 +232,12 @@ class financeController extends notificationsController
 		{
 			$approved = 0;
 			$status = "AdminRejected";
+			// email the submitter with new status ONLY IF rejected. Otherwise, the email is pointless because it will be immediately sent for mentor approval, which sends another email, resulting in an unnecessary extra email.
+			$order = $this->getOrder($orderID);
+			$vendorname = $order[0]["PartVendorName"];
+			$username = $order[0]["Username"];
+			$this->emailUserStatusUpdate($username, $orderID, $status, $vendorname);
 		}
-		/*// email the submitter with new status
-		$order = $this->getOrder($orderID);
-		$vendorname = $order[0]["PartVendorName"];
-		$username = $order[0]["Username"];
-		$this->emailUserStatusUpdate($username, $orderID, $status, $vendorname);
-		*/
 		// set the new status
 		$locked = $approved; // if order is approved, order stays locked, if not order is unlocked to allow user to edit it again
 		$englishdateapproved = date("l, F j \a\\t g:i a"); // of format Sunday, June 31 at 3:33 pm

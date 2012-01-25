@@ -53,7 +53,7 @@ class notificationsController extends roboSISAPI
 		$status = $this->refineStatus($status);
 		$to = $username . "@students.harker.org"; // faster than getting the user's email, but assumes user is using harker account name
 		$subject = "Robotics PO Status Update: OrderID #$orderID";
-		$message = "Hello $username, \n\n The Purchase Order with OrderID #$orderID from vendor $vendorname has been updated. The order is now $status. $info \n\n - The Robotics 1072 Web Team"; 
+		$message = "Hello $username, \n\n The purchase order with OrderID #$orderID from vendor \"$vendorname\" has been updated. The order is now $status. $info \n\n - The Robotics 1072 Web Team"; 
 		$header = "From: harker1072@gmail.com";
 		//print_r($to);
 		//print_r($subject);

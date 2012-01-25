@@ -187,7 +187,9 @@ if ($i == 5)
 	$arr[] = array("PartIndividualPrice", "DOUBLE");
 	$arr[] = array("PartQuantity", "INT");
 	$arr[] = array("PartTotalPrice", "DOUBLE");
-		
+	$arr[] = array("PartURL", "TINYTEXT"); // optional
+	$arr[] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
+	$arr[] = array("Status", "TINYTEXT"); // optional	
 	
 	if($dbConfig->createINNODBTable("OrdersListTable", $arr)) echo "Success! Your OrdersListTable is now set up! <br />";
 	

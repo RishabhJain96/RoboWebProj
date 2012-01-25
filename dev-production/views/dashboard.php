@@ -157,33 +157,8 @@ if(isset($_POST['logout']))
 	<div id="mainWrapper">
 		<div id="floater"></div>
 		<div id="dashboardWindow" class="clearfix">
-			<div id="nav">
-				<div id="navbar">
-					<ul>
-						<li><a href="dashboard.php">Home</a></li>
-						<li><a href="profilepage.php">My Profile</a></li>
-						<li><a href="viewmyforms.php">Purchase Orders</a></li>
-						<?php
-						$username = $_SESSION['robo'];
-						$api = new roboSISAPI();
-						if ($api->isAdmin($username))
-						{
-							echo '<li><a href="admin_dashboard.php">Admin</a></li>';
-						}
-						?>
-					</ul>
-				</div>
-				<div id="login_status">
-					<p>Logged in as: <?php echo $_SESSION['robo']; // echos the username?></p>
-					<form method="post" name="form" action="">
-					<fieldset>
-						<input name="logout" type="submit" class="logout" value="Logout" />
-					</fieldset>
-					</form>
-				</div>
-			</div>
 			
-			<h1>The Harker School - Robotics Team 1072</h1>
+			<?php include "navbar.php"; ?>
 			
 			<div id="dashboard-checkin" class="clearfix">
 				<div id="checkin-header" class="clearfix">
