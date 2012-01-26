@@ -27,6 +27,6 @@ $api = new roboSISAPI();
 //print_r($api->getUserID("12rohits"));
 //$api->getAllEmails();
 //$api->getUserType("12rohits");
-$api->getUsersCheckedInForDate(20111005);
+$api->getMentorsEmail();
 
 ?>

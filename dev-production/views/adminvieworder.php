@@ -173,6 +173,7 @@ if(isset($_POST['reject']))
 					</div>
 				</div>
 				<div id="formstable">
+					<!-- <form id="approval" method="post" action=""> -->
 					<table>
 						<tr id="header">
 							<th>Shipping &amp; Handling</th>
@@ -187,6 +188,8 @@ if(isset($_POST['reject']))
 					</table>
 					<table>
 						<tr id="header">
+							<!-- <th>&#x2713;</th> -->
+							<th class="th_alt">Part URL</th>
 							<th>Part #</th>
 							<th class="th_alt">Part Name</th>
 							<th>Subsystem</th>
@@ -197,6 +200,8 @@ if(isset($_POST['reject']))
 						for ($i=0; $i < count($orderslist); $i++)
 						{
 							echo "<tr class=\"data\">";
+							//echo "<td><input type=\"checkbox\" name=\"partapproved[$i]\" value=\"approved\" id=\"partapproved\"></td>";
+							echo "<td>" . refineOrderVal($orderslist[$i]["PartURL"]) . "</td>";
 							echo "<td>" . refineOrderVal($orderslist[$i]["PartNumber"]) . "</td>";
 							echo "<td>" . refineOrderVal($orderslist[$i]["PartName"]) . "</td>";
 							echo "<td>" . refineOrderVal($orderslist[$i]["PartSubsystem"]) . "</td>";
@@ -206,6 +211,7 @@ if(isset($_POST['reject']))
 							echo "</tr>";
 						}
 					echo '</table>
+					<!-- </form> -->
 				</div>';
 						?>
 				<div id="form-submitbuttons">

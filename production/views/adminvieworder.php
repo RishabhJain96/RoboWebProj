@@ -1,5 +1,6 @@
 <?php
-session_start();
+include "autoloader.php";
+
 if (!(isset($_SESSION['robo'])))
 {
 	header('Location: index.php');
@@ -12,23 +13,6 @@ if(isset($_POST['logout']))
 	header('Location: index.php');
 	exit;
 }
-// autoloader code
-// loads classes as needed, eliminates the need for a long list of includes at the top
-spl_autoload_register(function ($className) { 
-    $possibilities = array( 
-        '../controllers'.DIRECTORY_SEPARATOR.$className.'.php', 
-        '../back_end'.DIRECTORY_SEPARATOR.$className.'.php', 
-        '../views'.DIRECTORY_SEPARATOR.$className.'.php', 
-        $className.'.php' 
-    ); 
-    foreach ($possibilities as $file) { 
-        if (file_exists($file)) { 
-            require_once($file); 
-            return true; 
-        } 
-    } 
-    return false; 
-});
 
 if (is_null($_GET['id']))
 {
@@ -78,26 +62,8 @@ if(isset($_POST['reject']))
 	<div id="mainWrapper">
 		<div id="floater"></div>
 		<div id="dashboardWindow" class="clearfix">
-			<div id="nav">
-				<div id="navbar">
-					<ul>
-						<li><a href="dashboard.php">Home</a></li>
-						<li><a href="profilepage.php">My Profile</a></li>
-						<li><a href="viewmyforms.php">Purchase Orders</a></li>
-						<li><a href="admin_dashboard.php">Admin</a></li>				
-					</ul>
-				</div>
-				<div id="login_status">
-					<p>Logged in as: <?php echo $_SESSION['robo']; // echos the username?></p>
-					<form method="post" name="form" action="">
-					<fieldset>
-						<input name="logout" type="submit" class="logout" value="Logout" />
-					</fieldset>
-					</form>
-				</div> <!-- end of login_status -->
-			</div>
 			
-			<h1>The Harker School - Robotics Team 1072</h1>
+			<?php include "navbar.php"; ?>
 			
 			<div id="dashboard-checkin" class="clearfix">
 				<div id="forms" class="clearfix">
@@ -207,6 +173,7 @@ if(isset($_POST['reject']))
 					</div>
 				</div>
 				<div id="formstable">
+					<!-- <form id="approval" method="post" action=""> -->
 					<table>
 						<tr id="header">
 							<th>Shipping &amp; Handling</th>
@@ -221,6 +188,8 @@ if(isset($_POST['reject']))
 					</table>
 					<table>
 						<tr id="header">
+							<!-- <th>&#x2713;</th> -->
+							<th class="th_alt">Part URL</th>
 							<th>Part #</th>
 							<th class="th_alt">Part Name</th>
 							<th>Subsystem</th>
@@ -231,6 +200,8 @@ if(isset($_POST['reject']))
 						for ($i=0; $i < count($orderslist); $i++)
 						{
 							echo "<tr class=\"data\">";
+							//echo "<td><input type=\"checkbox\" name=\"partapproved[$i]\" value=\"approved\" id=\"partapproved\"></td>";
+							echo "<td>" . refineOrderVal($orderslist[$i]["PartURL"]) . "</td>";
 							echo "<td>" . refineOrderVal($orderslist[$i]["PartNumber"]) . "</td>";
 							echo "<td>" . refineOrderVal($orderslist[$i]["PartName"]) . "</td>";
 							echo "<td>" . refineOrderVal($orderslist[$i]["PartSubsystem"]) . "</td>";
@@ -240,6 +211,7 @@ if(isset($_POST['reject']))
 							echo "</tr>";
 						}
 					echo '</table>
+					<!-- </form> -->
 				</div>';
 						?>
 				<div id="form-submitbuttons">

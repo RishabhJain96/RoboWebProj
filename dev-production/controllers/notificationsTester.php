@@ -24,6 +24,12 @@ $orderID = 1;
 $order = $controller->getOrder($orderID);
 $status = $order[0]["Status"];
 $vendorname = $order[0]["PartVendorName"];
-$result = $controller->emailUserStatusUpdate($username, $orderID, $status, $vendorname);
+$result = $controller->notifyMentorOfPending($orderID, $vendorname, $username);
+if ($result) {
+	echo "success";
+}
+else {
+	echo "failure";
+}
 //print_r($result);
 ?>

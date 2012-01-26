@@ -6,7 +6,7 @@
  * This class also handles changing a user's password.
  */
 
-class register
+class register extends roboSISAPI
 {
 	// constants
 	const DEFAULT_PASS = "qwerty";
@@ -28,6 +28,9 @@ class register
 	public function register($username, $password, $phonenumber)
 	{
 		$code = md5(mt_rand());
+		$username = parent::sanitize($username);
+		$password = parent::sanitize($password);
+		$phonenumber = parent::sanitize($phonenumber);
 		$result = $this->inputNewUser($username, $password, $phonenumber, $code); // result stores false or text string 'true' depending on the outcome of the input method
 		if ($result) // checks literal string value
 		{
@@ -90,7 +93,7 @@ class register
 		echo "<a href=\"$this->_serverurl/activation.php?acode=$code\">$this->_serverurl/activation.php?acode=$code</a>";
 		*/
 		
-		// temporary in-place activation code
+		// in-place activation code
 		$bool = 1; // any nonzero value to indicated activated status
 		$stuffing = "Activated"; // clears the activation code field to md5 for clarity
 		$array = array("Activated" => $bool, "ActivationCode" => $stuffing);

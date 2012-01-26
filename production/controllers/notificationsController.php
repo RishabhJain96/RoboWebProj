@@ -14,7 +14,7 @@ class notificationsController extends roboSISAPI
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_serverURL = "http://robo.harker.org/devprod";
+		$this->_serverURL = "http://robo.harker.org/";
 	}
 	
 	/**

@@ -8,6 +8,7 @@ class roboSISAPI
 {
 	// constants
 	const MAX_CHECKINS_PER_DAY = 1; // changed this to change the max number of checkins allowed per day
+	const TYPE_MENTOR = "Mentor";
 	
 	// instance variables
 	protected $_dbConnection;
@@ -22,6 +23,26 @@ class roboSISAPI
 	
 	// GENERAL FUNCTIONS
 	
+	
+	/**
+	 * description: Sanitizes the input data by escaping for MySQL entry, stripping HTML tags, and trimming whitespace.
+	 * 
+	 * @param input: The string to be sanitized for entry
+	 * @return string: Returns the sanitized $input data
+	 */
+	public function sanitize($input)
+	{
+		$input = trim($input);
+		$input = strip_tags($input);
+		$input = mysql_real_escape_string($input);
+		//$input = rtrim($input); // superfluous after trim
+//		if (strpos($input,">"))
+//			$input = preg_replace(">","",$input);
+//		if (!get_magic_quotes_gpc()) { 
+//			$input=addslashes($input); 
+//		}
+		return $input;
+	}
 	
 	/**
 	 * $username must already exist in the database
@@ -90,6 +111,25 @@ class roboSISAPI
 		return $output;
 	}
 	
+	/**
+	 * description: Returns the mentor's email.
+	 * 
+	 * @return string: The mentor's email or null if there is no mentor in the database.
+	 */
+	public function getMentorsEmail()
+	{
+		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers");
+		$users = $this->_dbConnection->formatQuery($resourceid);
+		$email = "";
+		for ($i=0; $i < count($users); $i++) {
+			if ($users[$i]['UserType'] == self::TYPE_MENTOR) {
+				$email = $users[$i]['UserEmail'];
+				print_r($email);
+				return $email;
+			}
+		}
+		return null;
+	}
 	
 	// CHECK-IN SYSTEM FUNCTIONS
 	

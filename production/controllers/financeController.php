@@ -2,7 +2,7 @@
 /**
  * This class contains all the function related to the finance system. It is currently a subclass of roboSISAPI so as to keep it logically separate, yet still have easy access to general functions such as getUserID.
  */
-class financeController extends roboSISAPI
+class financeController extends notificationsController
 {
 	
 	public function __construct()
@@ -188,6 +188,12 @@ class financeController extends roboSISAPI
 	{
 		$locked = 1; // Locks the order while under approval process
 		$status = "AdminPending";
+		// email the submitter with new status
+		$order = $this->getOrder($orderID);
+		$vendorname = $order[0]["PartVendorName"];
+		$username = $order[0]["Username"];
+		$this->emailUserStatusUpdate($username, $orderID, $status, $vendorname);
+		// set the new status
 		$eds = date("l, F j \a\\t g:i a");
 		$nds = date("YmdHi");
 		$arr_vals = array("Locked" => $locked, "Status" => $status, "EnglishDateSubmitted" => $eds, "NumericDateSubmitted" => $nds);
@@ -215,6 +221,40 @@ class financeController extends roboSISAPI
 	public function setAdminApproval($orderID, $approved, $adminusername, $comment = null)
 	{
 		// set status, AdminApproved, AdminComment, AdminUsername, Locked, English/NumericDateApproved
+		// email the user
+		$status = "";
+		if ($approved)
+		{
+			$approved = 1; // writeable to DB, since AdminApproved is an int, 1 = true 0 = false
+			$status = "AdminApproved";
+		}
+		else
+		{
+			$approved = 0;
+			$status = "AdminRejected";
+			// email the submitter with new status ONLY IF rejected. Otherwise, the email is pointless because it will be immediately sent for mentor approval, which sends another email, resulting in an unnecessary extra email.
+			$order = $this->getOrder($orderID);
+			$vendorname = $order[0]["PartVendorName"];
+			$username = $order[0]["Username"];
+			$this->emailUserStatusUpdate($username, $orderID, $status, $vendorname);
+		}
+		// set the new status
+		$locked = $approved; // if order is approved, order stays locked, if not order is unlocked to allow user to edit it again
+		$englishdateapproved = date("l, F j \a\\t g:i a"); // of format Sunday, June 31 at 3:33 pm
+		$numericdateapproved = date("YmdHi"); // of format 201109232355
+		$arr_vals = array("Status" => $status, "AdminApproved" => $approved, "AdminComment" => $comment, "AdminUsername" => $adminusername, "Locked" => $locked, "EnglishDateApproved" => $englishdateapproved, "NumericDateApproved" => $numericdateapproved);
+		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $arr_vals, "OrderID = $orderID");
+	}
+	
+	/**
+	 * description: 
+	 * 
+	 * @param order: 
+	 * @return int: 
+	 */
+	public function setPartsAdminApproval($uniqueID, $approved)
+	{
+		// set status, AdminApproved
 		$status = "";
 		if ($approved)
 		{
@@ -226,11 +266,9 @@ class financeController extends roboSISAPI
 			$approved = 0;
 			$status = "AdminRejected";
 		}
-		$locked = $approved; // if order is approved, order stays locked, if not order is unlocked to allow user to edit it again
-		$englishdateapproved = date("l, F j \a\\t g:i a"); // of format Sunday, June 31 at 3:33 pm
-		$numericdateapproved = date("YmdHi"); // of format 201109232355
-		$arr_vals = array("Status" => $status, "AdminApproved" => $approved, "AdminComment" => $comment, "AdminUsername" => $adminusername, "Locked" => $locked, "EnglishDateApproved" => $englishdateapproved, "NumericDateApproved" => $numericdateapproved);
-		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $arr_vals, "OrderID = $orderID");
+		$arr_vals = array("Status" => $status, "AdminApproved" => $approved);
+		$condition = "UniqueEntryID = '" . $uniqueID . "'";
+		$this->_dbConnection->updateTable("OrdersListTable", "OrdersListTable", "UniqueEntryID", $uniqueID, "OrderID", $arr_vals, $condition);
 	}
 	
 	/**
@@ -284,6 +322,14 @@ class financeController extends roboSISAPI
 	{
 		$locked = 1; // Locks the order while under approval process
 		$status = "MentorPending";
+		// email the submitter with new status
+		$order = $this->getOrder($orderID);
+		$vendorname = $order[0]["PartVendorName"];
+		$username = $order[0]["Username"];
+		$this->emailUserStatusUpdate($username, $orderID, $status, $vendorname);
+		// email the mentor with a notification about the now-pending order
+		$this->notifyMentorOfPending($orderID, $vendorname, $username);
+		// set the new status
 		$eds = date("l, F j \a\\t g:i a");
 		$nds = date("YmdHi");
 		$arr_vals = array("Locked" => $locked, "Status" => $status, "EnglishDateSubmitted" => $eds, "NumericDateSubmitted" => $nds);
@@ -310,6 +356,12 @@ class financeController extends roboSISAPI
 			$approved = 0;
 			$status = "MentorRejected";
 		}
+		// email the submitter with new status
+		$order = $this->getOrder($orderID);
+		$vendorname = $order[0]["PartVendorName"];
+		$username = $order[0]["Username"];
+		$this->emailUserStatusUpdate($username, $orderID, $status, $vendorname);
+		// set the new status
 		$locked = $approved; // if order is approved, order stays locked, if not order is unlocked to allow user to edit it again
 		$englishdateapproved = date("l, F j \a\\t g:i a"); // of format Sunday, June 31 at 3:33 pm
 		$numericdateapproved = date("YmdHi"); // of format 201109232355

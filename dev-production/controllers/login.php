@@ -3,7 +3,7 @@
  * Login class
  */
 
-class login
+class login extends roboSISAPI
 {
 	// instance variables
 	protected $_dbConnection;

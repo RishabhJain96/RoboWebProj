@@ -8,6 +8,7 @@ class roboSISAPI
 {
 	// constants
 	const MAX_CHECKINS_PER_DAY = 1; // changed this to change the max number of checkins allowed per day
+	const TYPE_MENTOR = "Mentor";
 	
 	// instance variables
 	protected $_dbConnection;
@@ -22,6 +23,26 @@ class roboSISAPI
 	
 	// GENERAL FUNCTIONS
 	
+	
+	/**
+	 * description: Sanitizes the input data by escaping for MySQL entry, stripping HTML tags, and trimming whitespace.
+	 * 
+	 * @param input: The string to be sanitized for entry
+	 * @return string: Returns the sanitized $input data
+	 */
+	public function sanitize($input)
+	{
+		$input = trim($input);
+		$input = strip_tags($input);
+		$input = mysql_real_escape_string($input);
+		//$input = rtrim($input); // superfluous after trim
+//		if (strpos($input,">"))
+//			$input = preg_replace(">","",$input);
+//		if (!get_magic_quotes_gpc()) { 
+//			$input=addslashes($input); 
+//		}
+		return $input;
+	}
 	
 	/**
 	 * $username must already exist in the database
@@ -90,6 +111,25 @@ class roboSISAPI
 		return $output;
 	}
 	
+	/**
+	 * description: Returns the mentor's email.
+	 * 
+	 * @return string: The mentor's email or null if there is no mentor in the database.
+	 */
+	public function getMentorsEmail()
+	{
+		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers");
+		$users = $this->_dbConnection->formatQuery($resourceid);
+		$email = "";
+		for ($i=0; $i < count($users); $i++) {
+			if ($users[$i]['UserType'] == self::TYPE_MENTOR) {
+				$email = $users[$i]['UserEmail'];
+				print_r($email);
+				return $email;
+			}
+		}
+		return null;
+	}
 	
 	// CHECK-IN SYSTEM FUNCTIONS
 	
@@ -219,15 +259,70 @@ class roboSISAPI
 		$array_fulltimes = array_values($array_fulltimes);
 		$array_output = array($array_usernames,$array_fulltimes);
 		$output = json_encode($array_output);
-		/* // iterate array usernames, get full names if applicable
-		$profileController = new profileController();
+		// iterate array usernames, get full names if applicable
 		for ($k=0; $k < count($array_usernames); $k++)
 		{
-			$array_usernames[$k] = $profileController->getUserFullName($array_usernames[$k]);
-		} */
+			$array_usernames[$k] = $this->getUserFullName($array_usernames[$k]);
+		}
 		//$test = json_decode($output);
 		//print_r($test);
 		return $output;
 	}
+	
+	// PROFILE FUNCTIONS
+	
+	
+	// SETTER METHODS
+	
+	
+	/**
+	 * description: Updates the given user's profile info
+	 * 
+	 * @param username: the account to update
+	 * @param arrUserInfo: the array of the user's info in the format specified by the tester class (profileTester)
+	 * @return void
+	 */
+	public function updateUserInfo($username, $arrUserInfo)
+	{
+		$id = $this->getUserID($username);
+		$this->_dbConnection->updateTable("RoboUsers", "RoboUsers", "UserID", $id, "UserID", $arrUserInfo, "UserID = $id");
+	}
+	
+	
+	// GETTER METHODS
+	
+	
+	/**
+	 * description: Returns an array with the given user's info, except for the password
+	 * 
+	 * @param username: The user to retrieve the info of
+	 * @return array: The user's info in an array
+	 */
+	public function getUserInfo($username)
+	{
+		$id = $this->getUserID($username);
+		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers", "UserID", $id);
+		$arrInfo = $this->_dbConnection->formatQuery($resourceid);
+		unset($arrInfo[0]["UserPassword"]); // removes the user's password from the array of info for security, because it will not be needed when calling this method
+		return $arrInfo[0];
+	}
+	
+	/**
+	 * description: Returns the given user's full name
+	 * 
+	 * @param username: The given user
+	 * @return string: The user's full name
+	 */
+	public function getUserFullName($username)
+	{
+		$info = $this->getUserInfo($username);
+		$fullName = $info["UserFullName"];
+		if (is_null($fullName) || empty($fullName))
+		{
+			return $username; // returns username if fullname is null
+		}
+		return $fullName;
+	}
+	
 }
 ?>

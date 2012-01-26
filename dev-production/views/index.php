@@ -20,7 +20,14 @@ if(isset($_POST['login']))
 			if(!is_string($result))
 			{
 				$_SESSION['robo'] = "$username";
+				if (!is_null($_GET['id']))
+				{
+					$id = $_GET['id'];
+					header("Location: mentorvieworder.php?id=".$id);
+					exit;
+				}
 				header('Location: dashboard.php');
+				exit;
 			}
 		}
 	}

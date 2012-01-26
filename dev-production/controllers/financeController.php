@@ -252,9 +252,9 @@ class financeController extends notificationsController
 	 * @param order: 
 	 * @return int: 
 	 */
-	public function setPartAdminApproval($uniqueID, $approved)
+	public function setPartsAdminApproval($uniqueID, $approved)
 	{
-		// set status, AdminApproved, AdminComment, AdminUsername, Locked, English/NumericDateApproved
+		// set status, AdminApproved
 		$status = "";
 		if ($approved)
 		{
@@ -327,6 +327,8 @@ class financeController extends notificationsController
 		$vendorname = $order[0]["PartVendorName"];
 		$username = $order[0]["Username"];
 		$this->emailUserStatusUpdate($username, $orderID, $status, $vendorname);
+		// email the mentor with a notification about the now-pending order
+		$this->notifyMentorOfPending($orderID, $vendorname, $username);
 		// set the new status
 		$eds = date("l, F j \a\\t g:i a");
 		$nds = date("YmdHi");

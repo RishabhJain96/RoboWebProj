@@ -1,22 +1,5 @@
 <?php
-session_start();
-// autoloader code
-// loads classes as needed, eliminates the need for a long list of includes at the top
-spl_autoload_register(function ($className) { 
-    $possibilities = array( 
-        '../controllers'.DIRECTORY_SEPARATOR.$className.'.php', 
-        '../back_end'.DIRECTORY_SEPARATOR.$className.'.php', 
-        '../views'.DIRECTORY_SEPARATOR.$className.'.php', 
-        $className.'.php' 
-    ); 
-    foreach ($possibilities as $file) { 
-        if (file_exists($file)) { 
-            require_once($file); 
-            return true; 
-        } 
-    } 
-    return false; 
-});
+include "autoloader.php";
 
 if (!(isset($_SESSION['robo'])))
 {
@@ -65,10 +48,13 @@ if (isset($_POST['submit']) || isset($_POST['update'])) // update database regar
 	$fulllist = array();
 	for ($i=0; $i < 10; $i++) // iterates full partstable, puts each row into an array with proper formatting in fulllist
 	{
+		$parturl = $neworderslist[$i]["parturl"];
 		$partnum = $neworderslist[$i]["partnum"];
 		$partname = $neworderslist[$i]["partname"];
 		$partsubsystem = $neworderslist[$i]["partsubsystem"];
 		$partprice = $neworderslist[$i]["partprice"];
+		//print_r($parturl);
+		//echo "\n";
 		if ($precision != "true")
 		{
 			$partprice = sprintf("%01.2f", $partprice); // makes sure partprice only has 2 decimals
@@ -90,10 +76,10 @@ if (isset($_POST['submit']) || isset($_POST['update'])) // update database regar
 		}
 		$fulltotal = floatval($fulltotal); // turns string into float
 		if ($i < count($orderslist)) // prevents undefined offset errors
-			$uid = $orderslist[$i]["UniqueEntryID"]; 
-		if (!empty($partnum) || !empty($partname) || !empty($partsubsystem) || !empty($partprice) || !empty($partquantity) ) // if any element is not empty, will input
+			$uid = $orderslist[$i]["UniqueEntryID"];
+		if (!empty($partnum) || !empty($partname) || !empty($partsubsystem) || !empty($partprice) || !empty($partquantity) || !empty($parturl) ) // if any element is not empty, will input
 		{
-			$fulllist[] = array("PartNumber" => $partnum, "PartName" => $partname, "PartSubsystem" => $partsubsystem, "PartIndividualPrice" => $partprice, "PartQuantity" => $partquantity, "PartTotalPrice" => $parttotal, "UniqueEntryID" => $uid);
+			$fulllist[] = array("PartURL" => $parturl, "PartNumber" => $partnum, "PartName" => $partname, "PartSubsystem" => $partsubsystem, "PartIndividualPrice" => $partprice, "PartQuantity" => $partquantity, "PartTotalPrice" => $parttotal, "UniqueEntryID" => $uid);
 		}
 	}
 	$shippinghandling = $_POST['shippinghandling'];
@@ -138,6 +124,7 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 	header("Location: editform.php?id=$orderID");
 }
 // Will accept url parameter id=123 to get orderID
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -165,33 +152,8 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 	<div id="mainWrapper">
 		<div id="floater"></div>
 		<div id="dashboardWindow" class="clearfix">
-			<div id="nav">
-				<div id="navbar">
-					<ul>
-						<li><a href="dashboard.php">Home</a></li>
-						<li><a href="profilepage.php">My Profile</a></li>
-						<li><a href="viewmyforms.php">Purchase Orders</a></li>
-						<?php
-						$username = $_SESSION['robo'];
-						$api = new roboSISAPI();
-						if ($api->getUserType($username) == "Admin")
-						{
-							echo '<li><a href="admin_dashboard.php">Admin</a></li>';
-						}
-						?>					
-					</ul>
-				</div>
-				<div id="login_status">
-					<p>Logged in as: <?php echo $_SESSION['robo']; // echos the username?></p>
-					<form method="post" name="form" action="">
-					<fieldset>
-						<input name="logout" type="submit" class="logout" value="Logout" />
-					</fieldset>
-					</form>
-				</div> <!-- end of login_status -->
-			</div>
 			
-			<h1>The Harker School - Robotics Team 1072</h1>
+			<?php include "navbar.php"; ?>
 			
 			<div id="dashboard-checkin" class="clearfix">
 				<div id="forms" class="clearfix">
@@ -318,7 +280,7 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 							
 							if (strlen($totalpricestring) > 3)
 							{
-								$checked = "checked"; // determines is user has previously checked the "greater precision" box
+								$checked = "checked"; // determines if user has previously checked the "greater precision" box
 							}
 							
 							echo "<!-- option to increase precision -->\n
@@ -329,7 +291,8 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 							 <div id=\"order_table\">\n
 							 	<table>\n
 							 		<tr id=\"partnumber\">\n
-							 			<th class=\"th_alt\">Part #</th>\n
+							 			<th>Part URL</th>\n
+										<th class=\"th_alt\">Part #</th>\n
 							 			<th>Part Name</th>\n
 							 			<th class=\"th_alt\">Subsystem</th>\n
 							 			<th>$ / Unit</th>\n
@@ -348,12 +311,15 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 											$class = "data";
 										// each row has id="order0" in numerical order
 										// input names are in format "part[0][partnum]", with 0 and partnum varying for each row and for each column
+										
+										$parturl = $orderslist[$i]["PartURL"];
 										$partnum = $orderslist[$i]["PartNumber"];
 										$partname = $orderslist[$i]["PartName"];
 										$subsystem = $orderslist[$i]["PartSubsystem"];
 										$partprice = $orderslist[$i]["PartIndividualPrice"];
 										$quantity = $orderslist[$i]["PartQuantity"];
 										echo "<tr id=\"$id\" class=\"$class\">\n";
+										echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[parturl]\" value=\"$parturl\" /></fieldset></td>\n";
 										echo "<td><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partnum]\" value=\"$partnum\" /></fieldset></td>\n";
 										echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partname]\" value=\"$partname\" /></fieldset></td>\n";
 										echo "<td><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partsubsystem]\" value=\"$subsystem\" /></fieldset></td>\n";
@@ -375,6 +341,7 @@ if (isset($_POST['update'])) // only specific action needed if updating is to re
 										// each row has id="order0" in numerical order
 										// input names are in format "part[0][partnum]", with 0 and partnum varying for each row and for each column
 										echo "<tr id=\"$id\" class=\"$class\">\n";
+										echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[parturl]\" /></fieldset></td>\n";
 										echo "<td><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partnum]\" /></fieldset></td>\n";
 										echo "<td class=\"td_alt\"><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partname]\" /></fieldset></td>\n";
 										echo "<td><fieldset><input type=\"text\" class=\"order_table_field\" name=\"$name"."[partsubsystem]\" /></fieldset></td>\n";
