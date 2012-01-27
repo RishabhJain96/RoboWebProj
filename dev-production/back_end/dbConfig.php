@@ -1,21 +1,5 @@
-<?PHP
-// autoloader code
-// loads classes as needed, eliminates the need for a long list of includes at the top
-spl_autoload_register(function ($className) { 
-    $possibilities = array( 
-        '../controllers'.DIRECTORY_SEPARATOR.$className.'.php', 
-        '../back_end'.DIRECTORY_SEPARATOR.$className.'.php', 
-        '../views'.DIRECTORY_SEPARATOR.$className.'.php', 
-        $className.'.php' 
-    ); 
-    foreach ($possibilities as $file) { 
-        if (file_exists($file)) { 
-            require_once($file); 
-            return true; 
-        } 
-    } 
-    return false; 
-});
+<?php
+include "autoloader.php";
 
 /**
  * PLEASE MAKE SURE THAT THE DATABASE WITH THE APPROPRIATE dbName FROM dbParameters.txt
@@ -41,7 +25,7 @@ if (is_null($dbPass))
 }
 
 $dbConfig = new databaseProperties($dbName, $dbHost, $dbUser, $dbPass);
-$totalVersions = 5;
+$totalVersions = 7;
 
 for($i = $version; $i <= $totalVersions; $i++)
 {
@@ -195,6 +179,76 @@ if ($i == 5)
 	
 	if($dbConfig->setRelation("OrdersListTable", "OrdersTable", "OrderID")) echo "Success! Your OrdersTable and OrdersListTable are now linked via OrderID! <br />";
 }
+
+/**
+ * ArchiveOrdersTable
+ */
+if($i == 6)
+{
+	$arr = array();
+	$arr[] = array("OrderID", "int", "NOT NULL", "AUTO_INCREMENT");
+	$arr[] = array("PRIMARY KEY(OrderID)");
+	$arr[] = array("UserID", "INT"); // submitting user
+	$arr[] = array("Username", "TINYTEXT"); // submitting user
+	$arr[] = array("UserFullName", "TINYTEXT"); // submitting user
+	$arr[] = array("UserSubteam", "TINYTEXT"); // submitting user
+	$arr[] = array("EnglishDateSubmitted", "TINYTEXT");
+	$arr[] = array("NumericDateSubmitted", "TINYTEXT");
+	$arr[] = array("EnglishDateApproved", "TINYTEXT");
+	$arr[] = array("NumericDateApproved", "TINYTEXT");
+	$arr[] = array("EnglishDateMentorApproved", "TINYTEXT");
+	$arr[] = array("NumericDateMentorApproved", "TINYTEXT");
+	$arr[] = array("ReasonForPurchase", "TEXT");
+	$arr[] = array("ShippingAndHandling", "DOUBLE");
+	$arr[] = array("TaxPrice", "DOUBLE");
+	$arr[] = array("EstimatedTotalPrice", "DOUBLE");
+	$arr[] = array("PartVendorName", "TINYTEXT");
+	$arr[] = array("PartVendorEmail", "TINYTEXT");
+	$arr[] = array("PartVendorAddress", "TINYTEXT"); // adress stored as one line
+	$arr[] = array("PartVendorPhoneNumber", "TINYTEXT");
+	$arr[] = array("AdminComment", "TEXT");
+	$arr[] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
+	$arr[] = array("AdminUsername", "TINYTEXT"); // NOT DB LINKED
+	$arr[] = array("AdminUserFullName", "TINYTEXT"); // NOT DB LINKED
+	$arr[] = array("MentorComment", "TEXT");
+	$arr[] = array("MentorApproved", "INT"); // int acts as bool, 0 and 1
+	$arr[] = array("Status", "TINYTEXT"); // vals: Unfinished, AdminPending, AdminApproved, MentorPending, MentorApproved, AdminRejected, MentorRejected
+	$arr[] = array("PrintCounter", "INT");
+	$arr[] = array("ConfirmationOfPurchase", "INT"); // int acts as bool, 0 and 1
+	$arr[] = array("Locked", "INT"); // int acts as bool, 0 and 1
+	$arr[] = array("UniqueID", "TINYTEXT"); // acts as a way to get a specific OrderID after inserting
+	//$arr[19] = array("ActualTotalPrice", "DOUBLE");
+	
+	if($dbConfig->createINNODBTable("ArchiveOrdersTable", $arr)) echo "Success! Your ArchiveOrdersTable is now set up! <br />";
+	
+	//if($dbConfig->setRelation("OrdersTable", "RoboUsers", "UserID")) echo "Success! Your OrdersTable and RoboUsers Table are now linked via UserID! <br />";
+}
+
+/**
+ * ArchiveOrdersListTable
+ */
+if ($i == 7)
+{
+	$arr = array();
+	$arr[] = array("OrderListID", "int", "NOT NULL", "AUTO_INCREMENT");
+	$arr[] = array("PRIMARY KEY(OrderListID)");
+	$arr[] = array("OrderID", "INT");
+	$arr[] = array("UniqueEntryID", "TINYTEXT"); // allows updating of individual entries to work
+	$arr[] = array("PartNumber", "TINYTEXT");
+	$arr[] = array("PartName", "TINYTEXT");
+	$arr[] = array("PartSubsystem", "TINYTEXT");
+	$arr[] = array("PartIndividualPrice", "DOUBLE");
+	$arr[] = array("PartQuantity", "INT");
+	$arr[] = array("PartTotalPrice", "DOUBLE");
+	$arr[] = array("PartURL", "TINYTEXT"); // optional
+	$arr[] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
+	$arr[] = array("Status", "TINYTEXT"); // optional	
+	
+	if($dbConfig->createINNODBTable("ArchiveOrdersListTable", $arr)) echo "Success! Your ArchiveOrdersListTable is now set up! <br />";
+	
+	//if($dbConfig->setRelation("OrdersListTable", "OrdersTable", "OrderID")) echo "Success! Your OrdersTable and OrdersListTable are now linked via OrderID! <br />";
+}
+
 
 }
 ?>

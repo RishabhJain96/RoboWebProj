@@ -107,13 +107,16 @@ class financeController extends notificationsController
 	}
 	
 	/**
-	 * description: Deletes the given order.
+	 * description: Archives the given order into the ArchiveOrders/ArchiveOrdersList table, and deletes it from the main orders and orderslist tables.
 	 * 
 	 * @param orderID: 
 	 * @return boolean: 
 	 */
-	public function deleteOrder($orderID)
+	public function archiveOrder($orderID)
 	{
+		// copies the order from the orders and orderslist tables to archiveorders and archiveorderslist tables
+		
+		// deletes the orders from the activer orders and orderslist tables
 		$result = $this->_dbConnection->deleteFromTable("OrdersListTable", "OrderID", $orderID);
 		if ($result)
 			$result = $this->_dbConnection->deleteFromTable("OrdersTable", "OrderID", $orderID);
