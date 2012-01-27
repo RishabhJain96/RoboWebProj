@@ -5,10 +5,8 @@
  * This controller gives access to change accounts and data at the highest level.
  */
 
-class rootController
+class rootController extends roboSISAPI
 {
-	// instance variables
-	
 	public function __construct()
 	{
 		parent::__construct();
@@ -34,7 +32,15 @@ class rootController
 	 */
 	public function getAdmins()
 	{
-		
+		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers");
+		$users = $this->_dbConnection->formatQuery($resourceid);
+		$admins = array();
+		for ($i=0; $i < count($users); $i++) {
+			if ($users[$i]['UserType'] == self::TYPE_ADMIN) {
+				$admins[] = $users[$i]['Username'];
+			}
+		}
+		return $admins;
 	}
 }
 

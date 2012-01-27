@@ -106,7 +106,20 @@ class relationalDbConnections extends dbConnections
 			else return $arr[0];
 		}
 	}
-
+	
+	/**
+	 * description: Deletes the given row from the given table.
+	 * 
+	 * @param tableName: The table to delete from.
+	 * @param conditionKey: Name of column holding value
+	 * @param conditionValue: Value in the column, specifies the row to delete
+	 * @return boolean: 
+	 */
+	public function deleteFromTable($tableName, $conditionKey, $conditionValue)
+	{
+		$result = mysql_query("DELETE FROM $tableName WHERE $conditionKey='$conditionValue'");
+		return $result;
+	}
 	
 	/**
 	 * 

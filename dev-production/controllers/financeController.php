@@ -25,7 +25,7 @@ class financeController extends notificationsController
 			return false;
 	}
 	
-	// INPUT FUNCTIONS
+	// INPUT/DATABASE FUNCTIONS
 	
 	/**
 	 * This method inserts a new order into the database.
@@ -104,6 +104,20 @@ class financeController extends notificationsController
 		}
 		//echo "success";
 		return true;
+	}
+	
+	/**
+	 * description: Deletes the given order.
+	 * 
+	 * @param orderID: 
+	 * @return boolean: 
+	 */
+	public function deleteOrder($orderID)
+	{
+		$result = $this->_dbConnection->deleteFromTable("OrdersListTable", "OrderID", $orderID);
+		if ($result)
+			$result = $this->_dbConnection->deleteFromTable("OrdersTable", "OrderID", $orderID);
+		return $result;
 	}
 	
 	// OUTPUT FUNCTIONS

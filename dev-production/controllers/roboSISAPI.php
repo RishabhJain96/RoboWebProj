@@ -9,6 +9,7 @@ class roboSISAPI
 	// constants
 	const MAX_CHECKINS_PER_DAY = 1; // changed this to change the max number of checkins allowed per day
 	const TYPE_MENTOR = "Mentor";
+	const TYPE_ADMIN = "Admin";
 	
 	// instance variables
 	protected $_dbConnection;
