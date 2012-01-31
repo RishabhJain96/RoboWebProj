@@ -6,249 +6,172 @@ include "autoloader.php";
  * HAS ALREADY BEEN MADE MANUALLY IN THE MYSQL BACK-END, ELSE THIS CODE WILL NOT WORK.
  * 
  */
-$version = 1; // no reason to change this
+$dbConfig = dbUtils::getPropertiesConnection();
 
-// do not use a dbUtil call to replace this, as this is being used for something other than a regular dbConnection
-$dbArr = file("dbParameters.txt");
-$dbName = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[0]);
-$dbHost = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[1]);
-$dbUser = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[2]);
-$dbPass = ""; // declares variable to prevent error
-if (count($dbArr) > 3)
-{
-	$dbPass = str_replace(array("\r", "\r\n", "\n"), '', $dbArr[3]);
-}
-
-if (is_null($dbPass))
-{
-	$dbPass = ""; // ensures password field gets sent, even if empty
-}
-
-$dbConfig = new databaseProperties($dbName, $dbHost, $dbUser, $dbPass);
-$totalVersions = 7;
-
-for($i = $version; $i <= $totalVersions; $i++)
-{
 /**
  * RoboUsers Table
  */
-if($i == 1) {
-	$array1 = array();
+$users = array();
+$users[] = array("UserID", "int", "NOT NULL", "AUTO_INCREMENT");
+$users[] = array("PRIMARY KEY(UserID)", "");
+$users[] = array("Username", "TEXT");
+$users[] = array("UserFullName", "TINYTEXT");
+//$users[] = array("UserDescription", "TEXT"); // needed?
+$users[] = array("UserPhoneNumber", "TINYTEXT");
+$users[] = array("UserYear", "INT");
+//$users[] = array("UserMomEmail", "TINYTEXT"); // split into mom/dad email?
+$users[] = array("UserParentsEmail", "TINYTEXT"); // split into mom/dad email?
+$users[] = array("UserEmail", "TINYTEXT");
+//$users[] = array("UserTitle", "TINYTEXT"); // needed?
+//$users[] = array("UserPicture", "TINYTEXT"); // needed?
+$users[] = array("UserPassword", "TINYTEXT");
+$users[] = array("ActivationCode", "TINYTEXT");
+$users[] = array("Activated", "INT"); // nonzero val is true
+$users[] = array("UserSubteam", "TINYTEXT"); // vals: Mechanical, Electronics, Programming, Operational
+$users[] = array("UserType", "TINYTEXT"); // vals: Regular, VP, Admin, Mentor
 
-	$array1[] = array("UserID", "int", "NOT NULL", "AUTO_INCREMENT");
-	$array1[] = array("PRIMARY KEY(UserID)", "");
-	$array1[] = array("Username", "TEXT");
-	$array1[] = array("UserFullName", "TINYTEXT");
-//	$array1[] = array("UserDescription", "TEXT"); // needed?
-	$array1[] = array("UserPhoneNumber", "TINYTEXT");
-	$array1[] = array("UserYear", "INT");
-//	$array1[] = array("UserMomEmail", "TINYTEXT"); // split into mom/dad email?
-	$array1[] = array("UserParentsEmail", "TINYTEXT"); // split into mom/dad email?
-	$array1[] = array("UserEmail", "TINYTEXT");
-//	$array1[] = array("UserTitle", "TINYTEXT"); // needed?
-//	$array1[] = array("UserPicture", "TINYTEXT"); // needed?
-	$array1[] = array("UserPassword", "TINYTEXT");
-	$array1[] = array("ActivationCode", "TINYTEXT");
-	$array1[] = array("Activated", "INT"); // nonzero val is true
-	$array1[] = array("UserSubteam", "TINYTEXT"); // vals: Mechanical, Electronics, Programming, Operational
-	$array1[] = array("UserType", "TINYTEXT"); // vals: Regular, VP, Admin, Mentor
-
-	if($dbConfig->createINNODBTable("RoboUsers", $array1)) echo "Success! Your RoboUsers Table is now set up! <br />";
-//print_r($dbConfig->createINNODBTable("CollegeSummary", $array1));
-//The Next Table's set up file.
-// The CollegeProfessors table.
-
-	$array = array();
-	$array[] = array("BadgeID", "int", "NOT NULL", "AUTO_INCREMENT");
-	$array[] = array("PRIMARY KEY(BadgeID)");
-	$array[] = array("BadgeName", "TEXT");
-	$array[] = array("UserID", "INT");
-
-	if($dbConfig->createINNODBTable("UserBadges", $array)) echo "Success! Your UserBadges Table is now set up! <br />";
-//print_r($dbConfig->createINNODBTable("CollegeProfessors", $array));
-
-
-	if($dbConfig->setRelation("UserBadges", "RoboUsers", "UserID")) echo "Success! Your UserBadges and RoboUsers tables have been linked via UserID.<br />";
-}
+if($dbConfig->createINNODBTable("RoboUsers", $users))
+	echo "Success! Your RoboUsers Table is now set up! <br />";
 
 /**
  * UserHistories Table
  */
-if($i == 2)
-{
-	$array = array();
-	$array[] = array("HistoryID", "int", "NOT NULL", "AUTO_INCREMENT");
-	$array[] = array("PRIMARY KEY(HistoryID)");
-	$array[] = array("HistoryTimeStamp", "TINYTEXT");
-	$array[] = array("NumericTimeStamp", "TINYTEXT");
-	$array[] = array("UserID", "INT");
+$histories = array();
+$histories[] = array("HistoryID", "int", "NOT NULL", "AUTO_INCREMENT");
+$histories[] = array("PRIMARY KEY(HistoryID)");
+$histories[] = array("HistoryTimeStamp", "TINYTEXT");
+$histories[] = array("NumericTimeStamp", "TINYTEXT");
+$histories[] = array("UserID", "INT");
 	
-	if($dbConfig->createINNODBTable("UserHistories", $array)) echo "Success! Your UserHistory Table is now set up! <br />";
-	
-	if($dbConfig->setRelation("UserHistories", "RoboUsers", "UserID")) echo "Success! Your UserHistories and RoboUsers Table are now linked via UserID! <br />";
-
-}
-
-/**
- * UserTasks Table
- */
-if($i == 3)
-{	
-	$array1 = array();
-	$array1[] = array("TaskID", "int", "NOT NULL", "AUTO_INCREMENT");
-	$array1[] = array("PRIMARY KEY(TaskID)");
-	$array1[] = array("TaskName", "TEXT");
-	$array1[] = array("UserID", "INT");
-	$array1[] = array("EnglishDeadline", "TINYTEXT");
-	$array1[] = array("NumericDeadline", "TINYTEXT");
-	$array1[] = array("EnglishAssigned", "TINYTEXT");
-	$array1[] = array("NumericAssigned", "TINYTEXT");
-	$array1[] = array("AssignedByUserID", "INT");
-	
-	if($dbConfig->createINNODBTable("UserTasks", $array1)) echo "Success! Your UserTasks Table is now set up! <br />";
-	
-	if($dbConfig->setRelation("UserTasks", "RoboUsers", "UserID")) echo "Success! Your UserTasks and RoboUsers Table are now linked via UserID! <br />";
-	
-}
+if($dbConfig->createINNODBTable("UserHistories", $histories))
+	echo "Success! Your UserHistory Table is now set up! <br />";
+if($dbConfig->setRelation("UserHistories", "RoboUsers", "UserID"))
+	echo "Success! Your UserHistories and RoboUsers Table are now linked via UserID! <br />";
 
 /**
  * OrdersTable
  */
-if($i == 4)
-{
-	$arr = array();
-	$arr[] = array("OrderID", "int", "NOT NULL", "AUTO_INCREMENT");
-	$arr[] = array("PRIMARY KEY(OrderID)");
-	$arr[] = array("UserID", "INT"); // submitting user
-	$arr[] = array("Username", "TINYTEXT"); // submitting user
-	$arr[] = array("UserFullName", "TINYTEXT"); // submitting user
-	$arr[] = array("UserSubteam", "TINYTEXT"); // submitting user
-	$arr[] = array("EnglishDateSubmitted", "TINYTEXT");
-	$arr[] = array("NumericDateSubmitted", "TINYTEXT");
-	$arr[] = array("EnglishDateApproved", "TINYTEXT");
-	$arr[] = array("NumericDateApproved", "TINYTEXT");
-	$arr[] = array("EnglishDateMentorApproved", "TINYTEXT");
-	$arr[] = array("NumericDateMentorApproved", "TINYTEXT");
-	$arr[] = array("ReasonForPurchase", "TEXT");
-	$arr[] = array("ShippingAndHandling", "DOUBLE");
-	$arr[] = array("TaxPrice", "DOUBLE");
-	$arr[] = array("EstimatedTotalPrice", "DOUBLE");
-	$arr[] = array("PartVendorName", "TINYTEXT");
-	$arr[] = array("PartVendorEmail", "TINYTEXT");
-	$arr[] = array("PartVendorAddress", "TINYTEXT"); // adress stored as one line
-	$arr[] = array("PartVendorPhoneNumber", "TINYTEXT");
-	$arr[] = array("AdminComment", "TEXT");
-	$arr[] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
-	$arr[] = array("AdminUsername", "TINYTEXT"); // NOT DB LINKED
-	$arr[] = array("AdminUserFullName", "TINYTEXT"); // NOT DB LINKED
-	$arr[] = array("MentorComment", "TEXT");
-	$arr[] = array("MentorApproved", "INT"); // int acts as bool, 0 and 1
-	$arr[] = array("Status", "TINYTEXT"); // vals: Unfinished, AdminPending, AdminApproved, MentorPending, MentorApproved, AdminRejected, MentorRejected
-	$arr[] = array("PrintCounter", "INT");
-	$arr[] = array("ConfirmationOfPurchase", "INT"); // int acts as bool, 0 and 1
-	$arr[] = array("Locked", "INT"); // int acts as bool, 0 and 1
-	$arr[] = array("UniqueID", "TINYTEXT"); // acts as a way to get a specific OrderID after inserting
-	//$arr[19] = array("ActualTotalPrice", "DOUBLE");
-	
-	if($dbConfig->createINNODBTable("OrdersTable", $arr)) echo "Success! Your OrdersTable is now set up! <br />";
-	
-	if($dbConfig->setRelation("OrdersTable", "RoboUsers", "UserID")) echo "Success! Your OrdersTable and RoboUsers Table are now linked via UserID! <br />";
-}
+$orders = array();
+$orders[] = array("OrderID", "int", "NOT NULL", "AUTO_INCREMENT");
+$orders[] = array("PRIMARY KEY(OrderID)");
+$orders[] = array("UserID", "INT"); // submitting user
+$orders[] = array("Username", "TINYTEXT"); // submitting user
+$orders[] = array("UserFullName", "TINYTEXT"); // submitting user
+$orders[] = array("UserSubteam", "TINYTEXT"); // submitting user
+$orders[] = array("EnglishDateSubmitted", "TINYTEXT");
+$orders[] = array("NumericDateSubmitted", "TINYTEXT");
+$orders[] = array("EnglishDateApproved", "TINYTEXT");
+$orders[] = array("NumericDateApproved", "TINYTEXT");
+$orders[] = array("EnglishDateMentorApproved", "TINYTEXT");
+$orders[] = array("NumericDateMentorApproved", "TINYTEXT");
+$orders[] = array("ReasonForPurchase", "TEXT");
+$orders[] = array("ShippingAndHandling", "DOUBLE");
+$orders[] = array("TaxPrice", "DOUBLE");
+$orders[] = array("EstimatedTotalPrice", "DOUBLE");
+$orders[] = array("PartVendorName", "TINYTEXT");
+$orders[] = array("PartVendorEmail", "TINYTEXT");
+$orders[] = array("PartVendorAddress", "TINYTEXT"); // adress stored as one line
+$orders[] = array("PartVendorPhoneNumber", "TINYTEXT");
+$orders[] = array("AdminComment", "TEXT");
+$orders[] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
+$orders[] = array("AdminUsername", "TINYTEXT"); // NOT DB LINKED
+$orders[] = array("AdminUserFullName", "TINYTEXT"); // NOT DB LINKED
+$orders[] = array("MentorComment", "TEXT");
+$orders[] = array("MentorApproved", "INT"); // int acts as bool, 0 and 1
+$orders[] = array("Status", "TINYTEXT"); // vals: Unfinished, AdminPending, AdminApproved, MentorPending, MentorApproved, AdminRejected, MentorRejected
+$orders[] = array("PrintCounter", "INT");
+$orders[] = array("ConfirmationOfPurchase", "INT"); // int acts as bool, 0 and 1
+$orders[] = array("Locked", "INT"); // int acts as bool, 0 and 1
+$orders[] = array("UniqueID", "TINYTEXT"); // acts as a way to get a specific OrderID after inserting
+//$orders[19] = array("ActualTotalPrice", "DOUBLE");
+
+if($dbConfig->createINNODBTable("OrdersTable", $orders))
+	echo "Success! Your OrdersTable is now set up! <br />";
+if($dbConfig->setRelation("OrdersTable", "RoboUsers", "UserID"))
+	echo "Success! Your OrdersTable and RoboUsers Table are now linked via UserID! <br />";
 
 /**
  * OrdersListTable
  */
-if ($i == 5)
-{
-	$arr = array();
-	$arr[] = array("OrderListID", "int", "NOT NULL", "AUTO_INCREMENT");
-	$arr[] = array("PRIMARY KEY(OrderListID)");
-	$arr[] = array("OrderID", "INT");
-	$arr[] = array("UniqueEntryID", "TINYTEXT"); // allows updating of individual entries to work
-	$arr[] = array("PartNumber", "TINYTEXT");
-	$arr[] = array("PartName", "TINYTEXT");
-	$arr[] = array("PartSubsystem", "TINYTEXT");
-	$arr[] = array("PartIndividualPrice", "DOUBLE");
-	$arr[] = array("PartQuantity", "INT");
-	$arr[] = array("PartTotalPrice", "DOUBLE");
-	$arr[] = array("PartURL", "TINYTEXT"); // optional
-	$arr[] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
-	$arr[] = array("Status", "TINYTEXT"); // optional	
-	
-	if($dbConfig->createINNODBTable("OrdersListTable", $arr)) echo "Success! Your OrdersListTable is now set up! <br />";
-	
-	if($dbConfig->setRelation("OrdersListTable", "OrdersTable", "OrderID")) echo "Success! Your OrdersTable and OrdersListTable are now linked via OrderID! <br />";
-}
+$ordersList = array();
+$ordersList[] = array("OrderListID", "int", "NOT NULL", "AUTO_INCREMENT");
+$ordersList[] = array("PRIMARY KEY(OrderListID)");
+$ordersList[] = array("OrderID", "INT");
+$ordersList[] = array("UniqueEntryID", "TINYTEXT"); // allows updating of individual entries to work
+$ordersList[] = array("PartNumber", "TINYTEXT");
+$ordersList[] = array("PartName", "TINYTEXT");
+$ordersList[] = array("PartSubsystem", "TINYTEXT");
+$ordersList[] = array("PartIndividualPrice", "DOUBLE");
+$ordersList[] = array("PartQuantity", "INT");
+$ordersList[] = array("PartTotalPrice", "DOUBLE");
+$ordersList[] = array("PartURL", "TINYTEXT"); // optional
+$ordersList[] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
+$ordersList[] = array("Status", "TINYTEXT"); // optional	
+
+if($dbConfig->createINNODBTable("OrdersListTable", $ordersList))
+	echo "Success! Your OrdersListTable is now set up! <br />";
+if($dbConfig->setRelation("OrdersListTable", "OrdersTable", "OrderID"))
+	echo "Success! Your OrdersTable and OrdersListTable are now linked via OrderID! <br />";
 
 /**
  * ArchiveOrdersTable
  */
-if($i == 6)
-{
-	$arr = array();
-	$arr[] = array("OrderID", "int", "NOT NULL", "AUTO_INCREMENT");
-	$arr[] = array("PRIMARY KEY(OrderID)");
-	$arr[] = array("UserID", "INT"); // submitting user
-	$arr[] = array("Username", "TINYTEXT"); // submitting user
-	$arr[] = array("UserFullName", "TINYTEXT"); // submitting user
-	$arr[] = array("UserSubteam", "TINYTEXT"); // submitting user
-	$arr[] = array("EnglishDateSubmitted", "TINYTEXT");
-	$arr[] = array("NumericDateSubmitted", "TINYTEXT");
-	$arr[] = array("EnglishDateApproved", "TINYTEXT");
-	$arr[] = array("NumericDateApproved", "TINYTEXT");
-	$arr[] = array("EnglishDateMentorApproved", "TINYTEXT");
-	$arr[] = array("NumericDateMentorApproved", "TINYTEXT");
-	$arr[] = array("ReasonForPurchase", "TEXT");
-	$arr[] = array("ShippingAndHandling", "DOUBLE");
-	$arr[] = array("TaxPrice", "DOUBLE");
-	$arr[] = array("EstimatedTotalPrice", "DOUBLE");
-	$arr[] = array("PartVendorName", "TINYTEXT");
-	$arr[] = array("PartVendorEmail", "TINYTEXT");
-	$arr[] = array("PartVendorAddress", "TINYTEXT"); // adress stored as one line
-	$arr[] = array("PartVendorPhoneNumber", "TINYTEXT");
-	$arr[] = array("AdminComment", "TEXT");
-	$arr[] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
-	$arr[] = array("AdminUsername", "TINYTEXT"); // NOT DB LINKED
-	$arr[] = array("AdminUserFullName", "TINYTEXT"); // NOT DB LINKED
-	$arr[] = array("MentorComment", "TEXT");
-	$arr[] = array("MentorApproved", "INT"); // int acts as bool, 0 and 1
-	$arr[] = array("Status", "TINYTEXT"); // vals: Unfinished, AdminPending, AdminApproved, MentorPending, MentorApproved, AdminRejected, MentorRejected
-	$arr[] = array("PrintCounter", "INT");
-	$arr[] = array("ConfirmationOfPurchase", "INT"); // int acts as bool, 0 and 1
-	$arr[] = array("Locked", "INT"); // int acts as bool, 0 and 1
-	$arr[] = array("UniqueID", "TINYTEXT"); // acts as a way to get a specific OrderID after inserting
-	//$arr[19] = array("ActualTotalPrice", "DOUBLE");
-	
-	if($dbConfig->createINNODBTable("ArchiveOrdersTable", $arr)) echo "Success! Your ArchiveOrdersTable is now set up! <br />";
-	
-	//if($dbConfig->setRelation("OrdersTable", "RoboUsers", "UserID")) echo "Success! Your OrdersTable and RoboUsers Table are now linked via UserID! <br />";
-}
+$archiveOrders = array();
+$archiveOrders[] = array("OrderID", "int", "NOT NULL", "AUTO_INCREMENT");
+$archiveOrders[] = array("PRIMARY KEY(OrderID)");
+$archiveOrders[] = array("UserID", "INT"); // submitting user
+$archiveOrders[] = array("Username", "TINYTEXT"); // submitting user
+$archiveOrders[] = array("UserFullName", "TINYTEXT"); // submitting user
+$archiveOrders[] = array("UserSubteam", "TINYTEXT"); // submitting user
+$archiveOrders[] = array("EnglishDateSubmitted", "TINYTEXT");
+$archiveOrders[] = array("NumericDateSubmitted", "TINYTEXT");
+$archiveOrders[] = array("EnglishDateApproved", "TINYTEXT");
+$archiveOrders[] = array("NumericDateApproved", "TINYTEXT");
+$archiveOrders[] = array("EnglishDateMentorApproved", "TINYTEXT");
+$archiveOrders[] = array("NumericDateMentorApproved", "TINYTEXT");
+$archiveOrders[] = array("ReasonForPurchase", "TEXT");
+$archiveOrders[] = array("ShippingAndHandling", "DOUBLE");
+$archiveOrders[] = array("TaxPrice", "DOUBLE");
+$archiveOrders[] = array("EstimatedTotalPrice", "DOUBLE");
+$archiveOrders[] = array("PartVendorName", "TINYTEXT");
+$archiveOrders[] = array("PartVendorEmail", "TINYTEXT");
+$archiveOrders[] = array("PartVendorAddress", "TINYTEXT"); // adress stored as one line
+$archiveOrders[] = array("PartVendorPhoneNumber", "TINYTEXT");
+$archiveOrders[] = array("AdminComment", "TEXT");
+$archiveOrders[] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
+$archiveOrders[] = array("AdminUsername", "TINYTEXT"); // NOT DB LINKED
+$archiveOrders[] = array("AdminUserFullName", "TINYTEXT"); // NOT DB LINKED
+$archiveOrders[] = array("MentorComment", "TEXT");
+$archiveOrders[] = array("MentorApproved", "INT"); // int acts as bool, 0 and 1
+$archiveOrders[] = array("Status", "TINYTEXT"); // vals: Unfinished, AdminPending, AdminApproved, MentorPending, MentorApproved, AdminRejected, MentorRejected
+$archiveOrders[] = array("PrintCounter", "INT");
+$archiveOrders[] = array("ConfirmationOfPurchase", "INT"); // int acts as bool, 0 and 1
+$archiveOrders[] = array("Locked", "INT"); // int acts as bool, 0 and 1
+$archiveOrders[] = array("UniqueID", "TINYTEXT"); // acts as a way to get a specific OrderID after inserting
+//$archiveOrders[19] = array("ActualTotalPrice", "DOUBLE");
+
+if($dbConfig->createINNODBTable("ArchiveOrdersTable", $archiveOrders))
+	echo "Success! Your ArchiveOrdersTable is now set up! <br />";
 
 /**
  * ArchiveOrdersListTable
  */
-if ($i == 7)
-{
-	$arr = array();
-	$arr[] = array("OrderListID", "int", "NOT NULL", "AUTO_INCREMENT");
-	$arr[] = array("PRIMARY KEY(OrderListID)");
-	$arr[] = array("OrderID", "INT");
-	$arr[] = array("UniqueEntryID", "TINYTEXT"); // allows updating of individual entries to work
-	$arr[] = array("PartNumber", "TINYTEXT");
-	$arr[] = array("PartName", "TINYTEXT");
-	$arr[] = array("PartSubsystem", "TINYTEXT");
-	$arr[] = array("PartIndividualPrice", "DOUBLE");
-	$arr[] = array("PartQuantity", "INT");
-	$arr[] = array("PartTotalPrice", "DOUBLE");
-	$arr[] = array("PartURL", "TINYTEXT"); // optional
-	$arr[] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
-	$arr[] = array("Status", "TINYTEXT"); // optional	
-	
-	if($dbConfig->createINNODBTable("ArchiveOrdersListTable", $arr)) echo "Success! Your ArchiveOrdersListTable is now set up! <br />";
-	
-	//if($dbConfig->setRelation("OrdersListTable", "OrdersTable", "OrderID")) echo "Success! Your OrdersTable and OrdersListTable are now linked via OrderID! <br />";
-}
+$archiveOrdersList = array();
+$archiveOrdersList[] = array("OrderListID", "int", "NOT NULL", "AUTO_INCREMENT");
+$archiveOrdersList[] = array("PRIMARY KEY(OrderListID)");
+$archiveOrdersList[] = array("OrderID", "INT");
+$archiveOrdersList[] = array("UniqueEntryID", "TINYTEXT"); // allows updating of individual entries to work
+$archiveOrdersList[] = array("PartNumber", "TINYTEXT");
+$archiveOrdersList[] = array("PartName", "TINYTEXT");
+$archiveOrdersList[] = array("PartSubsystem", "TINYTEXT");
+$archiveOrdersList[] = array("PartIndividualPrice", "DOUBLE");
+$archiveOrdersList[] = array("PartQuantity", "INT");
+$archiveOrdersList[] = array("PartTotalPrice", "DOUBLE");
+$archiveOrdersList[] = array("PartURL", "TINYTEXT"); // optional
+$archiveOrdersList[] = array("AdminApproved", "INT"); // int acts as bool, 0 and 1
+$archiveOrdersList[] = array("Status", "TINYTEXT"); // optional	
 
+if($dbConfig->createINNODBTable("ArchiveOrdersListTable", $archiveOrdersList))
+	echo "Success! Your ArchiveOrdersListTable is now set up! <br />";
 
-}
 ?>

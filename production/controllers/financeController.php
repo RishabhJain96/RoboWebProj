@@ -25,7 +25,7 @@ class financeController extends notificationsController
 			return false;
 	}
 	
-	// INPUT FUNCTIONS
+	// INPUT/DATABASE FUNCTIONS
 	
 	/**
 	 * This method inserts a new order into the database.
@@ -48,6 +48,7 @@ class financeController extends notificationsController
 		$orders["NumericDateSubmitted"] = date("YmdHi"); // format: YYYYMMDDhhmm i.e. 201109232355
 		// inserts the general orders-related info into the OrdersTable
 		//print_r($orders);
+		$orders = parent::sanitizeArray($orders);
 		$this->_dbConnection->insertIntoTable("OrdersTable", "RoboUsers", "UserID", $id, "UserID", $orders);
 		//echo 'yes';
 		//return;
@@ -60,6 +61,7 @@ class financeController extends notificationsController
 		{
 			$list = $orderslist[$i];
 			$list["UniqueEntryID"] = uniqid("UEID");
+			$list = parent::sanitizeArray($list);
 			$this->_dbConnection->insertIntoTable("OrdersListTable", "OrdersTable", "OrderID", $orderID, "OrderID", $list);
 		}
 		//echo "success";
@@ -76,6 +78,7 @@ class financeController extends notificationsController
 		$orders["EnglishDateSubmitted"] = date("l, F j \a\\t g:i a"); // format: Sunday, January 31 at 3:66 pm
 		$orders["NumericDateSubmitted"] = date("YmdHi"); // format: YYYYMMDDhhmm i.e. 201109232355
 		// updates the order with given orderID
+		$orders = parent::sanitizeArray($orders);
 		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $orders, "OrderID = $orderID");
 		// iterates through orderslist and inserts the list of parts and associated info into the orderslist table
 		//echo "win";
@@ -89,6 +92,7 @@ class financeController extends notificationsController
 			if (is_null($list["UniqueEntryID"]) || empty($list["UniqueEntryID"]))
 			{
 				$list["UniqueEntryID"] = uniqid("UEID");
+				$list = parent::sanitizeArray($list);
 				$this->_dbConnection->insertIntoTable("OrdersListTable", "OrdersTable", "OrderID", $orderID, "OrderID", $list);
 				//print $list["PartName"];
 				//print '1';
@@ -99,11 +103,29 @@ class financeController extends notificationsController
 				//print '2';
 				$condition = "UniqueEntryID = '" . $list["UniqueEntryID"] . "'";
 				//print_r($condition);
+				$list = parent::sanitizeArray($list);
 				$this->_dbConnection->updateTable("OrdersListTable", "OrdersListTable", "UniqueEntryID", $list["UniqueEntryID"], "OrderID", $list, $condition);
 			}
 		}
 		//echo "success";
 		return true;
+	}
+	
+	/**
+	 * description: Archives the given order into the ArchiveOrders/ArchiveOrdersList table, and deletes it from the main orders and orderslist tables.
+	 * 
+	 * @param orderID: 
+	 * @return boolean: 
+	 */
+	public function archiveOrder($orderID)
+	{
+		// copies the order from the orders and orderslist tables to archiveorders and archiveorderslist tables
+		
+		// deletes the orders from the activer orders and orderslist tables
+		$result = $this->_dbConnection->deleteFromTable("OrdersListTable", "OrderID", $orderID);
+		if ($result)
+			$result = $this->_dbConnection->deleteFromTable("OrdersTable", "OrderID", $orderID);
+		return $result;
 	}
 	
 	// OUTPUT FUNCTIONS
@@ -197,6 +219,7 @@ class financeController extends notificationsController
 		$eds = date("l, F j \a\\t g:i a");
 		$nds = date("YmdHi");
 		$arr_vals = array("Locked" => $locked, "Status" => $status, "EnglishDateSubmitted" => $eds, "NumericDateSubmitted" => $nds);
+		$arr_vals = parent::sanitizeArray($arr_vals);
 		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $arr_vals, "OrderID = $orderID");
 	}
 	
@@ -243,6 +266,7 @@ class financeController extends notificationsController
 		$englishdateapproved = date("l, F j \a\\t g:i a"); // of format Sunday, June 31 at 3:33 pm
 		$numericdateapproved = date("YmdHi"); // of format 201109232355
 		$arr_vals = array("Status" => $status, "AdminApproved" => $approved, "AdminComment" => $comment, "AdminUsername" => $adminusername, "Locked" => $locked, "EnglishDateApproved" => $englishdateapproved, "NumericDateApproved" => $numericdateapproved);
+		$arr_vals = parent::sanitizeArray($arr_vals);
 		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $arr_vals, "OrderID = $orderID");
 	}
 	
@@ -268,6 +292,7 @@ class financeController extends notificationsController
 		}
 		$arr_vals = array("Status" => $status, "AdminApproved" => $approved);
 		$condition = "UniqueEntryID = '" . $uniqueID . "'";
+		$arr_vals = parent::sanitizeArray($arr_vals);
 		$this->_dbConnection->updateTable("OrdersListTable", "OrdersListTable", "UniqueEntryID", $uniqueID, "OrderID", $arr_vals, $condition);
 	}
 	
@@ -333,6 +358,7 @@ class financeController extends notificationsController
 		$eds = date("l, F j \a\\t g:i a");
 		$nds = date("YmdHi");
 		$arr_vals = array("Locked" => $locked, "Status" => $status, "EnglishDateSubmitted" => $eds, "NumericDateSubmitted" => $nds);
+		$arr_vals = parent::sanitizeArray($arr_vals);
 		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $arr_vals, "OrderID = $orderID");
 	}
 	
@@ -366,6 +392,7 @@ class financeController extends notificationsController
 		$englishdateapproved = date("l, F j \a\\t g:i a"); // of format Sunday, June 31 at 3:33 pm
 		$numericdateapproved = date("YmdHi"); // of format 201109232355
 		$arr_vals = array("Status" => $status, "MentorApproved" => $approved, "MentorComment" => $comment, "Locked" => $locked, "EnglishDateMentorApproved" => $englishdateapproved, "NumericDateMentorApproved" => $numericdateapproved);
+		$arr_vals = parent::sanitizeArray($arr_vals);
 		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $arr_vals, "OrderID = $orderID");
 	}
 	
@@ -394,6 +421,7 @@ class financeController extends notificationsController
 		$count = intval($order[0]["PrintCounter"]);
 		$count = $count + 1;
 		$arr_vals = array("PrintCounter" => $count);
+		$arr_vals = parent::sanitizeArray($arr_vals);
 		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $arr_vals, "OrderID = $orderID");
 	}
 	

@@ -9,6 +9,7 @@ class roboSISAPI
 	// constants
 	const MAX_CHECKINS_PER_DAY = 1; // changed this to change the max number of checkins allowed per day
 	const TYPE_MENTOR = "Mentor";
+	const TYPE_ADMIN = "Admin";
 	
 	// instance variables
 	protected $_dbConnection;
@@ -27,8 +28,8 @@ class roboSISAPI
 	/**
 	 * description: Sanitizes the input data by escaping for MySQL entry, stripping HTML tags, and trimming whitespace.
 	 * 
-	 * @param input: The string to be sanitized for entry
-	 * @return string: Returns the sanitized $input data
+	 * @param input: The string to be sanitized for entry.
+	 * @return string: Returns the sanitized $input data.
 	 */
 	public function sanitize($input)
 	{
@@ -42,6 +43,20 @@ class roboSISAPI
 //			$input=addslashes($input); 
 //		}
 		return $input;
+	}
+	
+	/**
+	 * description: Uses the previously defined sanitize function to iteratively sanitize everything in an array.
+	 * 
+	 * @param array: The array with the values to sanitize.
+	 * @return array: The sanitized array.
+	 */
+	public function sanitizeArray($array)
+	{
+		foreach ($array as &$value) {
+			$value = $this->sanitize($value);
+		}
+		return $array;
 	}
 	
 	/**
@@ -151,6 +166,7 @@ class roboSISAPI
 		$table = "UserHistories";
 		$columnforid = "UserID";
 		$arrayTime = array("HistoryTimeStamp" => $timestamp, "NumericTimeStamp" => $timestamp2);
+		$arrayTime = $this->sanitizeArray($arrayTime);
 		$this->_dbConnection->insertIntoTable($table, "RoboUsers", $columnforid, $id, "UserID", $arrayTime);
 		return true;
 	}
@@ -285,6 +301,7 @@ class roboSISAPI
 	public function updateUserInfo($username, $arrUserInfo)
 	{
 		$id = $this->getUserID($username);
+		$arrUserInfo = $this->sanitizeArray($arrUserInfo);
 		$this->_dbConnection->updateTable("RoboUsers", "RoboUsers", "UserID", $id, "UserID", $arrUserInfo, "UserID = $id");
 	}
 	
