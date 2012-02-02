@@ -57,6 +57,7 @@ if(isset($_POST['logout']))
 					<?php
 							$controller = new financeController();
 							$orders = $controller->getAllOrders();
+							$viewerUsername = $_SESSION['robo'];
 							//$orders = json_decode($orders);
 							//print count($orders);
 							//print_r($orders);
@@ -119,7 +120,17 @@ if(isset($_POST['logout']))
 								echo $orders[$i]["EstimatedTotalPrice"];
 								echo '</span><span class="forms_display_viewmore"><a href="';
 								echo "vieworder.php?id=" . $orders[$i]["OrderID"] . "\">";
-								echo 'View More &raquo;</a></span></div>';
+								echo 'View More &raquo;</a></span>';
+								if (($orders[$i]["MentorApproved"] === "1") && ($controller->isAdmin($viewerUsername))) // if approved by mentor, shows print button
+								{
+									echo '<span class="forms_display_viewmore">';
+									echo '<a href="';
+									echo "changeorder.php?id=" . $orders[$i]["OrderID"] . "\">";
+									echo "Change Order &raquo;</a>";
+									echo "</span>";
+								}
+								
+								echo '</div>';
 							}
 							?>
 					</div>

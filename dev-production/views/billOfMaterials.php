@@ -73,7 +73,7 @@ if(isset($_POST["billOfMaterials"]))
 				<table>
 			<?php
 				$controller = new financeController();
-				$allOrders = $controller->getAllorders();
+				$allOrders = $controller->getAllOrders();
 				for($i = 0; $i < count($allOrders); $i++)
 				{
 					$id = $allOrders[$i]['OrderID'];

@@ -19,7 +19,6 @@ if (!isset($_SESSION["billOfMaterials"]))
 	exit;
 }
 
-// Will accept url parameter id=123 to get orderID
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"

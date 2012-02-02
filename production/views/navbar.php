@@ -9,7 +9,7 @@ echo "<div id=\"nav\">
 						$api = new roboSISAPI();
 						if ($api->isAdmin($username))
 						{
-							//echo '<li><a href="billOfMaterials.php">Bill Of Materials</a></li>';
+							echo '<li><a href="billOfMaterials.php">Bill Of Materials</a></li>';
 							echo '<li><a href="admin_dashboard.php">Admin</a></li>';
 						}
 					echo "</ul>

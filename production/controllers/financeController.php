@@ -128,6 +128,21 @@ class financeController extends notificationsController
 		return $result;
 	}
 	
+	/**
+	 * description: Changes the submitting user of a PO. Allows the PO to be an accurate record of who actually went out to buy the order.
+	 * 
+	 * @param submittingUsername: The new user to set as the submitting user.
+	 * @param orderID: The order to update the submitting user of.
+	 * @return int: 
+	 */
+	public function setSubmittingUser($orderID, $submittingUsername)
+	{
+		$newID = parent::getUserID($submittingUsername);
+		$updateArray = array("UserID" => $newID, "Username" => $submittingUsername);
+		$updateArray = parent::sanitizeArray($updateArray);
+		$this->_dbConnection->updateTable("OrdersTable", "OrdersTable", "OrderID", $orderID, "OrderID", $updateArray, "OrderID = $orderID");
+	}
+	
 	// OUTPUT FUNCTIONS
 	
 	/**

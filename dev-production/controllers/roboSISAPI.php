@@ -91,7 +91,26 @@ class roboSISAPI
 	}
 	
 	/**
-	 * description: Returns true if given user is an admin
+	 * description: 
+	 * 
+	 * @param username: 
+	 * @return int: 
+	 */
+	public function isValidUsername($username)
+	{
+		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers");
+		$arrUsernames = $this->_dbConnection->formatQueryResults($resourceid, "Username");
+		//print_r($arrUsernames);
+		if (in_array($username, $arrUsernames)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	/**
+	 *usernamescription: Returns true if given user is an admin
 	 * 
 	 * @param username: 
 	 * @return bool: 
