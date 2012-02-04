@@ -166,7 +166,32 @@ class financeController extends notificationsController
 	}
 	
 	/**
-	 * Returns multidimensional array of order and orderslist in JSON
+	 * description: Return a 2D array of the entire OrdersList table.
+	 * 
+	 * @return array: A 2D array of all the parts in the OrdersList table, with each entry being an array containing information about a single part.
+	 */
+	public function getAllOrdersListParts()
+	{
+		$resourceid = $this->_dbConnection->selectFromTable("OrdersListTable");
+		$ordersList = $this->_dbConnection->formatQuery($resourceid);
+		return $ordersList;
+	}
+	
+	/**
+	 * description: Get's the info for the desired part.
+	 * 
+	 * @param ordersListID: The orderListID of the desired part.
+	 * @return array: The array containing info pertaining to the desired orderList.
+	 */
+	public function getOrdersListPart($ordersListID)
+	{
+		$resourceid = $this->_dbConnection->selectFromTable("OrdersListTable", "OrderListID", $ordersListID);
+		$arr = $this->_dbConnection->formatQuery($resourceid); // custom method built for this purpose
+		return $arr;
+	}
+	
+	/**
+	 * Returns multidimensional array of order and orderslist
 	 * calls internal methods getOrder and getOrdersList
 	 */
 	public function getFullOrder($orderID)
@@ -206,7 +231,7 @@ class financeController extends notificationsController
 	}
 	
 	/**
-	 * gets ALL orders in the database in JSON format, with keys as db column names
+	 * gets ALL orders in the database, with keys as db column names
 	 */
 	public function getAllOrders()
 	{
@@ -214,6 +239,34 @@ class financeController extends notificationsController
 		$orders = $this->_dbConnection->formatQuery($resourceid);
 		//return json_encode($orders);
 		return $orders;
+	}
+	
+	/**
+	 * description: Searches all orders for the keyword in all fields, including OrdersList parts.
+	 * 
+	 * detail: This method first pulls the entire OrdersTable and OrdersListTable, then traverses them and puts them into a one-dimensional array. This array is then searched using
+	 * 
+	 * @param keyword: 
+	 * @return array: The list of orders containing the desired keyword.
+	 */
+	public function searchAllOrders($keyword)
+	{
+		/*$ordersList = $this->getAllOrdersListParts();
+		$orders = $this->getAllOrders();
+		$fullArray = array(); // the array to hold all elements
+		$idArray = array(); // the array to hold the orderIDs that correspond to the elements in $fullArray
+		print 'ordersList';
+		for ($i=0; $i < count($ordersList); $i++)
+		{ 
+			foreach ($ordersList[$i] as $value)
+			{
+				$fullArray[] = $value;
+			}
+		}
+		print_r($ordersList);
+		print 'orders';
+		print_r($orders);
+		return 'end';*/
 	}
 	
 	// ADMIN FUNCTIONS

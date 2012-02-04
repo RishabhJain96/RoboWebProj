@@ -1,27 +1,13 @@
 <?php
-// autoloader code
-// loads classes as needed, eliminates the need for a long list of includes at the top
-spl_autoload_register(function ($className) { 
-    $possibilities = array( 
-        'beans'.DIRECTORY_SEPARATOR.$className.'.php', 
-        'controllers'.DIRECTORY_SEPARATOR.$className.'.php', 
-        'libraries'.DIRECTORY_SEPARATOR.$className.'.php', 
-        'models'.DIRECTORY_SEPARATOR.$className.'.php', 
-        'views'.DIRECTORY_SEPARATOR.$className.'.php', 
-        $className.'.php' 
-    ); 
-    foreach ($possibilities as $file) { 
-        if (file_exists($file)) { 
-            require_once($file); 
-            return true; 
-        } 
-    } 
-    return false; 
-});
+include "autoloader.php";
 
-$finance = new financeController();
+$controller = new financeController();
 
-$username = "12rohits";
+$keyword = "AndyMark";
+$result = $controller->searchAllOrders($keyword);
+print_r($result);
+
+//$username = "12rohits";
 /*
 // test inputOrder
 // key is column name, value is the value you want to input

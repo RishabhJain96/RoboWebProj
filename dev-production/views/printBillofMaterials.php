@@ -15,7 +15,7 @@ if(isset($_POST['logout']))
 }
 if (!isset($_SESSION["billOfMaterials"]))
 {
-	header('Location: billOfMaterials.php'); // if there is no order to view, redirects to viewmyforms page
+	header('Location: billOfMaterials.php');
 	exit;
 }
 
@@ -40,10 +40,44 @@ if (!isset($_SESSION["billOfMaterials"]))
 			<div id="dashboard-checkin" class="clearfix">
 				
 				<?php
-				
-				print_r($_SESSION["billOfMaterials"]);
-				
-				
+				$controller = new financeController();
+				$parts = $_SESSION["billOfMaterials"];
+				$parts = array_values($parts);
+				//print_r($parts);
+				$fullTotal = 0.0;
+				echo '<div id="formstable">
+					<table>
+						<tr id="header">
+							<!-- <th>Part #</th> -->
+							<th class="th_alt">Part Name</th>
+							<th>Subsystem</th>
+							<th class="th_alt">$ / Unit</th>
+							<th id="quantity">Quantity</th>
+							<th class="th_alt">Total</th>
+						</tr>';
+						for ($i=0; $i < count($parts); $i++)
+						{
+							//print_r($parts[$i]);
+							$orderslist = $controller->getOrdersListPart($parts[$i]);
+							//print $i;
+							//print_r($orderslist);
+							if (!empty($orderslist))
+							{
+								echo "<tr>";
+								//echo "<td class=\"td_alt\">" . $orderslist[0]["PartNumber"] . "</td>";
+								echo "<td>" . $orderslist[0]["PartName"] . "</td>";
+								echo "<td>" . $orderslist[0]["PartSubsystem"] . "</td>";
+								echo "<td>$" . $orderslist[0]["PartIndividualPrice"] . "</td>";
+								echo "<td>" . $orderslist[0]["PartQuantity"] . "</td>";
+								echo "<td>$" . $orderslist[0]["PartTotalPrice"] . "</td>";
+								echo "</tr>";
+								$fullTotal += floatval($orderslist[0]["PartTotalPrice"]);
+							}
+						}
+						
+					echo "</table>
+					<h3>Total Price: \$$fullTotal</h3>
+				</div>";
 				?>
 			</div>
 			

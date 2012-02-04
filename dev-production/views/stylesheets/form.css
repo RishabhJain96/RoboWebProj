@@ -323,7 +323,7 @@ html,body
 	margin-top: 1.5em;
 	font-size: 1.1em;
 }
-#formstable table td:hover
+#formstable table tr:hover
 {
 	background-color: #666;
 }

@@ -166,7 +166,32 @@ class financeController extends notificationsController
 	}
 	
 	/**
-	 * Returns multidimensional array of order and orderslist in JSON
+	 * description: Return a 2D array of the entire OrdersList table.
+	 * 
+	 * @return array: A 2D array of all the parts in the OrdersList table, with each entry being an array containing information about a single part.
+	 */
+	public function getAllOrdersListParts()
+	{
+		$resourceid = $this->_dbConnection->selectFromTable("OrdersListTable");
+		$ordersList = $this->_dbConnection->formatQuery($resourceid);
+		return $ordersList;
+	}
+	
+	/**
+	 * description: Get's the info for the desired part.
+	 * 
+	 * @param ordersListID: The orderListID of the desired part.
+	 * @return array: The array containing info pertaining to the desired orderList.
+	 */
+	public function getOrdersListPart($ordersListID)
+	{
+		$resourceid = $this->_dbConnection->selectFromTable("OrdersListTable", "OrderListID", $ordersListID);
+		$arr = $this->_dbConnection->formatQuery($resourceid); // custom method built for this purpose
+		return $arr;
+	}
+	
+	/**
+	 * Returns multidimensional array of order and orderslist
 	 * calls internal methods getOrder and getOrdersList
 	 */
 	public function getFullOrder($orderID)

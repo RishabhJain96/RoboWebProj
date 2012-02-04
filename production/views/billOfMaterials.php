@@ -45,6 +45,9 @@ if(isset($_POST['reject']))
 if(isset($_POST["billOfMaterials"]))
 {
 	$itemsPartOfBill = $_POST["materials"];
+	if (empty($itemsPartOfBill) || is_null($itemsPartOfBill)) {
+		echo "<p>Please select the parts you would like to include.</p>";
+	}
 	$_SESSION["billOfMaterials"] = $itemsPartOfBill;
 	header("Location: printBillOfMaterials.php");
 }
@@ -60,6 +63,22 @@ if(isset($_POST["billOfMaterials"]))
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Harker Robotics 1072</title>
 	
+	<script type="text/javascript" charset="utf-8">
+		<!--
+		function checkAll(field) 
+		{
+		for (i = 0; i < field.length; i++)
+			field[i].checked = true ;
+		}
+
+		function uncheckAll(field) 
+		{
+		for (i = 0; i < field.length; i++)
+			field[i].checked = false ;
+		}
+		// -->
+	</script>
+	
 	<link rel="stylesheet" href="stylesheets/form.css" type="text/css" />
 </head>
 <body>
@@ -68,28 +87,55 @@ if(isset($_POST["billOfMaterials"]))
 		<div id="dashboardWindow" class="clearfix">
 			
 			<?php include "navbar.php"; ?>
-			
-			<form method="POST" name="form" action"">
+			<div id="formstable">
+			<form method="POST" name="listform" action"">
+				<input type="button" name="CheckAll" value="select all"
+				onClick="checkAll(document.listform.materials)">
+				<input type="button" name="UnCheckAll" value="unselect all"
+				onClick="uncheckAll(document.listform.materials)">
 				<table>
-			<?php
-				$controller = new financeController();
-				$allOrders = $controller->getAllOrders();
-				for($i = 0; $i < count($allOrders); $i++)
-				{
-					$id = $allOrders[$i]['OrderID'];
-					$vname = $allOrders[$i]['PartVendorName'];
-					echo "<tr><td><input type=\"checkbox\" name=\"materials\" value=\"$id\" /></td>
-					<td>$vname</td>
-					<td>Number of Items: <input type=\"text\" name=\"materials\" /></td></tr>";
-					
-				//	echo "<div><div style=\"float: left;\"><input type=\"checkbox\" name=\"materials\"value=\"$allOrders[i]['OrderID']\" /></div><div style=\"float: right;\">$allOrders[i]['VendorName']</div></div>";
-				}
-			
-			?>
-			
-				</table>
+					<tr id="header">
+						<th>&#x2713;</th>
+						<!-- <th>Part #</th> -->
+						<th class="th_alt">Part Name</th>
+						<th>Subsystem</th>
+						<th class="th_alt">$ / Unit</th>
+						<th id="quantity">Quantity</th>
+						<th class="th_alt">Total</th>
+					</tr>
+				<?php
+					$controller = new financeController();
+					$allOrderParts = $controller->getAllOrdersListParts();
+					//$fullTotal = 0.0;
+					//print_r($allOrderParts);
+					for($i = 0; $i < count($allOrderParts); $i++)
+					{
+						$id = $allOrderParts[$i]['OrderListID'];
+						$number = $allOrderParts[$i]['PartNumber'];
+						$name = $allOrderParts[$i]['PartName'];
+						$subsystem = $allOrderParts[$i]['PartSubsystem'];
+						$price = $allOrderParts[$i]['PartIndividualPrice'];
+						$quantity = $allOrderParts[$i]['PartQuantity'];
+						$total = $allOrderParts[$i]['PartTotalPrice'];
+						echo "<tr>
+							<td><input type=\"checkbox\" id=\"materials\" name=\"materials[$i]\" value=\"$id\" /></td>
+							<!-- <td class=\"td_alt\">$number</td> -->
+							<td>$name</td>
+							<td class=\"td_alt\">$subsystem</td>
+							<td>$price</td>
+							<td class=\"td_alt\">$quantity</td>
+							<td>$total</td>
+						</tr>";
+						//echo "<td>Number of Items: <input type=\"text\" name=\"materials\" /></td></tr>";
+						//$fullTotal += floatval($total);
+					}
+					echo "</table>";
+				//echo "<h3>Total Price: \$$fullTotal</h3>";
+				//$_SESSION['fullTotal'] = $fullTotal;
+				?>
 			<input type="submit" name="billOfMaterials" value="submit" />
 			</form>
+			</div>
 		</div>
 		<footer>
 		</footer>
