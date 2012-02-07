@@ -1,0 +1,225 @@
+
+/*DASHBOARD*/
+#main
+{
+	min-width: 1024px;
+	max-width: 1500px;
+	margin: 0 5px;
+	font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
+}
+#main h1
+{
+	color:#789;
+	margin: 20px 0 0 0;
+	padding: 0;
+	font-family: Helvetica, Arial, sans-serif;
+}
+#header h1
+{
+	font-size: 2em;
+}
+#headerMast
+{
+	padding: 0;
+	margin: 20px 0;
+}
+#mainContent 
+{
+	background-color: #333;
+	padding: 0;
+	width: 60%;
+	min-width: 400px;
+	max-width: 1024px;
+	float: left;
+	border-radius:19px;
+	-webkit-border-bottom-right-radius:0px;
+	-moz-border-radius-bottomright-radius:0px;
+}
+#mainContent p
+{
+	padding: 0 15px;
+	margin: 0 0 20px 0;
+	color: #CCC;
+}
+#mainContent h2
+{
+	padding: 0 0;
+	font-size: 30px;
+	margin-left: 0.5em;
+	color: #CCC;
+	font-style: italic;
+}
+
+#rightPanel
+{
+	background-color:#999;
+	min-width: 300px;
+	width: 37%;
+	float: right;
+	padding: 0 0 0 20px;
+	margin: 0 0 0 0;
+	border-radius:9px;
+}
+#rightPanel h2
+{
+	font-size: 1.5em;
+}
+
+/*
+nav
+{
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+	width:100%;
+}
+nav ul
+{
+	background-color:#eee;
+	background: -webkit-linear-gradient(#DDD, #CCC); /*Chrome and Safari*/
+	background: -moz-linear-gradient(top, #DDD, #CCC); /*Firefox*/
+	background: -o-linear-gradient(top, #DDD, #CCC); /*Opera*/
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#DDDDDD',  
+endColorstr='#CCCCCC');/*IE*/
+	border-radius:19px;
+	margin: 0;
+	list-style-type:none;
+	padding: 15px;
+}
+nav ul li
+{
+	font-size:16px;
+	display: inline;
+}
+nav ul li a
+{
+	padding: 15px;
+	font-size:16px;
+	font-family:Arial, Helvetica, sans-serif;
+	text-decoration:none;
+	font-weight:bold;
+	color:#789;
+}
+nav ul li a:hover
+{
+	color:#555;
+	background-color:#CCC;
+}
+*/
+#header
+{
+	background-color:#789;
+	font-size:10px;
+}
+nav
+{
+	padding: 0 0 0 0;
+	margin: 0 0 0 0;
+	width:100%;
+}
+nav ul
+{
+	margin: 0;
+	list-style-type:none;
+	padding: 15px;
+}
+nav ul li
+{
+	font-size:16px;
+	display: inline;
+}
+nav ul li a
+{
+	padding: 15px;
+	font-size:16px;
+	font-family:Arial, Helvetica, sans-serif;
+	text-decoration:none;
+	font-weight:bold;
+	color:#789;
+}
+nav ul li a:hover
+{
+	color:#555;
+	background-color:#CCC;
+	background: -webkit-linear-gradient(#789, #CCC); /*Chrome and Safari*/
+	background: -moz-linear-gradient(top, #DDD, #CCC); /*Firefox*/
+	background: -o-linear-gradient(top, #DDD, #CCC); /*Opera*/
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#DDDDDD', endColorstr='#CCCCCC');/*IE*/
+}
+
+/* main */
+html, body {
+font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
+height: 100%;
+background-color: #EEE;
+}
+
+#floater {
+position: relative;
+float: left;
+height: 50%;
+margin-bottom: -260px;
+width: 1px;
+}
+#loginWindowWrap {
+background-color: #333;
+color: #FFF;
+width: 640px;
+margin: 1.5em auto;
+position: relative;
+clear: left;
+padding: 2.5em;
+}
+#loginWindowWrap p {
+margin-bottom: 1em;
+font-size: 1.2em;
+}
+#loginWindowWrap p a {
+color: #FFF;
+padding: 0.5em;
+background-color: #444;
+}
+#loginWindowWrap p a:hover {
+text-decoration: underline;
+}
+#loginWindow {
+margin-left: 1.5em;
+}
+#loginWindow h1 {
+font-size: 2em;
+}
+
+form#loginForm fieldset {
+padding: 1em 0;
+color: #FFF;
+font-size: 1.5em;
+font-weight: bold;
+letter-spacing: 1px;
+}
+form#loginForm fieldset input.bigform {
+font-size: 1.5em;
+padding: 0.5em;
+width: 400px;
+display: block;
+}
+input.register, input.login {
+background-color: #222;
+color: #FFF;
+font-size: 1em;
+padding: 0.5em 1.5em;
+}
+input.register:hover, input.login:hover {
+background-color: #555;
+}
+input.register:active, input.login:active {
+background-color: #FFF;
+color: #000;
+}
+
+#login_status
+{
+	float: right;
+}
+#login_status .logout
+{
+	float: right;
+}

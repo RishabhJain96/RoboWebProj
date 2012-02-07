@@ -1,30 +1,34 @@
 <?php
-
-include('header.php');
+/**
+ * This code was taken from the open-source PHP project Jorp. The project and all it's original source code can be found at http://jorp.sourceforge.net/.
+ */
+include "autoloader.php";
+//include('header.php');
 
 if (isset($_POST['submit'])) {
-
+	// tests the connection
 	$conn = mysql_connect("".$_POST['db_host']."", "".$_POST['db_username']."", "".$_POST['db_password']."") or die("The credentials you supplied are invalid. Please try again.");
-
+	
 	if ($conn) {
 		mysql_select_db("".$_POST['db_name']."", $conn) or die();
 	}
 
 	if (table_exists(users, "".$_POST['db_name'])."") {
-		echo "<b>The PO system is already installed. Please delete the file \"install.php\".</b>";
+		echo "<b>The PO system is already installed. Please delete the file \"install.php\" from the setup folder.</b>";
 	}
 
 	else {
 	
-	$db_config = "database.php";
+	$db_config = "test.txt";
 	$db_handle = fopen($db_config, "w") or die("can't open file");
 
-	$db_host = "".$_POST['db_host']."";
+	//$db_host = "".$_POST['db_host']."";
+	$db_host = "RoboticsSIS"; // hardcoded because the user shouldn't have to worry about the database name
 	$db_name = "".$_POST['db_name']."";
 	$db_username = "".$_POST['db_username']."";
 	$db_password = "".$_POST['db_password']."";
 
-	$data = "<?php \$conn = mysql_connect(\"$db_host\", \"$db_username\", \"$db_password\") or die(); \n mysql_select_db(\"$db_name\", \$conn) or die(); ?>";
+	$data = "$db_host\n$db_username\n$db_password";
 
 	fwrite($db_handle, $data);
 	fclose($db_handle);
@@ -107,7 +111,7 @@ if (isset($_POST['submit'])) {
 		mysql_query($dev_role);
 
 		//Create Administrator account, password "password"
-		mysql_query($administrator);
+		mysql_query($administrator);*/
 
 	echo "<div id=\"contentContainer\">
 
@@ -141,13 +145,13 @@ else {
 
         echo 		"<form enctype=\"multipart/form-data\" action=\"\" method=\"post\">\n";
 
-	echo 		"<label for=\"db_host\">MySQL Hostname: </label><input type=\"text\" value=\"\" maxlength=\"150\" name=\"db_host\"/><br />\n";
+	echo 		"<label for=\"db_host\">MySQL Hostname: </label><input type=\"text\" value=\"localhost\" maxlength=\"150\" name=\"db_host\"/><br />\n";
 
-        echo 		"<label for=\"db_name\">MySQL Database Name: </label><input type=\"text\" value=\"\" maxlength=\"150\" name=\"db_name\"><br />\n";
+        //echo 		"<label for=\"db_name\">MySQL Database Name: </label><input type=\"text\" value=\"\" maxlength=\"150\" name=\"db_name\"><br />\n";
 
-        echo 		"<label for=\"db_username\">MySQL Database Username: </label><input type=\"text\" value=\"\" maxlength=\"150\" name=\"db_username\"><br />\n";
+        echo 		"<label for=\"db_username\">MySQL Database Username: </label><input type=\"text\" value=\"root\" maxlength=\"150\" name=\"db_username\"><br />\n";
 
-        echo 		"<label for=\"db_password\">MySQL Database Password: </label><input type=\"password\" value=\"\" maxlength=\"150\" name=\"db_password\"/><br /><br />\n";
+        echo 		"<label for=\"db_password\">MySQL Database Password: </label><input type=\"password\" value=\"team1072\" maxlength=\"150\" name=\"db_password\"/><br /><br />\n";
 
  	echo 		"<input type=\"submit\" name=\"submit\" value=\"Install Purchase Order System\" class=\"send\"/>";
  
@@ -162,6 +166,6 @@ else {
 
 }
 
-include('footer.php');
+//include('footer.php');
 
 ?>
