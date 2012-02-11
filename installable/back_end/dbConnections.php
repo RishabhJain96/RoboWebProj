@@ -149,7 +149,7 @@ class dbConnections
 				//testing code below
 				//return "INSERT INTO $tableName ($array) VALUES ($array_values)";
 				//testing block end
-				$result = mysql_query("INSERT INTO $tableName ($array) VALUES ($array_values)");
+				$result = @mysql_query("INSERT INTO $tableName ($array) VALUES ($array_values)");
 				//change made
 				//print_r("INSERT INTO $tableName ($array) VALUES ($array_values)");
 				return $result;
@@ -181,7 +181,7 @@ class dbConnections
 				}
 			}
 			try{
-				$result = mysql_query("UPDATE $tableName SET $array_values WHERE $condition");
+				$result = @mysql_query("UPDATE $tableName SET $array_values WHERE $condition");
 				//if($result) print '4';
 				//print "UPDATE $tableName SET $array_values WHERE $condition";
 				//Test code below
@@ -227,4 +227,27 @@ class dbConnections
 		return $result;
 	}
 	
+	/**
+	 * description: Check if the given table is empty.
+	 * 
+	 * @param table: The table to check emptiness of.
+	 * @return bool: true if empty, false otherwise
+	 */
+	public function tableIsEmpty($table)
+	{
+		print 'checking table empty';
+		$sql = "SELECT * FROM $table";
+		$result = @mysql_query($sql);
+		print_r($result);
+		if (!$result)
+		{
+			print 'table empty';
+			return true;
+		}
+		else
+		{
+			print 'table not empty';
+			return false;
+		}
+	}
 }

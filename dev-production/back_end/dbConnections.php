@@ -227,4 +227,23 @@ class dbConnections
 		return $result;
 	}
 	
+	/**
+	 * description: Searches the given table(s) for the given keyword(s).
+	 * Algorithm: 
+	 	- Pulls OrdersList table and OrdersTable.
+		- Puts all the results into a single, two-dimensional array. The first-dimension is the orderID of the second element, which is any given value.
+		- Searches the array sequentially, using strpos to check if the keyword is in each array element.
+			- If the element matches, add the orderID to a new, final results array.
+		- Return the array of orderID
+	 * 
+	 * @param keywords: An array of keywords to search for.
+	 * @param tables: The table to search 
+	 * @param orderByColumn: The column to order results by.
+	 * @return array: An array containing all matches.
+	 */
+	public function searchDatabase($keywords, $tables, $orderByColumn)
+	{
+		$resourceID1 = $this->selectFromTable();
+		return $result;
+	}
 }

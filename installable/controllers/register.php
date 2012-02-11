@@ -23,7 +23,7 @@ class register extends roboSISAPI
 	}
 	
 	/**
-	 * combines all other methods under one hood. returns true on success and the username is taken message on failure.
+	 * combines all other methods under one hood. returns true on success and if the username is taken message on failure.
 	 */
 	public function register($username, $password, $phonenumber)
 	{
@@ -32,7 +32,7 @@ class register extends roboSISAPI
 		$password = parent::sanitize($password);
 		$phonenumber = parent::sanitize($phonenumber);
 		$result = $this->inputNewUser($username, $password, $phonenumber, $code); // result stores false or text string 'true' depending on the outcome of the input method
-		if ($result) // checks literal string value
+		if ($result)
 		{
 			//print 'result is TRUE';
 			$this->inputEmail($username);
@@ -51,20 +51,25 @@ class register extends roboSISAPI
 	public function inputNewUser($username, $password, $phonenumber, $code)
 	{
 		// checks if username already exists in db
-		$resourceid = $this->_dbConnection->selectFromTable("RoboUsers", "Username", $username);
-		$arr = $this->_dbConnection->formatQueryResults($resourceid, "Username");
-		if (count($arr) > 0)
+		if (!$this->_dbConnection->tableIsEmpty("RoboUsers")) // table is not empty, it is necessary to check if username is unique
 		{
-			error_log("This username is already taken!");
-			//print 'The username ' . $username . ' is already taken! Please choose a different one.'; // for debugging purposes
-			echo "<p>The username $username is already taken! Please choose a different one.</p>";
-			return false;
+			print 'mysql errors here';
+			$resourceid = $this->_dbConnection->selectFromTable("RoboUsers", "Username", $username);
+			$arr = $this->_dbConnection->formatQueryResults($resourceid, "Username");
+			if (count($arr) > 0)
+			{
+				error_log("This username is already taken!");
+				//print 'The username ' . $username . ' is already taken! Please choose a different one.'; // for debugging purposes
+				echo "<p>The username $username is already taken! Please choose a different one.</p>";
+				return false;
+			}
 		}
 		// username is a valid, new username at this point
 		$password = md5($password); // encodes password in md5 for security/privacy
 		//print_r($passwordCoded);
 		$type = "Regular"; // user is regular unless changed specifically
 		$array = array("ActivationCode" => $code, "Username" => $username, "UserPassword" => $password, "UserPhoneNumber" => $phonenumber, "UserType" => $type);
+		print 'inserting now';
 		$this->_dbConnection->insertIntoTable("RoboUsers", "RoboUsers", "Username", $username, "UserID", $array);
 		return true;
 	}
@@ -78,6 +83,7 @@ class register extends roboSISAPI
 	{
 		$email = "" . $username . "@students.harker.org";
 		$array = $array = array("UserEmail" => $email);
+		print 'updating table';
 		$this->_dbConnection->updateTable("RoboUsers", "RoboUsers", "Username", $username, "UserID", $array, "Username = '$username'");
 	}
 	
