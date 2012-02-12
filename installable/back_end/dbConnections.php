@@ -235,18 +235,18 @@ class dbConnections
 	 */
 	public function tableIsEmpty($table)
 	{
-		print 'checking table empty';
+		//print 'checking table empty';
 		$sql = "SELECT * FROM $table";
 		$result = @mysql_query($sql);
 		print_r($result);
 		if (!$result)
 		{
-			print 'table empty';
+			//print 'table empty';
 			return true;
 		}
 		else
 		{
-			print 'table not empty';
+			//print 'table not empty';
 			return false;
 		}
 	}
