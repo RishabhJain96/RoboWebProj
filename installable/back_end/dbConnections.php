@@ -149,7 +149,7 @@ class dbConnections
 				//testing code below
 				//return "INSERT INTO $tableName ($array) VALUES ($array_values)";
 				//testing block end
-				$result = @mysql_query("INSERT INTO $tableName ($array) VALUES ($array_values)");
+				$result = mysql_query("INSERT INTO $tableName ($array) VALUES ($array_values)");
 				//change made
 				//print_r("INSERT INTO $tableName ($array) VALUES ($array_values)");
 				return $result;
@@ -181,7 +181,7 @@ class dbConnections
 				}
 			}
 			try{
-				$result = @mysql_query("UPDATE $tableName SET $array_values WHERE $condition");
+				$result = mysql_query("UPDATE $tableName SET $array_values WHERE $condition");
 				//if($result) print '4';
 				//print "UPDATE $tableName SET $array_values WHERE $condition";
 				//Test code below

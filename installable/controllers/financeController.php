@@ -1,6 +1,7 @@
 <?php
 /**
  * This class contains all the function related to the finance system. It is currently a subclass of roboSISAPI so as to keep it logically separate, yet still have easy access to general functions such as getUserID.
+ * @author Rohit Sanbhadti
  */
 class financeController extends notificationsController
 {

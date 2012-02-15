@@ -19,6 +19,14 @@ class dbUtils
 		$dbConnection = new databaseProperties($dbArr[0], $dbArr[1], $dbArr[2], $dbArr[3]);
 		return $dbConnection;
 	}
+	
+	public static function getNonRelationalConnection()
+	{
+		$dbArr = array();
+		$dbArr = file("dbParameters.txt", FILE_IGNORE_NEW_LINES);
+		$dbConnection = new dbConnections($dbArr[0], $dbArr[1], $dbArr[2], $dbArr[3]);
+		return $dbConnection;
+	}
 }
 
 ?>
