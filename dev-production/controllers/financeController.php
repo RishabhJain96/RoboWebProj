@@ -1,6 +1,7 @@
 <?php
 /**
  * This class contains all the function related to the finance system. It is currently a subclass of roboSISAPI so as to keep it logically separate, yet still have easy access to general functions such as getUserID.
+ * @author Rohit Sanbhadti
  */
 class financeController extends notificationsController
 {
@@ -244,29 +245,31 @@ class financeController extends notificationsController
 	/**
 	 * description: Searches all orders for the keyword in all fields, including OrdersList parts.
 	 * 
-	 * detail: This method first pulls the entire OrdersTable and OrdersListTable, then traverses them and puts them into a one-dimensional array. This array is then searched using
+	 * algorithm:
+	 	- Pulls the orders and orders list tables.
+		- Puts them into one one-dimensional array, with an idArray that matches each element with the orderID from whence it came.
 	 * 
-	 * @param keyword: 
+	 * @param keyword: The query to search for
 	 * @return array: The list of orders containing the desired keyword.
 	 */
 	public function searchAllOrders($keyword)
 	{
-		/*$ordersList = $this->getAllOrdersListParts();
+		$ordersList = $this->getAllOrdersListParts();
 		$orders = $this->getAllOrders();
 		$fullArray = array(); // the array to hold all elements
 		$idArray = array(); // the array to hold the orderIDs that correspond to the elements in $fullArray
-		print 'ordersList';
 		for ($i=0; $i < count($ordersList); $i++)
 		{ 
 			foreach ($ordersList[$i] as $value)
 			{
 				$fullArray[] = $value;
+				$idArray[] = $ordersList[$i]["OrderID"];
 			}
 		}
+		print 'ordersList';
 		print_r($ordersList);
 		print 'orders';
 		print_r($orders);
-		return 'end';*/
 	}
 	
 	// ADMIN FUNCTIONS

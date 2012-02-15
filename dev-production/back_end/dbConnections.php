@@ -228,22 +228,26 @@ class dbConnections
 	}
 	
 	/**
-	 * description: Searches the given table(s) for the given keyword(s).
-	 * Algorithm: 
-	 	- Pulls OrdersList table and OrdersTable.
-		- Puts all the results into a single, two-dimensional array. The first-dimension is the orderID of the second element, which is any given value.
-		- Searches the array sequentially, using strpos to check if the keyword is in each array element.
-			- If the element matches, add the orderID to a new, final results array.
-		- Return the array of orderID
+	 * description: Check if the given table is empty.
 	 * 
-	 * @param keywords: An array of keywords to search for.
-	 * @param tables: The table to search 
-	 * @param orderByColumn: The column to order results by.
-	 * @return array: An array containing all matches.
+	 * @param table: The table to check emptiness of.
+	 * @return bool: true if empty, false otherwise
 	 */
-	public function searchDatabase($keywords, $tables, $orderByColumn)
+	public function tableIsEmpty($table)
 	{
-		$resourceID1 = $this->selectFromTable();
-		return $result;
+		//print 'checking table empty';
+		$sql = "SELECT * FROM $table";
+		$result = @mysql_query($sql);
+		print_r($result);
+		if (!$result)
+		{
+			//print 'table empty';
+			return true;
+		}
+		else
+		{
+			//print 'table not empty';
+			return false;
+		}
 	}
 }

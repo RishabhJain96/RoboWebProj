@@ -1,141 +1,91 @@
 <?php
 /**
- * This code was taken from the open-source PHP project Jorp. The project and all it's original source code can be found at http://jorp.sourceforge.net/.
+ * This script was heavily based on the open-source PHP project Jorp. The project and all it's original source code can be found at http://jorp.sourceforge.net/.
+ * @author Rohit Sanbhadti
+ * date: Feb 15 2012
  */
 include "autoloader.php";
 //include('header.php');
-
-if (isset($_POST['submit'])) {
+if (isset($_POST['submit']))
+{
 	// tests the connection
 	$conn = mysql_connect("".$_POST['db_host']."", "".$_POST['db_username']."", "".$_POST['db_password']."") or die("The credentials you supplied are invalid. Please try again.");
 	
-	if ($conn) {
-		mysql_select_db("".$_POST['db_name']."", $conn) or die();
-	}
-
-	if (table_exists(users, "".$_POST['db_name'])."") {
-		echo "<b>The PO system is already installed. Please delete the file \"install.php\" from the setup folder.</b>";
-	}
-
-	else {
-	
-	$db_config = "test.txt";
-	$db_handle = fopen($db_config, "w") or die("can't open file");
-
-	//$db_host = "".$_POST['db_host']."";
-	$db_host = "RoboticsSIS"; // hardcoded because the user shouldn't have to worry about the database name
-	$db_name = "".$_POST['db_name']."";
+	$db_host = "".$_POST['db_host']."";
+	//$db_name = "".$_POST['db_name']."";
+	$db_name = "RoboticsDevProd"; // hardcoded because the user shouldn't have to worry about the database name
 	$db_username = "".$_POST['db_username']."";
 	$db_password = "".$_POST['db_password']."";
-
-	$data = "$db_host\n$db_username\n$db_password";
-
+	$mentor_name = "".$_POST['mentor_name']."";
+	$mentor_pass = "".$_POST['mentor_pass'].""; // will be md5'd upon register
+	$team_name = "".$_POST['team_name']."";
+	$school_name = "".$_POST['school_name']."";
+	
+	$data = "$db_name\n$db_host\n$db_username\n$db_password";
+	
+	// copies text file with connection info to all subfolders
+	$db_config = "../back_end/dbParameters.txt";
+	$db_handle = fopen($db_config, "w") or die("can't open file");
 	fwrite($db_handle, $data);
 	fclose($db_handle);
-
-			
-		$clients = "CREATE TABLE RoboUsers (
-			UserID int(5) NOT NULL AUTO_INCREMENT,
-			first_name varchar(30),
-			last_name varchar(30),
-			ph_num varchar(12),
-			email_addr varchar(200),
-			PRIMARY KEY (client_id)
-		)";
-
-		$projects = "CREATE TABLE projects (
-			project_id int(3) NOT NULL AUTO_INCREMENT,
-			client_id int(5),
-			id int(5),
-			project_name varchar(25),
-			project_desc varchar(150),
-			complete_time varchar(10),
-			spent_time varchar(10),
-			deadline date NOT NULL DEFAULT '0000-00-00',
-			on_time varchar(1),
-			complete int(1) NOT NULL DEFAULT '0',
-			ftp_host varchar(30),
-			ftp_username varchar(25),
-			ftp_pass varchar(25),
-			PRIMARY KEY (project_id)
-		)";
-
-		$users = "CREATE TABLE users (
-			id int(5) NOT NULL AUTO_INCREMENT,
-			username varchar(30),
-			password varchar(32),
-			first_name varchar(30),
-			last_name varchar(30),
-			role int(1),
-			email_addr varchar(200),
-			ph_num varchar(12),
-			logged_in int(1) NOT NULL DEFAULT '0',
-			PRIMARY KEY (id)
-		)";
-
-		$tasks = "CREATE TABLE tasks (
-			task_id int(3) NOT NULL AUTO_INCREMENT,
-			project_id int(3),
-			dev_id int(5),
-			task_name varchar(25),
-			complete_time varchar(10),
-			spent_time varchar(10),
-			complete int(1) NOT NULL DEFAULT '0',
-			task_desc varchar(150),
-			notes longtext,
-			PRIMARY KEY (task_id)
-		)";
-
-		$roles = "CREATE TABLE roles (
-			role int(1),
-			role_name varchar(30),
-			PRIMARY KEY (role)
-		)";
-
-		$admin_role = "INSERT INTO roles (role, role_name) VALUES ('1', 'Administrator')";
-		$manager_role = "INSERT INTO roles (role, role_name) VALUES ('2', 'Manager')";
-		$dev_role = "INSERT INTO roles (role, role_name) VALUES ('3', 'Developer')";
-
-		$administrator = "INSERT INTO users (username, password, first_name, last_name, role) VALUES ('Administrator', '5f4dcc3b5aa765d61d8327deb882cf99', 'John', 'Doe', '1')";
-
-		//Create tables
-		mysql_query($clients);
-		mysql_query($projects);
-		mysql_query($users);
-		mysql_query($tasks);
-		mysql_query($roles);
-
-		//Populate roles table
-		mysql_query($admin_role);
-		mysql_query($manager_role);
-		mysql_query($dev_role);
-
-		//Create Administrator account, password "password"
-		mysql_query($administrator);*/
-
+	
+	$db_config = "../controllers/dbParameters.txt";
+	$db_handle = fopen($db_config, "w") or die("can't open file");
+	fwrite($db_handle, $data);
+	fclose($db_handle);
+	
+	$db_config = "../views/dbParameters.txt";
+	$db_handle = fopen($db_config, "w") or die("can't open file");
+	fwrite($db_handle, $data);
+	fclose($db_handle);
+	
+	$db_config = "../setup/dbParameters.txt";
+	$db_handle = fopen($db_config, "w") or die("can't open file");
+	fwrite($db_handle, $data);
+	fclose($db_handle);
+	
+	// writes constants
+	$constantsData = "<?php\n\$schoolName = \"$school_name\";\n\$teamName = \"$team_name\";\n?>";
+	$constants = "../views/constants.php";
+	$db_handle = fopen($constants, "w") or die("can't open file");
+	fwrite($db_handle, $constantsData);
+	fclose($db_handle);
+	
+	// sets up the table and database
+	
+	$dbConfig = dbUtils::getPropertiesConnection();
+	
+	$register = new register();
+	$phonenumber = "N/A";
+	
+	$dbConfig->createDatabase($db_name);
+	
+	// setting up tables
+	include "dbConfig.php";
+	
+	// registering mentor
+	$register->register($mentor_name, $mentor_pass, $phonenumber, "Mentor");
+	
 	echo "<div id=\"contentContainer\">
 
 		<div class=\"header\">
-			Install Purchase Order System
+			<!-- Install Purchase Order System -->
 		</div>
 
 		<div class=\"content\">";
 
-		echo "The PO system has been installed successfully. You may now log in <a href=\"index.php\">here</a> with the username \"Administrator\" and the password \"password\".";
+		echo "The PO system has been installed successfully. You may now log in <a href=\"../index.php\">here</a>.";
 
 	echo   "</div> <!--end content-->";
 
 	echo "</div>";
-
 	}
-}
 
 else {
-
 	echo "<div id=\"contentContainer\">
 
 		<div class=\"header\">
-			Install Purchase Order System
+			<!-- Install Purchase Order System -->
 		</div>
 
 		<div class=\"content\">";
@@ -150,10 +100,18 @@ else {
         //echo 		"<label for=\"db_name\">MySQL Database Name: </label><input type=\"text\" value=\"\" maxlength=\"150\" name=\"db_name\"><br />\n";
 
         echo 		"<label for=\"db_username\">MySQL Database Username: </label><input type=\"text\" value=\"root\" maxlength=\"150\" name=\"db_username\"><br />\n";
+		
+        echo 		"<label for=\"db_password\">MySQL Database Password: </label><input type=\"password\" value=\"\" maxlength=\"150\" name=\"db_password\"/><br /><br />\n";
+		
+		echo 		"<label for=\"team_name\">Team Name: </label><input type=\"text\" value=\"\" maxlength=\"150\" name=\"team_name\"><br />\n";
+		
+		echo 		"<label for=\"school_name\">School Name: </label><input type=\"text\" value=\"\" maxlength=\"150\" name=\"school_name\"><br />\n";
+		
+		echo 		"<label for=\"mentor_name\">Mentor Username: </label><input type=\"text\" value=\"\" maxlength=\"150\" name=\"mentor_name\"><br />\n";
+		
+		echo 		"<label for=\"mentor_pass\">Mentor Password: </label><input type=\"password\" value=\"\" maxlength=\"150\" name=\"mentor_pass\"><br />\n";
 
-        echo 		"<label for=\"db_password\">MySQL Database Password: </label><input type=\"password\" value=\"team1072\" maxlength=\"150\" name=\"db_password\"/><br /><br />\n";
-
- 	echo 		"<input type=\"submit\" name=\"submit\" value=\"Install Purchase Order System\" class=\"send\"/>";
+ 	echo 		"<input type=\"submit\" name=\"submit\" value=\"Install PO System\" class=\"send\"/>";
  
 	echo 		"</form>";
 

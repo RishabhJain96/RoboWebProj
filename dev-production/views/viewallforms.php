@@ -14,11 +14,17 @@ if(isset($_POST['logout']))
 	exit;
 }
 
-//if (!is_null($_GET['q']))
-//{
-//	$query = $_GET['q'];
-//}
-//
+if (isset($_POST['search']))
+{
+	header("Location: viewallforms.php?q=".$_POST['query']);
+}
+
+$query = "";
+if (isset($_GET['q']))
+{
+	$query = $_GET['q'];
+}
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -58,11 +64,27 @@ if(isset($_POST['logout']))
 						?>
 					</ul>
 				</div>
-
+				
+				<div id="selectdate-form">
+					<form method="post" name="form4" action="" style="float:right">
+					<fieldset>
+						<p>
+							Search: 
+							<input name="query" type="text" class="" value="" />
+							<input name="search" type="submit" class="search" value="search" />
+						</p>
+					</fieldset>
+					</form>
+				</div> <!-- end of selectdate-form -->
+				
 				<div id="forms_displayWrapper">
 					<?php
 							$controller = new financeController();
 							$orders = $controller->getAllOrders();
+							if (!empty($query))
+							{
+								$orders = $controller->searchAllOrders($query);
+							}
 							$viewerUsername = $_SESSION['robo'];
 							//$orders = json_decode($orders);
 							//print count($orders);

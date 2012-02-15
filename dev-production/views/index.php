@@ -65,7 +65,7 @@ echo '				<input name="login" type="submit" class="login" value="login" />';
 echo '				</fieldset>';
 echo '			</form>';
 echo '			<p><a href="registration.php">Don\'t have an account yet? Register!</a></p><br />';
-echo '			<p><a href="resetpass.php">Click Here to reset your password.</a></p>';
+echo '			<p><a href="resetpass.php">Click Here to change your password.</a></p>';
 echo '		</div>';
 echo '	</div>';
 echo '	<footer>';

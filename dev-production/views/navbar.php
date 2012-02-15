@@ -1,5 +1,5 @@
 <?php
-include "../setup/constants.php"; // contains teamName, schoolName, and other team/school-specific values that will be used throughout the system.
+include "constants.php"; // contains teamName, schoolName, and other team/school-specific values that will be used throughout the system.
 echo "<div id=\"nav\">
 				<div id=\"navbar\">
 					<ul>
