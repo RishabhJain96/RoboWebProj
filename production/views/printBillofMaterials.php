@@ -40,11 +40,15 @@ if (!isset($_SESSION["billOfMaterials"]))
 			<div id="dashboard-checkin" class="clearfix">
 				
 				<?php
-				$controller = new financeController();
+				//$controller = new financeController();
 				$parts = $_SESSION["billOfMaterials"];
-				$parts = array_values($parts);
+				//print_r($parts);
+				//print "\n";
+				//print_r($parts[0]);
+				//$parts = array_values($parts);
 				//print_r($parts);
 				$fullTotal = 0.0;
+				$total = 0.0;
 				echo '<div id="formstable">
 					<table>
 						<tr id="header">
@@ -57,21 +61,22 @@ if (!isset($_SESSION["billOfMaterials"]))
 						</tr>';
 						for ($i=0; $i < count($parts); $i++)
 						{
+							$orderslist = $parts[$i];
+							$total = floatval($orderslist["price"]) * floatval($orderslist["quantity"]);
 							//print_r($parts[$i]);
-							$orderslist = $controller->getOrdersListPart($parts[$i]);
 							//print $i;
 							//print_r($orderslist);
 							if (!empty($orderslist))
 							{
 								echo "<tr>";
 								//echo "<td class=\"td_alt\">" . $orderslist[0]["PartNumber"] . "</td>";
-								echo "<td>" . $orderslist[0]["PartName"] . "</td>";
-								echo "<td>" . $orderslist[0]["PartSubsystem"] . "</td>";
-								echo "<td>$" . $orderslist[0]["PartIndividualPrice"] . "</td>";
-								echo "<td>" . $orderslist[0]["PartQuantity"] . "</td>";
-								echo "<td>$" . $orderslist[0]["PartTotalPrice"] . "</td>";
+								echo "<td>" . $orderslist["name"] . "</td>";
+								echo "<td>" . $orderslist["subsystem"] . "</td>";
+								echo "<td>$" . $orderslist["price"] . "</td>";
+								echo "<td>" . $orderslist["quantity"] . "</td>";
+								echo "<td>$" . $total . "</td>";
 								echo "</tr>";
-								$fullTotal += floatval($orderslist[0]["PartTotalPrice"]);
+								$fullTotal += $total;
 							}
 						}
 						

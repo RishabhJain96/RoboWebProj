@@ -22,37 +22,24 @@ if (!$api->isAdmin($username))
 	exit;
 }
 
-/*
-$controller = new financeController();
-if ($controller->isAdminApproved($orderID))
-{
-	header("Location: adminviewpending.php");
-}
-if(isset($_POST['approve']))
-{
-	$comment = $_POST['comment'];
-	$controller->setAdminApproval($orderID, true, $username, $comment);
-	$controller->submitForMentorApproval($orderID);
-	header("Location: adminviewpending.php");
-}
-if(isset($_POST['reject']))
-{
-	$comment = $_POST['comment'];
-	$controller->setAdminApproval($orderID, false, $username, $comment);
-	header("Location: adminviewpending.php");
-}
-*/
 if(isset($_POST["billOfMaterials"]))
 {
 	$itemsPartOfBill = $_POST["materials"];
-	if (empty($itemsPartOfBill) || is_null($itemsPartOfBill)) {
-		echo "<p>Please select the parts you would like to include.</p>";
+	$selected = array();
+	for ($i=0; $i < count($itemsPartOfBill); $i++)
+	{
+		if (array_key_exists("checked", $itemsPartOfBill[$i])) // works around array index undefined error
+		{
+			if ($itemsPartOfBill[$i]["checked"] === "yes")
+			{
+				$selected[] = $itemsPartOfBill[$i];
+			}
+		}
 	}
-	$_SESSION["billOfMaterials"] = $itemsPartOfBill;
+	$_SESSION["billOfMaterials"] = $selected;
 	header("Location: printBillOfMaterials.php");
 }
 
-// Will accept url parameter (id=number) to get orderID
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -75,6 +62,32 @@ if(isset($_POST["billOfMaterials"]))
 		{
 		for (i = 0; i < field.length; i++)
 			field[i].checked = false ;
+		}
+		
+		function calculateTotal(priceID, quantityName, totalID)
+		{
+			var part_total = 0.0;
+			
+			// Get the price
+			var item_price = parseFloat(document.getElementById(priceID).innerHTML);
+			
+			// Get the quantity
+			var item_quantity = parseFloat(document.listform.elements[quantityName].value);
+			
+			part_total = item_quantity * item_price;
+			
+			var cell = document.getElementById(totalID);
+			cell.innerHTML = part_total;
+			
+			//form.elements[elementNum][total].value = round_decimals(part_total, 2);
+		}
+		
+		function round_decimals(original_number, decimals)
+		{
+		    var result1 = original_number * Math.pow(10, decimals);
+		    var result2 = Math.round(result1);
+		    var result3 = result2 / Math.pow(10, decimals);
+		    return result3;
 		}
 		// -->
 	</script>
@@ -110,6 +123,7 @@ if(isset($_POST["billOfMaterials"]))
 					//print_r($allOrderParts);
 					for($i = 0; $i < count($allOrderParts); $i++)
 					{
+						$arrName = "materials[$i]";
 						$id = $allOrderParts[$i]['OrderListID'];
 						$number = $allOrderParts[$i]['PartNumber'];
 						$name = $allOrderParts[$i]['PartName'];
@@ -118,13 +132,17 @@ if(isset($_POST["billOfMaterials"]))
 						$quantity = $allOrderParts[$i]['PartQuantity'];
 						$total = $allOrderParts[$i]['PartTotalPrice'];
 						echo "<tr>
-							<td><input type=\"checkbox\" id=\"materials\" name=\"materials[$i]\" value=\"$id\" /></td>
+							<td><input type=\"checkbox\" id=\"materials\" name=\"$arrName"."[checked]\" value=\"yes\" /></td>
 							<!-- <td class=\"td_alt\">$number</td> -->
-							<td>$name</td>
-							<td class=\"td_alt\">$subsystem</td>
-							<td>$price</td>
-							<td class=\"td_alt\">$quantity</td>
-							<td>$total</td>
+							<td id=\"$arrName"."[name]\" name=\"$arrName"."[name]\">$name</td>
+							<fieldset><input type=\"hidden\" name=\"$arrName"."[name]\" value=\"$name\" /></fieldset>
+							<td class=\"td_alt\" id=\"$arrName"."[subsystem]\" name=\"$arrName"."[subsystem]\">$subsystem</td>
+							<fieldset><input type=\"hidden\" name=\"$arrName"."[subsystem]\" value=\"$subsystem\" /></fieldset>
+							<td id=\"$arrName"."[price]\" name=\"$arrName"."[price]\">$price</td>
+							<fieldset><input type=\"hidden\" name=\"$arrName"."[price]\" value=\"$price\" /></fieldset>
+							<td class=\"quantity\"><fieldset><input type=\"text\" name=\"$arrName"."[quantity]\" value=\"$quantity\" onChange=\"calculateTotal($arrName"."[price],$arrName"."[quantity],$arrName"."[total])\" /></fieldset></td>
+							<td id=\"$arrName"."[total] name=\"$arrName"."[total]>$total</td>
+							<fieldset><input type=\"hidden\" name=\"$arrName"."[total]\" value=\"$total\" /></fieldset>
 						</tr>";
 						//echo "<td>Number of Items: <input type=\"text\" name=\"materials\" /></td></tr>";
 						//$fullTotal += floatval($total);

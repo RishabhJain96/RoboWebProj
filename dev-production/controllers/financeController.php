@@ -248,6 +248,9 @@ class financeController extends notificationsController
 	 * algorithm:
 	 	- Pulls the orders and orders list tables.
 		- Puts them into one one-dimensional array, with an idArray that matches each element with the orderID from whence it came.
+		- Uses stripos() (case-insensitive) to see if the keyword is in each element (uses === to check false, false means not in string).
+			- if it is, the respective orderID is copied into the final array.
+		- Returns the array of orderIDs containing keyword.
 	 * 
 	 * @param keyword: The query to search for
 	 * @return array: The list of orders containing the desired keyword.
